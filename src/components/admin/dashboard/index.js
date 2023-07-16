@@ -7,6 +7,7 @@ import swal from "sweetalert";
 import { NotificationManager } from "react-notifications";
 import { Link } from "react-router-dom";
 import { Paper, Grid, Button } from "@material-ui/core";
+import AdminDetail from "./adminDetail";
 
 export default class Home extends Component {
   constructor(props) {
@@ -87,10 +88,13 @@ export default class Home extends Component {
       }
     });
   }
+
   render() {
+    // Assuming you have the following data available from your API or backend
     const { getList, isloaded, status, statusList } = this.state;
     return (
       <div id="layoutSidenav_content">
+        <AdminDetail />
         <main>
           <div className="container-fluid">
             {isloaded ? <Loader /> : ""}
