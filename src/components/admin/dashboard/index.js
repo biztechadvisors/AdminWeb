@@ -66,6 +66,7 @@ export default class Home extends Component {
   async handlDeleteById(data) {
     this.setState({ isLoaded: true });
     let list = { id: data.id };
+    console.log("Delete", list)
     swal({
       title: "Are you sure?",
       text: "You want to delete Order from the List",
@@ -92,6 +93,7 @@ export default class Home extends Component {
   render() {
     // Assuming you have the following data available from your API or backend
     const { getList, isloaded, status, statusList } = this.state;
+    // console.log("List", getList)
     return (
       <div id="layoutSidenav_content">
         <AdminDetail />
@@ -255,6 +257,7 @@ export default class Home extends Component {
                         <thead>
                           <tr>
                             <th style={{ width: 50 }}>S.N</th>
+                            <th style={{ width: 130 }}>Ordered Phone</th>
                             <th style={{ width: 130 }}>Order ID</th>
                             <th style={{ width: 130 }}>Customer Name</th>
                             <th style={{ width: 130 }}>Order Status</th>
@@ -273,6 +276,7 @@ export default class Home extends Component {
                               <tr key={index}>
                                 <td>{++index}</td>
                                 <td>{row.OrderNo}</td>
+                                <td>{row.order_Id}</td>
                                 <td>{row.CustomerName}</td>
                                 {row.Items.map((value) => (
                                   <td>{value.status}</td>

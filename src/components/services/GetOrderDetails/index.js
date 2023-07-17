@@ -56,9 +56,9 @@ const getOrderNotification = async () => {
     }
 };
 
-const getDeleteOrder = async (data) => {
+const getDeleteOrder = async (list) => {
     try {
-        let result = await api.post(Apis.GetDeleteOrder, data, {
+        let result = await api.post(Apis.GetDeleteOrder, list, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': getCookie('token')
