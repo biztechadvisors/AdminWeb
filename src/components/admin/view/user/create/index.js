@@ -49,7 +49,7 @@ export default class Create extends Component {
       let data = {
         firstName: firstName,
         lastName: lastName,
-        phoneNo: phone,
+        phone: phone,
         address: address,
         password: password,
         email: email,
@@ -63,6 +63,9 @@ export default class Create extends Component {
           this.setState({ isLoaded: false });
           if (user.data.status) {
             NotificationManager.warning(user.message);
+            setTimeout(() => {
+              this.props.history.goBack();
+            }, 1000);
           } else {
             NotificationManager.success(user.message);
             setTimeout(() => {

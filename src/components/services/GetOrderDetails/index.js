@@ -18,6 +18,19 @@ const getAllOrderList = async (data) => {
     }
 };
 
+const getDetailAdmin = async () => {
+    try {
+        let result = await api.get(Apis.GetDetailAdmin);
+        if (result.errors) {
+            NotificationManager.error(result.errors);
+            return null;
+        }
+        return result.data;
+    } catch (error) {
+        apiError(error)
+    }
+};
+
 const getOrderStatusUpdate = async (data) => {
     try {
         let result = await api.post(Apis.GetOrderStatusUpdate, data);
@@ -43,9 +56,9 @@ const getOrderNotification = async () => {
     }
 };
 
-const getDeleteOrder = async (data) => {
+const getDeleteOrder = async (list) => {
     try {
-        let result = await api.post(Apis.GetDeleteOrder, data, {
+        let result = await api.post(Apis.GetDeleteOrder, list, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': getCookie('token')
@@ -105,6 +118,7 @@ const getOrderTrackingById = async (shipment_id) => {
 
 export default {
     getAllOrderList,
+    getDetailAdmin,
     getOrderNotification,
     getOrderStatusUpdate,
     getAllProductProfitList,

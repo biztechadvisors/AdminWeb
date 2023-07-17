@@ -112,10 +112,11 @@ const Apis = {
   CreateSeoForProduct: `${API_URL}/api/product/seo-create`,
 
   //order detail
+  GetDeleteOrder: `${API_URL}/api/order/delete-list`,
   GetAllOrderDetails: `${API_URL}/api/order/list`,
   GetOrderStatusUpdate: `${API_URL}/api/order/status/update`,
   GetOrderNotification: `${API_URL}/api/order/notifications`,
-  GetDeleteOrder: `${API_URL}/api/order/delete-list`,
+  GetDetailAdmin: `${API_URL}/api/order/totalDash-list`,
 
   // business details
   GetAllProductProfitList: `${API_URL}/api/business/getAllProductProfit`,
