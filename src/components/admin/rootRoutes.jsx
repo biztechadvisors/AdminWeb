@@ -19,6 +19,7 @@ import Marketing from "./view/marketing";
 import Processor from "./view/processor";
 import Product from "./view/product";
 import CouponDiscount from "./view/couponDiscount";
+import Customization from "./view/customizatoin";
 
 export default class rootRoutes extends Component {
   render() {
@@ -40,7 +41,7 @@ export default class rootRoutes extends Component {
               path={`${match.path}/seller/product-detail`}
               component={ProductHistory}
             />
-             <Route path={`${match.path}/couponDiscount`} component={CouponDiscount} />
+            <Route path={`${match.path}/couponDiscount`} component={CouponDiscount} />
             <Route path={`${match.path}/category`} component={Category} />
             <Route path={`${match.path}/collection`} component={Collection} />
             <Route path={`${match.path}/brand`} component={Brand} />
@@ -52,6 +53,7 @@ export default class rootRoutes extends Component {
             <Route path={`${match.path}/user`} component={User} />
             <Route path={`${match.path}/customer`} component={Customer} />
             <Route path={`${match.path}/processor`} component={Processor} />
+            <Route path={`${match.path}/customization`} component={Customization} />
 
             <Route path={`${match.path}/seo`} component={SeoDetail} />
             <Route path={`${match.path}/image/upload`} component={Bannerlist} />

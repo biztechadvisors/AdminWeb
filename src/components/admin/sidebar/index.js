@@ -212,6 +212,12 @@ export default class Sidebar extends Component {
                 </div>
                 Orders
               </a>
+              <a className="nav-link" href="/admin/customization/list">
+                <div className="sb-nav-link-icon">
+                  <i className="fas fa-cart-arrow-down" />
+                </div>
+                Customization List
+              </a>
               <a className="nav-link" href="/admin/processor/list">
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-cart-arrow-down" />

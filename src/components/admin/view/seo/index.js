@@ -19,6 +19,9 @@ export const Seomaster = () => {
       keyword: keyword,
     };
     let seo = await GetProductDetails.createSeoForProduct(data);
+
+    console.log("SEO", seo)
+
     if (seo) {
       NotificationManager.success("Successfully created seo", "Seo");
     }

@@ -1,0 +1,91 @@
+table {
+	border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 1.5rem;
+	max-width: auto;
+	margin: 20px auto;
+	border: 1px solid #e2e9e1;
+}
+
+th,
+td {
+	padding: 10px;
+	text-align: left;
+	border-bottom: 1px solid #e2e9e1;
+	border-right: 1px solid #e2e9e1;
+}
+
+thead th {
+	background-color: #fff;
+}
+
+th:last-child,
+td:last-child {
+	border-right: none;
+}
+
+tbody tr:hover {
+	background-color: #fffde3;
+}
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+	/* Force table to not be like tables anymore */
+	table,
+	thead,
+	tbody,
+	th,
+	td,
+	tr {
+		display: block;
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	tr {
+		border: 1px solid #e2e9e1;
+	}
+
+	td {
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #e2e9e1;
+		position: relative;
+		padding-left: 50%;
+	}
+
+	td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+	}
+
+}
+
+.bt-text {
+	color: #d8257f;
+}
+
+.card1 {
+	max-width: 300px;
+	/* Set the width of the card */
+	background-color: #fff;
+	/* Background color for the card */
+	border-radius: 8px;
+	/* Adjust the value to control the roundness of the card corners */
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	/* Add a subtle box shadow for depth */
+	padding: 4px;
+	word-wrap: break-word;
+}
