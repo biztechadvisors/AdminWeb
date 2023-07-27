@@ -192,22 +192,16 @@ export default class Newproduct extends Component {
                                                 <input type="text" className="form-control" placeholder="Product Name" name="name" value={this.state.name} onChange={(e) => this.handleChange(e)} />
                                             </div>
                                         </div>
-                                        <div className="col-lg-3 col-md-3">
-                                            <div className="form-group">
-                                                <label className="form-label">Category*</label>
-                                                <ChildCategorylist state={getsublist} onSelectchildCategory={this.handleChildCategory} />
-                                            </div>
-                                        </div>
                                         <div className="col-lg-2 col-md-2">
                                             <div className="form-group">
-                                                <label className="form-label">Brand*</label>
+                                                <label className="form-label">collection*</label>
                                                 <Brandlist onSelectBrand={this.handleBrandList} />
                                                 {/* <input type="text" className="form-control" placeholder="Brand Name" name="brand" value={this.state.brand} onChange={(e) => this.handleChange(e)} /> */}
                                             </div>
                                         </div>
                                         <div className="col-lg-6 col-md-6 my-2">
                                             <div className="form-group">
-                                                <label className="form-label">Category Image*</label>
+                                                <label className="form-label">Product Image*</label>
                                                 <input type="file" className="form-control" name="image" onChange={this.onFileChange} />
                                             </div>
                                         </div>

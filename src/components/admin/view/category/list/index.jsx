@@ -108,9 +108,9 @@ export default class List extends Component {
           </div>
           <div className="col-lg-12 col-md-12">
             <div className="card card-static-2 mt-30 mb-30">
-              <div className="row mb-4 p-2">
+              {/* <div className="row mb-4 p-2">
                 <div className="col-lg-6 col-md-6">
-                  {/* <label className="form-label"><b>Select Product*</b></label> */}
+                  <label className="form-label"><b>Select Product*</b></label>
                   <br />
                   <input
                     type="text"
@@ -125,7 +125,7 @@ export default class List extends Component {
                   <button
                     className="save-btn hover-btn"
                     type="submit"
-                    onClick={this.SearchAllProductList}
+                    onClick={this.getChildCategory}
                   >
                     Search
                   </button>
@@ -138,7 +138,7 @@ export default class List extends Component {
                     Refresh
                   </Button>
                 </div>
-              </div>
+              </div> */}
               <div className="card-body-table">
                 <div className="table-responsive">
                   <table className="table ucp-table table-hover">
@@ -149,7 +149,6 @@ export default class List extends Component {
                         </th>
                         <th scope="col">Category </th>
                         <th scope="col">Sub Category</th>
-                        <th scope="col">Child cat</th>
                         {/* <th scope="col">Date</th> */}
                         <th scope="col">Action</th>
                       </tr>
@@ -161,7 +160,6 @@ export default class List extends Component {
                               <td>{row.id}</td>
                               <td>{row.MainCat}</td>
                               <td>{row.SubCat}</td>
-                              <td>{row.name}</td>
                               <td className="action-btns">
                                 <Typography
                                   className="delete-btn"

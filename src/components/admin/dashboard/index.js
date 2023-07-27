@@ -61,7 +61,7 @@ export default class Home extends Component {
   componentDidMount() {
     const data = { page: this.state.page };
     this.getOrderList(data);
-    this.getStatusList();
+    this.getStatusList(data);
   }
   async handlDeleteById(data) {
     this.setState({ isLoaded: true });
@@ -93,7 +93,7 @@ export default class Home extends Component {
   render() {
     // Assuming you have the following data available from your API or backend
     const { getList, isloaded, status, statusList } = this.state;
-    // console.log("List", getList)
+    console.log("List", getList)
     return (
       <div id="layoutSidenav_content">
         <AdminDetail />

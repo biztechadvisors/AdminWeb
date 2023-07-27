@@ -5,6 +5,7 @@ import Changestatus from "../change-status";
 
 export default class Edit extends Component {
   constructor(props) {
+    console.log("Props-Edit", props)
     super(props);
     this.state = {
       id: this.props.location.state.id,
@@ -13,20 +14,13 @@ export default class Edit extends Component {
     };
   }
 
+
   handleBack() {
     this.props.history.goBack();
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-  }
-
-
-  handleUpdateStatus = async (event) => {
-    let data = { status: this.state.status, id: this.state.id, deliverydate: new Date(this.state.deliverydate) }
-    if (data) {
-
-    }
   }
 
   render() {

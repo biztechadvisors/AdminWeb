@@ -79,7 +79,7 @@ const getSubCategoryList = async (data) => {
   }
 };
 
-const getUpdateSubList  = async (data) => {
+const getUpdateSubList = async (data) => {
   try {
     let result = await api.post(Apis.GetUpdateSubCategoryList, data);
     if (result.data.error) {
@@ -107,6 +107,7 @@ const getSubDeleteById = async (id) => {
 
 // child category list
 const getSelectSubCategory = async (id) => {
+  console.log("first", id)
   try {
     let result = await api.get(Apis.GetAllSubCategory + `${id}`);
     if (result.data.error) {

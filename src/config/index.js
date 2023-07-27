@@ -1,7 +1,7 @@
 const API_URL =
   document.domain === "localhost"
     ? "http://localhost:5050"
-    : "https://souqarena.com";
+    : "https://diversitech.link";
 
 const Apis = {
   //Authentication api
@@ -64,7 +64,7 @@ const Apis = {
   GetAllSubCategory: `${API_URL}/api/category/getAllSubCategory?categoryId=`,
   CreateChildCategory: `${API_URL}/api/category/create-sub-child`,
   GetAllChildCategoryList: `${API_URL}/api/category/child-list`,
-  GetChildDeleteById: `${API_URL}/api/category/child/deleteById`,
+  GetChildDeleteById: `${API_URL}/api/category/sub-list/delete`,
   GetAllSubChildCategory: `${API_URL}/api/category/getAllSubChildCategory?subcategoryId=`,
   GetUpdateChildCat: `${API_URL}/api/category/child/update`,
 
@@ -89,7 +89,7 @@ const Apis = {
   GetBannerStatus: `${API_URL}/api/product/banner-status`,
   GetDeleteBannerList: `${API_URL}/api/product/banner-delete`,
   CreatebrandList: `${API_URL}/api/product/brand-create`,
-  GetAllBrandList: `${API_URL}/api/product/brand-list`,
+  GetAllBrandList: `${API_URL}/api/website/collection/list`,
   UpdatebrandList: `${API_URL}/api/product/brand-update`,
   DeletebrandList: `${API_URL}/api/product/brand-delete`,
   CreateColorList: `${API_URL}/api/product/color/create`,

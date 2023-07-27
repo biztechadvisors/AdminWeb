@@ -9,8 +9,8 @@ import { NotificationManager } from 'react-notifications';
 // }
 
 function getModalStyle() {
-    const top = 50 ;
-    const left = 50 ;
+    const top = 50;
+    const left = 50;
 
     return {
         top: `${top}%`,
@@ -31,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Changestatus(props) {
+
+    console.log("props", props)
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
@@ -52,12 +54,14 @@ export default function Changestatus(props) {
     const handleChangeStatus = event => {
         setStatus(event.target.value)
     }
-    const handleUpdateStatus = async() => {
+    const handleUpdateStatus = async () => {
         let data = { status: status, id: props.state.id, deliverydate: new Date(deliverydate) }
+
+        console.log("Status", data)
         let update = await GetOrderDetails.getOrderStatusUpdate(data);
         if (update) {
             NotificationManager.success(update.msg, 'Status');
-            window.location.href="/admin/order/list";
+            window.location.href = "/admin/order/list";
         } else {
             NotificationManager.error("Check Status", "Status");
         }

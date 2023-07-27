@@ -147,7 +147,6 @@ class List extends Component {
                         <th style={{ width: 50 }}>S.N</th>
                         <th style={{ width: 130 }}>Order ID</th>
                         <th style={{ width: 130 }}>Customer Name</th>
-                        <th style={{ width: 130 }}>Order Status</th>
                         <th style={{ width: 130 }}>Payment Method</th>
                         <th style={{ width: 130 }}>Payment Status</th>
                         <th style={{ width: 200 }}>Order Date</th>
@@ -164,10 +163,6 @@ class List extends Component {
                             <td>{++index}</td>
                             <td>{row.OrderNo}</td>
                             <td>{row.CustomerName}</td>
-                            {row.Items.map((value) => (
-                                <td>{value.status}</td>
-                              ))
-                            }
                             <td>{row.payment} </td>
                             <td>
                               {row.paymentStatus === "captured" ? (

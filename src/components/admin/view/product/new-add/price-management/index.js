@@ -7,12 +7,7 @@ export const Pricecolormanagement = ({ parentCallback }) => {
             productName: "",
             productCode: "",
             actualPrice: "",
-            distributorPrice: "",
-            marginPer: "",
-            marginPrice: "",
-            buyerPrice: "",
-            sellerPrice: "",
-            unitSize: "",
+            memory: "",
             qty: "",
             colorCode: "",
             discountPer: "",
@@ -21,22 +16,46 @@ export const Pricecolormanagement = ({ parentCallback }) => {
         },
     ]);
 
+    const calculateNetPrice = (index) => {
+        const list = [...inputList];
+        const item = list[index];
+
+        if (item.discount && item.actualPrice) {
+            item.netPrice = item.actualPrice - item.discount;
+            item.discountPer = (item.discount / item.actualPrice) * 100;
+        } else if (item.netPrice && item.actualPrice) {
+            item.discount = item.actualPrice - item.netPrice;
+            item.discountPer = (item.discount / item.actualPrice) * 100;
+        } else if (item.netPrice && item.discountPer) {
+            item.actualPrice = item.netPrice / (1 - item.discountPer / 100);
+            item.discount = item.actualPrice * (item.discountPer / 100);
+        } else if (item.discountPer && item.actualPrice) {
+            item.discount = (item.actualPrice * item.discountPer) / 100;
+            item.netPrice = item.actualPrice - item.discount;
+        }
+
+        list[index] = item;
+        setInputList(list);
+    };
+
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
         const list = [...inputList];
         list[index][name] = value;
 
-        if (list[index].marginPer) {
-            list[index].marginPrice = Math.round(((list[index].distributorPrice * list[index].qty) * list[index].marginPer) / 100);
+        // Handle the case when the discount is changed, and adjust discountPer accordingly
+        if (name === 'discount') {
+            if (value !== '' && list[index]['actualPrice'] !== '') {
+                list[index]['discountPer'] = (value / list[index]['actualPrice']) * 100;
+            } else {
+                list[index]['discountPer'] = '';
+            }
         }
 
-        list[index].buyerPrice = Math.round(((list[index].distributorPrice * list[index].qty)) - list[index].marginPrice);
-        list[index].discount = Math.round((list[index].sellerPrice * list[index].discountPer) / 100);
-        list[index].total = Math.round(list[index].sellerPrice);
-        list[index].netPrice = Math.round(list[index].sellerPrice - list[index].discount);
-
         setInputList(list);
-        parentCallback(list)
+
+        // Calculate net price, actual price, and discount if required
+        calculateNetPrice(index);
     };
 
     // handle click event of the Remove button
@@ -48,7 +67,7 @@ export const Pricecolormanagement = ({ parentCallback }) => {
 
     // handle click event of the Add button
     const handleAddClick = () => {
-        setInputList([...inputList, { productName: null, productCode: null, actualPrice: null, distributorPrice: null, marginPer: null, marginPrice: null, buyerPrice: null, sellerPrice: null, unitSize: null, qty: null, colorCode: null, discountPer: null, discount: null, netPrice: null }]);
+        setInputList([...inputList, { productName: null, productCode: null, actualPrice: null, memory: null, qty: null, colorCode: null, discountPer: null, discount: null, netPrice: null }]);
     };
     //end block
 
@@ -88,16 +107,6 @@ export const Pricecolormanagement = ({ parentCallback }) => {
                                 onChange={e => handleInputChange(e, i)}
                             />
                         </div>
-                        <div className="col-md-3">
-                            <label className="form-label">DistributerPrice<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="distributorPrice"
-                                placeholder="ex: 100"
-                                value={x.distributorPrice}
-                                onChange={e => handleInputChange(e, i)}
-                            />
-                        </div>
                         <div className="col-md-2">
                             <label className="form-label">Quantity<span className="text-danger">*</span></label>
                             <input
@@ -108,57 +117,13 @@ export const Pricecolormanagement = ({ parentCallback }) => {
                                 onChange={e => handleInputChange(e, i)}
                             />
                         </div>
-                        <div className="col-md-2">
-                            <label className="form-label">Margin(%)<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="marginPer"
-                                placeholder="ex: 5%"
-                                value={x.marginPer}
-                                onChange={e => handleInputChange(e, i)}
-                            />
-                        </div>
-                        <div className="col-md-2">
-                            <label className="form-label">Margin Price<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="marginPrice"
-                                placeholder="ex: 50"
-                                value={x.marginPrice}
-                                /* disabled */
-                                onChange={e => handleInputChange(e, i)}
-                            />
-                        </div>
 
                         <div className="col-md-2">
-                            <label className="form-label">Buyer Price*</label>
+                            <label className="form-label">Age*</label>
                             <input
                                 className="form-control"
-                                name="buyerPrice"
-                                placeholder="ex: 100"
-                                value={x.buyerPrice}
-                                disabled
-                                onChange={e => handleInputChange(e, i)}
-                            />
-                        </div>
-
-                        <div className="col-md-2">
-                            <label className="form-label">Seller Price*</label>
-                            <input
-                                className="form-control"
-                                name="sellerPrice"
-                                placeholder="ex: 105"
-                                value={x.sellerPrice}
-                                onChange={e => handleInputChange(e, i)}
-                            />
-                        </div>
-
-                        <div className="col-md-2">
-                            <label className="form-label">Size*</label>
-                            <input
-                                className="form-control"
-                                name="unitSize"
-                                placeholder="ex: 1L"
+                                name="memory"
+                                placeholder="ex: 1 to  Yrs"
                                 value={x.unitSize}
                                 onChange={e => handleInputChange(e, i)}
                             />
@@ -195,19 +160,9 @@ export const Pricecolormanagement = ({ parentCallback }) => {
                                 onChange={e => handleInputChange(e, i)}
                             />
                         </div>
+                
                         <div className="col-md-3">
-                            <label className="form-label">Total*</label>
-                            <input
-                                className="form-control"
-                                name="discountPer"
-                                placeholder="ex: 1"
-                                value={x.total}
-                                disabled
-                                onChange={e => handleInputChange(e, i)}
-                            />
-                        </div>
-                        <div className="col-md-3">
-                            <label className="form-label">Grand Total*</label>
+                            <label className="form-label">netPrice*</label>
                             <input
                                 className="form-control"
                                 name="netPrice"

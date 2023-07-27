@@ -7,10 +7,9 @@ const AdminDetail = () => {
 
     const getOrderList = async () => {
         const response = await GetOrderDetails.getDetailAdmin();
-        console.log("first", response)
         setData(response);
     };
-    console.log("second", data)
+    // console.log("second", data)
 
     useEffect(() => {
         getOrderList();
