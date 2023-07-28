@@ -20,7 +20,6 @@ const List = () => {
 
   const getFlashSale = async () => {
     const list = await GetCouponDetails.getCouponDiscList();
-    console.log(list)
     setGetList(list.data);
   };
 

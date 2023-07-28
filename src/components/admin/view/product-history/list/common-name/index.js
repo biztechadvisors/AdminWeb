@@ -48,7 +48,6 @@ export default class CommonName extends Component {
     }
   }
   render() {
-    console.log(this.props.state);
     return (
       <div>
         <a className="edit-btn" onClick={(e) => this.handleOpen()}>

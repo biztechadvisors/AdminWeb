@@ -5,7 +5,6 @@ import Changestatus from "../change-status";
 
 export default class Edit extends Component {
   constructor(props) {
-    console.log("Props-Edit", props)
     super(props);
     this.state = {
       id: this.props.location.state.id,
@@ -55,7 +54,7 @@ export default class Edit extends Component {
                   <div className="card card-static-2 mb-30">
                     <div className="card-title-2">
                       <h2 className="title1458">Invoice</h2>
-                      <span className="order-id">Order : {self.OrderNo}</span>
+                      <span className="order-id">Order NO. : {self.OrderNo}</span>
                     </div>
                     <div className="invoice-content">
                       <div className="row">
@@ -116,7 +115,7 @@ export default class Edit extends Component {
                                       </th>
                                       <th>Status</th>
                                       <th>Delivery Date</th>
-                                      <th>ShopName</th>
+                                      {/* <th>ShopName</th> */}
                                       <th
                                         style={{ width: 100 }}
                                         className="text-center"
@@ -150,7 +149,7 @@ export default class Edit extends Component {
                                           </td>
                                           <td className="text-center">
                                             &#8377;
-                                            {p.varient && p.varient.sellerPrice}
+                                            {p.varient && p.varient.netPrice}
                                           </td>
                                           <td className="text-center">
                                             {p.qty}
@@ -182,13 +181,13 @@ export default class Edit extends Component {
                                               ""
                                             )}
                                           </td>
-                                          <td style={{ width: "250px" }}>
+                                          {/* <td style={{ width: "250px" }}>
                                             {p.varient && p.varient.product && p.varient.product.users
                                               ? p.varient.product.users.firstName +
                                               " " +
                                               p.varient.product.users.lastName
                                               : null}
-                                          </td>
+                                          </td> */}
                                           <td className="text-center">
                                             &#8377;
                                             {p.varient ? p.qty * p.varient.netPrice : null}
@@ -233,14 +232,14 @@ export default class Edit extends Component {
                               <span className="text-success">save</span>
                             </div>
                           </div>
-                          <div className="order-total-dt">
+                          {/* <div className="order-total-dt">
                             <div className="order-total-left-text">
                               Delivery Fees
                             </div>
                             <div className="order-total-right-text">
-                              &#8377;25
+                              &#8377;
                             </div>
-                          </div>
+                          </div> */}
                           <div className="order-total-dt">
                             <div className="order-total-left-text fsz-18">
                               Total Amount

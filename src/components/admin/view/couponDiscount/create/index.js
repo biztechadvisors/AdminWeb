@@ -128,10 +128,8 @@ const Create = () => {
         dangerMode: true,
       }).then(async (success) => {
         if (success) {
-          console.log(formData); // Log the formData object
 
           const response = await GetCouponDetails.couponDiscCreate(formData);
-          console.log("response", response);
 
           if (response && response.data) {
             NotificationManager.success(response.data.message);

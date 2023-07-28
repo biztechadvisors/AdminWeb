@@ -33,6 +33,7 @@ export default class Home extends Component {
   async getOrderList(data) {
     this.setState({ isloaded: true });
     let list = await GetOrderDetails.getAllOrderList(data);
+    console.log("Ram", list)
     if (list.code === 200) {
       this.setState({
         getList: list.data.items,
@@ -91,9 +92,7 @@ export default class Home extends Component {
   }
 
   render() {
-    // Assuming you have the following data available from your API or backend
     const { getList, isloaded, status, statusList } = this.state;
-    console.log("List", getList)
     return (
       <div id="layoutSidenav_content">
         <AdminDetail />
@@ -257,10 +256,8 @@ export default class Home extends Component {
                         <thead>
                           <tr>
                             <th style={{ width: 50 }}>S.N</th>
-                            <th style={{ width: 130 }}>Ordered Phone</th>
                             <th style={{ width: 130 }}>Order ID</th>
                             <th style={{ width: 130 }}>Customer Name</th>
-                            <th style={{ width: 130 }}>Order Status</th>
                             <th style={{ width: 130 }}>Payment Method</th>
                             <th style={{ width: 130 }}>Payment Status</th>
                             <th style={{ width: 200 }}>Order Date</th>
@@ -275,13 +272,8 @@ export default class Home extends Component {
                             getList.map((row, index) => (
                               <tr key={index}>
                                 <td>{++index}</td>
-                                <td>{row.OrderNo}</td>
                                 <td>{row.order_Id}</td>
                                 <td>{row.CustomerName}</td>
-                                {row.Items.map((value) => (
-                                  <td>{value.status}</td>
-                                ))
-                                }
                                 <td>{row.payment} </td>
                                 <td>
                                   {" "}
@@ -359,8 +351,6 @@ export default class Home extends Component {
                     />
                   </div>
                   <div>
-                    <div className="col-xl-5 col-md-5">
-                    </div>
                     <Grid container className="mt-3">
                       <div className="col-xl-7 col-md-7">
                         <Paper>
@@ -425,7 +415,7 @@ export default class Home extends Component {
           <div className="container-fluid">
             <div className="d-flex align-items-center justify-content-between small">
               <div className="text-muted-1">
-                © 2020 <b>Eshop Supermarket</b>. by <a>Abhinashthemes</a>
+                © 2020 <b>Eshop Supermarket</b>. by <a>codenox</a>
               </div>
               <div className="footer-links">
                 <a href="/">Privacy Policy</a>

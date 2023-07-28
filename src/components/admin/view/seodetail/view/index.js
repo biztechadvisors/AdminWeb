@@ -98,7 +98,7 @@ export default class View extends Component {
 
   render() {
     const { getList, pages, pageNumber, isloading } = this.state;
-    console.log("first", getList)
+
     return (
       <div className="container-fluid">
         <div className="row">
@@ -165,7 +165,7 @@ export default class View extends Component {
                               <Edit state={row} />
                               <Typography
                                 className="delete-btn"
-                                onClick={(e) => this.handlDeleteById(row.id)}
+                                onClick={(e) => this.handlDeleteById(row.productId)}
                               >
                                 <i className="fas fa-trash-alt" />
                               </Typography>

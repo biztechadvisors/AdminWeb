@@ -7,7 +7,6 @@ import Brandlist from '../../../../common/brand';
 
 import { GetCategoryDetails } from '../../../../services';
 import SubCategorylist from '../../../../common/category/sub-category';
-import ChildCategorylist from '../../../../common/category/child-category';
 import { GetProductDetails } from '../../../../services';
 import RichTextEditor from '../../../../RichTextEditor';
 import Loader from '../../../../loader';
@@ -22,7 +21,7 @@ export default class Newproduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            getList: [], getsublist: [], selectedCategory: '', brandId: '', selectedSubCategory: '', selectedChildCategory: '', blockhide: false, toggle: false, isLoaded: false,
+            getList: [], getsublist: [], selectedCategory: '', brandId: '', selectedSubCategory: '', blockhide: false, toggle: false, isLoaded: false,
             name: '', slug: '', brand: '', status: 1, unit: '', image: '', content: ``,
             priceDetails: [],
         }
@@ -52,9 +51,6 @@ export default class Newproduct extends Component {
         let list = await GetCategoryDetails.getAllSubChildCategory(value);
         this.setState({ getsublist: list.data, blockhide: true })
     }
-    handleChildCategory = async (value) => {
-        this.setState({ selectedChildCategory: value });
-    }
     handleBrandList = async (value) => {
         this.setState({ brandId: value });
     }
@@ -76,13 +72,12 @@ export default class Newproduct extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.setState({ isLoaded: true })
-        const { selectedCategory, selectedSubCategory, selectedChildCategory, image, name, brandId, status, content, priceDetails } = this.state;
+        const { selectedCategory, selectedSubCategory, image, name, brandId, status, content, priceDetails } = this.state;
         let slug = this.convertToSlug(this.state.name)
 
         const formData = new FormData();
         formData.append('categoryId', selectedCategory);
         formData.append('subCategoryId', selectedSubCategory);
-        formData.append('childCategoryId', selectedChildCategory);
         formData.append('name', name);
         formData.append('slug', slug);
         formData.append('brand', brandId);
@@ -104,12 +99,11 @@ export default class Newproduct extends Component {
             dangerMode: true,
         })
             .then(async (success) => {
-                console.log(JSON.stringify(formData), "Ram")
                 if (success) {
                     let list = await GetProductDetails.addProductList(formData, config);
                     if (list) {
                         this.setState({ isLoaded: false })
-                        this.props.history.push("/admin/product/list")
+                        // this.props.history.push("/admin/product/list")
                     } else {
                         this.setState({ isLoaded: false })
                         NotificationManager.error("Please! Check input field", "Input Field");
@@ -129,7 +123,7 @@ export default class Newproduct extends Component {
                         <h2 className="mt-30 page-title">Products</h2>
                     </div>
                     <div className="col-lg-5 col-md-3 col-lg-6 back-btn">
-                        <Button variant="contained"  onClick={(e) => this.handleBack()}><i className="fas fa-arrow-left" /> Back</Button>
+                        <Button variant="contained" onClick={(e) => this.handleBack()}><i className="fas fa-arrow-left" /> Back</Button>
                     </div>
                 </div>
 
@@ -142,12 +136,10 @@ export default class Newproduct extends Component {
 
                 {/* upload products List ExcelFile */}
                 <div className="upload-container">
-                <ExcelPost />
+                    <ExcelPost />
                 </div>
 
-
-                <div className="row">
-
+                <div className="row" style={{ marginTop: '3rem' }}>
                     <div className="col-lg-6 col-md-6">
                         <div className="card card-static-2 mb-30">
                             <div className="card-body-table">
@@ -194,7 +186,7 @@ export default class Newproduct extends Component {
                                         </div>
                                         <div className="col-lg-2 col-md-2">
                                             <div className="form-group">
-                                                <label className="form-label">collection*</label>
+                                                <label className="form-label">Collection*</label>
                                                 <Brandlist onSelectBrand={this.handleBrandList} />
                                                 {/* <input type="text" className="form-control" placeholder="Brand Name" name="brand" value={this.state.brand} onChange={(e) => this.handleChange(e)} /> */}
                                             </div>
@@ -229,7 +221,7 @@ export default class Newproduct extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <Paper style={{ marginBottom: '2rem', padding: '1rem', marginTop: '1rem', background: '#f7f7f' }}>
+                                    <Paper style={{ marginBottom: '2rem', padding: '3rem', marginTop: '3rem', background: '#f7f7f' }}>
                                         <div className="row" >
                                             <div className="col-lg-12 col-md-12">
                                                 <Pricecolormanagement parentCallback={this.callback} />

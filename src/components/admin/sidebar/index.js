@@ -18,7 +18,6 @@ export default class Sidebar extends Component {
                 </div>
                 Dashboard
               </a>
-
               <a
                 className="nav-link collapsed"
                 href="#"
@@ -42,11 +41,8 @@ export default class Sidebar extends Component {
                 data-parent="#sidenavAccordion"
               >
                 <nav className="sb-sidenav-menu-nested nav">
-                  <a
-                    className="nav-link sub_nav_link"
-                    href="/admin/shop/seller/all-product"
-                  >
-                    All product
+                  <a className="nav-link sub_nav_link" href="/admin/product/create">
+                    Add New Product
                   </a>
                 </nav>
               </div>
@@ -57,8 +53,11 @@ export default class Sidebar extends Component {
                 data-parent="#sidenavAccordion"
               >
                 <nav className="sb-sidenav-menu-nested nav">
-                  <a className="nav-link sub_nav_link" href="/admin/shop/list">
-                    list
+                  <a
+                    className="nav-link sub_nav_link"
+                    href="/admin/shop/seller/all-product"
+                  >
+                    All product
                   </a>
                 </nav>
               </div>
@@ -88,7 +87,7 @@ export default class Sidebar extends Component {
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-box" />
                 </div>
-                Products FeatureList
+                Products Attributes
                 <div className="sb-sidenav-collapse-arrow">
                   <i className="fas fa-angle-down" />
                 </div>
@@ -161,15 +160,15 @@ export default class Sidebar extends Component {
                   >
                     Add Sub-Category
                   </a>
-                  <a
+                  {/* <a
                     className="nav-link sub_nav_link"
                     href="/admin/category/sub-child-create"
                   >
                     Add Child-Category
-                  </a>
+                  </a> */}
                 </nav>
               </div>
-              <a
+              {/* <a
                 className="nav-link collapsed"
                 href="#"
                 data-toggle="collapse"
@@ -184,8 +183,8 @@ export default class Sidebar extends Component {
                 <div className="sb-sidenav-collapse-arrow">
                   <i className="fas fa-angle-down" />
                 </div>
-              </a>
-              <div
+              </a> */}
+              {/* <div
                 className="collapse"
                 id="collapseLocations"
                 aria-labelledby="headingTwo"
@@ -205,7 +204,7 @@ export default class Sidebar extends Component {
                     Add city
                   </a>
                 </nav>
-              </div>
+              </div> */}
               <a className="nav-link" href="/admin/order/list">
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-cart-arrow-down" />
@@ -224,12 +223,12 @@ export default class Sidebar extends Component {
                 </div>
                 DileveryCharges-Changer
               </a>
-              <a className="nav-link" href="/admin/shop/website-sellar-list">
+              {/* <a className="nav-link" href="/admin/shop/website-sellar-list">
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-store" />
                 </div>
                 Website Vendor
-              </a>
+              </a> */}
               <a className="nav-link" href="/admin/image/upload">
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-image"></i>

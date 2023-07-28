@@ -17,7 +17,6 @@ class List extends Component {
       searchString: null,
     };
   }
-
   handlePageClick = (e) => {
     const selectedPage = e.selected + 1;
     const data = { page: selectedPage };
@@ -87,7 +86,6 @@ class List extends Component {
   }
   render() {
     const { getList } = this.state;
-    console.log("first", getList)
     return (
       <div className="container-fluid">
         <h2 className="mt-30 page-title">Orders</h2>
@@ -146,6 +144,7 @@ class List extends Component {
                       <tr>
                         <th style={{ width: 50 }}>S.N</th>
                         <th style={{ width: 130 }}>Order ID</th>
+                        <th style={{ width: 130 }}>Order Phone</th>
                         <th style={{ width: 130 }}>Customer Name</th>
                         <th style={{ width: 130 }}>Payment Method</th>
                         <th style={{ width: 130 }}>Payment Status</th>
@@ -161,6 +160,7 @@ class List extends Component {
                         getList.map((row, index) => (
                           <tr key={index}>
                             <td>{++index}</td>
+                            <td>{row.order_Id}</td>
                             <td>{row.OrderNo}</td>
                             <td>{row.CustomerName}</td>
                             <td>{row.payment} </td>
@@ -214,15 +214,6 @@ class List extends Component {
                               >
                                 <i className="fas fa-trash-alt" />
                               </span>
-                              <Link
-                                className="track-btn"
-                                to={{
-                                  pathname: `/admin/order/orderTracking/${row.shipment_id}`,
-                                  state: row,
-                                }}
-                              >
-                                Track Order
-                              </Link>
                             </td>
                           </tr>
                         ))

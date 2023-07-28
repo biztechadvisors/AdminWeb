@@ -61,7 +61,6 @@ const Edit = (props) => {
   const renderData = async () => {
     const API = await GetProductDetails.getFlashSaleProduct();
     const serverResponse = API.data;
-    console.log(serverResponse)
     setDropDownOpt(serverResponse);
   };
 

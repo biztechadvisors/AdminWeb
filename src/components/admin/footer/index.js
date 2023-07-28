@@ -7,7 +7,7 @@ export default class Footer extends Component {
         <div className="container-fluid">
           <div className="d-flex align-items-center justify-content-between small">
             <div className="text-muted-1">
-              © 2021 <b>souqarena</b>. by{" "}
+              © 2021 <b>codenoxx</b>. by{" "}
               <a href="https://themeforest.net/user/gambolthemes">
                 Gambolthemes
               </a>

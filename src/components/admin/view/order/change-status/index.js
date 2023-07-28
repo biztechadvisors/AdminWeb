@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Changestatus(props) {
 
-    console.log("props", props)
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
@@ -57,7 +56,6 @@ export default function Changestatus(props) {
     const handleUpdateStatus = async () => {
         let data = { status: status, id: props.state.id, deliverydate: new Date(deliverydate) }
 
-        console.log("Status", data)
         let update = await GetOrderDetails.getOrderStatusUpdate(data);
         if (update) {
             NotificationManager.success(update.msg, 'Status');
