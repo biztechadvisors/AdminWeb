@@ -19,10 +19,12 @@ export default class Edit extends Component {
             selectedCategory: data.maincat.id,
             selectedSubCategory: data.SubCategory.id,
             mainCatName: data.maincat.name,
+            collection: data.collection,
             subCatName: data.SubCategory.sub_name,
             isLoaded: false,
             priceDetails: [],
             SpecificationDetails: data.ch_specifications,
+            PubilshStatus: data.PubilshStatus,
             HighLightDetais: data.HighLightDetail,
             ShippingDays: data.ShippingDays,
             LocalDeiveryCharge: data.LocalDeiveryCharge,
@@ -30,41 +32,49 @@ export default class Edit extends Component {
             NationalDeiveryCharge: data.NationalDeiveryCharge,
             warrantyType: data.WarrantyType,
             warrantyPeriod: data.WarrantyPeriod,
-            ProductVarient: data
-        }
+            ProductVarient: data,
+            brandId: ""
+        };
+        // Bind the handleChange and handleUpdate functions
+        this.handleChange = this.handleChange.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
     }
+
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
     handleBack() {
         this.props.history.goBack();
     }
     handleChange(e) {
-        this.setState({ mainCatName: e.target.value })
-        console.log(e.target.value, "Helookjfdk;ldfk")
+        this.setState({ [e.target.name]: e.target.value })
     }
     onFileChange = event => {
         this.setState({ image: event.target.files[0] });
     };
+
     handleContentChange = contentHtml => {
         this.setState({
             content: contentHtml
         });
     };
-    handleCategory = async (value) => {
-        this.setState({ selectedCategory: value });
-        let categoryId = value;
-        let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
-        this.setState({ getList: list.data })
-    }
-    handleSubCategory = async (value) => {
-        this.setState({ selectedSubCategory: value });
-        let list = await GetCategoryDetails.getAllSubChildCategory(value);
-        this.setState({ getsublist: list.data, blockhide: true })
-    }
-    handleChildCategory = async (value) => {
-        this.setState({ selectedChildCategory: value });
-    }
-    handleBrandList = async (value) => {
-        this.setState({ brandId: value });
-    }
+
+    // handleCategory = async (value) => {
+    //     this.setState({ selectedCategory: value });
+    //     let categoryId = value;
+    //     let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
+    //     this.setState({ getList: list.data });
+    // };
+    // handleSubCategory = async (value) => {
+    //     this.setState({ selectedSubCategory: value });
+    //     let list = await GetCategoryDetails.getAllSubChildCategory(value);
+    //     this.setState({ getsublist: list.data, blockhide: true });
+    // };
+
+    // handleBrandList = async (value) => {
+    //     this.setState({ brandId: value });
+    // }
     callback = (data) => {
         this.setState({ priceDetails: data })
     }
@@ -75,14 +85,9 @@ export default class Edit extends Component {
         this.setState({ HighLightDetais: data })
     }
 
-    handleUpdate() {
-        var mainCat = this.state.mainCatName;
-        console.log(mainCat, "mainCat---Data ---Get")
-    }
-
     render() {
         const { mainCatName, subCatName, isLoaded } = this.state;
-
+      
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -100,7 +105,7 @@ export default class Edit extends Component {
                     <li className="breadcrumb-item active">update</li>
                 </ol>
                 {
-                    isLoaded ? <Loader /> : ''
+                    this.state.isLoaded ? <Loader /> : ''
                 }
                 <ul className="breadcrumb mb-30 nav nav-pills my-4" id="pills-tab" role="tablist" >
                     <li className="nav-item ">
@@ -121,10 +126,8 @@ export default class Edit extends Component {
                     <li className="nav-item ">
                         <a className="nav-link show " id="pills-two-tab" data-toggle="pill" href="#pills-two" role="tab" aria-controls="pills-two" aria-selected="false">Product Info</a>
                     </li>
-                    <li className="nav-item ml-auto updater-btn">
-                        <Button type="submit" onClick={this.handleUpdate.bind(this)}>Update</Button>
-                    </li>
                 </ul>
+
                 <div className="tab-content" id="pills-tabContent">
                     {/* TAB - 1 */}
                     <div className="tab-pane fade active show" id="pills-one" role="tabpanel" aria-labelledby="pills-one-tab">
@@ -139,7 +142,7 @@ export default class Edit extends Component {
                                             <div className="news-content-right p-2">
                                                 <div className="form-group">
                                                     <label className="form-label">Main Category<span className="text-danger">*</span></label>
-                                                    <input className="form-control" type="text" defaultValue={mainCatName} onChange={this.handleChange.bind(this)} />
+                                                    <input className="form-control" type="text" value={mainCatName} disabled />
                                                 </div>
                                             </div>
                                         </div>
@@ -148,28 +151,9 @@ export default class Edit extends Component {
                                             <div className="card-body-table p-2">
                                                 <div className="form-group">
                                                     <label className="form-label">Sub Category<span className="text-danger">*</span></label>
-                                                    <input className="form-control" type="text" defaultValue={subCatName} onChange={this.handleChange} />
+                                                    <input className="form-control" type="text" value={subCatName} disabled />
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </Paper>
-                                <Paper >
-                                    <div className="card-header">
-                                        <h5 className="mb-0 h6">Publish Status</h5>
-                                    </div>
-                                    <div className="form-group mb-3 pd-20">
-                                        <label htmlFor="name">
-                                            Type
-                                        </label>
-                                        <div className="input-group">
-                                            <select className="form-control" name="PublishStatus" defaultValue={this.state.PublishStatus}>
-                                                <option selected>Select type</option>
-                                                <option value="Processing">Processing</option>
-                                                <option value="Pending">Pending</option>
-                                                <option value="Unpublished">Unpublished</option>
-                                                <option value="Published">Published</option>
-                                            </select>
                                         </div>
                                     </div>
                                 </Paper>
@@ -183,9 +167,26 @@ export default class Edit extends Component {
                                         <div className="form-group row">
                                             <label className="col-md-4 form-label">Delivery Charge</label>
                                             <div className="col-md-8">
+                                                <input
+                                                    className="form-control"
+                                                    placeholder="ex:Rs.50"
+                                                    type="number" name="LocalDeiveryCharge" value={this.state.LocalDeiveryCharge} disabled />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label className="col-md-4 form-label">Zonal Delivery Charge</label>
+                                            <div className="col-md-8">
                                                 <input className="form-control"
                                                     placeholder="ex:Rs.50"
-                                                    type="number" name="LocalDeiveryCharge" defaultValue={this.state.LocalDeiveryCharge} onChange={this.handleChange} />
+                                                    type="number" name="ZonalDeiveryCharge" value={this.state.ZonalDeiveryCharge} disabled />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label className="col-md-4 form-label">National Delivery Charge</label>
+                                            <div className="col-md-8">
+                                                <input className="form-control" type="number" name="NationalDeiveryCharge"
+                                                    placeholder="ex:Rs.50"
+                                                    value={this.state.NationalDeiveryCharge} disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -200,8 +201,8 @@ export default class Edit extends Component {
                                         </label>
                                         <div className="input-group">
                                             <input type="number" className="form-control" name="ShippingDays"
-                                                defaultValue={this.state.ShippingDays}
-                                                onChange={this.handleChange}
+                                                value={this.state.ShippingDays}
+                                                disabled
                                                 placeholder="ex:3 days" />
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text" id="inputGroupPrepend">days</span>

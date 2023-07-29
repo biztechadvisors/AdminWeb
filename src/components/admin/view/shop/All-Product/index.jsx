@@ -81,6 +81,7 @@ export default class List extends Component {
   }
 
   handlePageClick = (selectedPage) => {
+    console.log("SelectedPage", selectedPage)
     let data = { limit: this.state.limit, page: selectedPage + 1 };
     this.props.history.push({
       pathname: location.pathname,
