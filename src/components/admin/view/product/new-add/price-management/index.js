@@ -54,7 +54,6 @@ const Pricecolormanagement = ({ parentCallback }) => {
                 list[index]['discountPer'] = '';
             }
         }
-        
         setInputList(list);
         parentCallback(list);
         calculateNetPrice(index);

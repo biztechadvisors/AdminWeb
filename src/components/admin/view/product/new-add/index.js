@@ -131,7 +131,6 @@ export default class Newproduct extends Component {
                     <li className="breadcrumb-item"><a href="/">Dashboard</a></li>
                     <li className="breadcrumb-item"><a href="/admin/product/create">Products</a></li>
                     <li className="breadcrumb-item active">Add Product</li>
-
                 </ol>
 
                 {/* upload products List ExcelFile */}
@@ -242,13 +241,8 @@ export default class Newproduct extends Component {
                         </div>
                     </div>
                 </div>
-
                 {/* price and colorlist show */}
-
-
                 {/* end of pricelist */}
-
-
             </div>
 
 
