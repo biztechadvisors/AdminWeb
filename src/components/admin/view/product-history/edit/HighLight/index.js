@@ -19,8 +19,7 @@ const HighLightList = ({ callback, state }) => {
                                 className="form-control"
                                 name="title"
                                 placeholder="ex: 50MP + 2MP + AI Lens | 8MP Front Camera"
-                                value={x.title}
-                                disabled
+                                defaultValue={x.title}
                                 onChange={e => handleInputChange(e, i)}
                             />
                         </Grid>

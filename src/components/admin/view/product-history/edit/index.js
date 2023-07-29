@@ -37,7 +37,8 @@ export default class Edit extends Component {
         this.props.history.goBack();
     }
     handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value })
+        this.setState({ mainCatName: e.target.value })
+        console.log(e.target.value, "Helookjfdk;ldfk")
     }
     onFileChange = event => {
         this.setState({ image: event.target.files[0] });
@@ -74,9 +75,14 @@ export default class Edit extends Component {
         this.setState({ HighLightDetais: data })
     }
 
+    handleUpdate() {
+        var mainCat = this.state.mainCatName;
+        console.log(mainCat, "mainCat---Data ---Get")
+    }
+
     render() {
         const { mainCatName, subCatName, isLoaded } = this.state;
-      
+
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -115,6 +121,9 @@ export default class Edit extends Component {
                     <li className="nav-item ">
                         <a className="nav-link show " id="pills-two-tab" data-toggle="pill" href="#pills-two" role="tab" aria-controls="pills-two" aria-selected="false">Product Info</a>
                     </li>
+                    <li className="nav-item ml-auto updater-btn">
+                        <Button type="submit" onClick={this.handleUpdate.bind(this)}>Update</Button>
+                    </li>
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
                     {/* TAB - 1 */}
@@ -130,7 +139,7 @@ export default class Edit extends Component {
                                             <div className="news-content-right p-2">
                                                 <div className="form-group">
                                                     <label className="form-label">Main Category<span className="text-danger">*</span></label>
-                                                    <input className="form-control" type="text" value={mainCatName} disabled />
+                                                    <input className="form-control" type="text" defaultValue={mainCatName} onChange={this.handleChange.bind(this)} />
                                                 </div>
                                             </div>
                                         </div>
@@ -139,9 +148,28 @@ export default class Edit extends Component {
                                             <div className="card-body-table p-2">
                                                 <div className="form-group">
                                                     <label className="form-label">Sub Category<span className="text-danger">*</span></label>
-                                                    <input className="form-control" type="text" value={subCatName} disabled />
+                                                    <input className="form-control" type="text" defaultValue={subCatName} onChange={this.handleChange} />
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </Paper>
+                                <Paper >
+                                    <div className="card-header">
+                                        <h5 className="mb-0 h6">Publish Status</h5>
+                                    </div>
+                                    <div className="form-group mb-3 pd-20">
+                                        <label htmlFor="name">
+                                            Type
+                                        </label>
+                                        <div className="input-group">
+                                            <select className="form-control" name="PublishStatus" defaultValue={this.state.PublishStatus}>
+                                                <option selected>Select type</option>
+                                                <option value="Processing">Processing</option>
+                                                <option value="Pending">Pending</option>
+                                                <option value="Unpublished">Unpublished</option>
+                                                <option value="Published">Published</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </Paper>
@@ -153,32 +181,15 @@ export default class Edit extends Component {
                                     </div>
                                     <div className="card-body">
                                         <div className="form-group row">
-                                            <label className="col-md-4 form-label">Local Delivery Charge</label>
+                                            <label className="col-md-4 form-label">Delivery Charge</label>
                                             <div className="col-md-8">
                                                 <input className="form-control"
                                                     placeholder="ex:Rs.50"
-                                                    type="number" name="LocalDeiveryCharge" value={this.state.LocalDeiveryCharge} disabled />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-md-4 form-label">Zonal Delivery Charge</label>
-                                            <div className="col-md-8">
-                                                <input className="form-control"
-                                                    placeholder="ex:Rs.50"
-                                                    type="number" name="ZonalDeiveryCharge" value={this.state.ZonalDeiveryCharge} disabled />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-md-4 form-label">National Delivery Charge</label>
-                                            <div className="col-md-8">
-                                                <input className="form-control" type="number" name="NationalDeiveryCharge"
-                                                    placeholder="ex:Rs.50"
-                                                    value={this.state.NationalDeiveryCharge} disabled />
+                                                    type="number" name="LocalDeiveryCharge" defaultValue={this.state.LocalDeiveryCharge} onChange={this.handleChange} />
                                             </div>
                                         </div>
                                     </div>
                                 </Paper>
-
                                 <Paper className="mt-3">
                                     <div className="card-header">
                                         <h5 className="mb-0 h6">Estimate Shipping Time</h5>
@@ -189,8 +200,8 @@ export default class Edit extends Component {
                                         </label>
                                         <div className="input-group">
                                             <input type="number" className="form-control" name="ShippingDays"
-                                                value={this.state.ShippingDays}
-                                                disabled
+                                                defaultValue={this.state.ShippingDays}
+                                                onChange={this.handleChange}
                                                 placeholder="ex:3 days" />
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text" id="inputGroupPrepend">days</span>
@@ -239,8 +250,8 @@ export default class Edit extends Component {
                                             Type
                                         </label>
                                         <div className="input-group">
-                                            <select className="form-control" name="warrantyType" value={this.state.warrantyType} disabled>
-                                                <option disabled selected>Select type</option>
+                                            <select className="form-control" name="warrantyType" defaultValue={this.state.warrantyType}>
+                                                <option selected>Select type</option>
                                                 <option value="Local">Local Seller Warranty</option>
                                                 <option value="No">No Warranty</option>
                                                 <option value="International">International Warranty</option>
@@ -263,7 +274,7 @@ export default class Edit extends Component {
                                             Period
                                         </label>
                                         <div className="input-group">
-                                            <input type="text" className="form-control" placeholder="ex:1month,1year,lifetime" name="warrantyPeriod" value={this.state.warrantyPeriod} disabled />
+                                            <input type="text" className="form-control" placeholder="ex:1month,1year,lifetime" name="warrantyPeriod" value={this.state.warrantyPeriod} />
                                         </div>
                                     </div>
                                 </Paper>

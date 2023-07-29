@@ -120,7 +120,7 @@ export default class Home extends Component {
                               : { display: "none" }
                           }
                         >
-                          {row.total}
+                         {row.total ? row.total : "-"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -145,7 +145,7 @@ export default class Home extends Component {
                               : { display: "none" }
                           }
                         >
-                          {row.total}
+                        {row.total ? row.total : "-"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -170,7 +170,7 @@ export default class Home extends Component {
                               : { display: "none" }
                           }
                         >
-                          {row.total}
+                         {row.total ? row.total : "-"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -195,7 +195,7 @@ export default class Home extends Component {
                               : { display: "none" }
                           }
                         >
-                          {row.total}
+                        {row.total ? row.total : "-"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
