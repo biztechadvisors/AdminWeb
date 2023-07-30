@@ -33,13 +33,12 @@ export default class Edit extends Component {
             warrantyType: data.WarrantyType,
             warrantyPeriod: data.WarrantyPeriod,
             ProductVarient: data,
-            brandId: ""
+            brandId: "",
         };
         // Bind the handleChange and handleUpdate functions
         this.handleChange = this.handleChange.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
     }
-
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -58,22 +57,8 @@ export default class Edit extends Component {
         });
     };
 
-    // handleCategory = async (value) => {
-    //     this.setState({ selectedCategory: value });
-    //     let categoryId = value;
-    //     let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
-    //     this.setState({ getList: list.data });
-    // };
-    // handleSubCategory = async (value) => {
-    //     this.setState({ selectedSubCategory: value });
-    //     let list = await GetCategoryDetails.getAllSubChildCategory(value);
-    //     this.setState({ getsublist: list.data, blockhide: true });
-    // };
-
-    // handleBrandList = async (value) => {
-    //     this.setState({ brandId: value });
-    // }
     callback = (data) => {
+        // console.log(data, "Product info")
         this.setState({ priceDetails: data })
     }
     SpecificationCallBack = (data) => {
@@ -90,7 +75,13 @@ export default class Edit extends Component {
             PubilshStatus,
             LocalDeiveryCharge,
             ShippingDays,
-            brandId
+            brandId,
+            priceDetails,
+            SpecificationDetails,
+            HighLightDetais,
+            warrantyType,
+            warrantyPeriod,
+            collection,
         } = this.state;
 
         const formData = {
@@ -99,11 +90,16 @@ export default class Edit extends Component {
             PubilshStatus: PubilshStatus,
             LocalDeiveryCharge: LocalDeiveryCharge,
             ShippingDays: ShippingDays,
-            brandId: brandId
+            brandId: brandId,
+            priceDetails:priceDetails,
+            SpecificationDetails:SpecificationDetails,
+            HighLightDetais:HighLightDetais,
+            warrantyType,
+            warrantyPeriod,
+            collection,
         }
         console.log(formData);
     }
-
     render() {
         const {
             mainCatName,
@@ -177,7 +173,6 @@ export default class Edit extends Component {
                                                         type="text"
                                                         name='mainCatName'
                                                         defaultValue={mainCatName}
-                                                        value={mainCatName}
                                                         onChange={this.handleChange}
                                                     />
                                                 </div>
@@ -192,7 +187,6 @@ export default class Edit extends Component {
                                                         className="form-control"
                                                         type="text"
                                                         name='subCatName'
-                                                        value={subCatName}
                                                         defaultValue={subCatName}
                                                         onChange={this.handleChange}
                                                     />
@@ -210,12 +204,11 @@ export default class Edit extends Component {
                                         <div className="input-group">
                                             <select
                                                 className="form-control"
-                                                name="brandId"
-                                                value={this.state.brandId}
-                                                defaultValue={collection_name}
+                                                name="collection"
+                                                defaultValue={this.state.collection.id}
                                                 onChange={this.handleChange}
                                             >
-                                                <option selected>Select type</option>
+                                                <option >Select type</option>
                                                 <option value="0">New Arrivals</option>
                                                 <option value="1">Best Sellers</option>
                                                 <option value="2">Sale Items</option>
@@ -236,11 +229,10 @@ export default class Edit extends Component {
                                             <select
                                                 className="form-control"
                                                 name="PubilshStatus"
-                                                value={PubilshStatus}
-                                                defaultValue={PubilshStatus}
+                                                defaultValue={this.state.PubilshStatus}
                                                 onChange={this.handleChange}
                                             >
-                                                <option selected>Select type</option>
+                                                <option >Select type</option>
                                                 <option value="Processing">Processing</option>
                                                 <option value="Pending">Pending</option>
                                                 <option value="Unpublished">Unpublished</option>
@@ -265,7 +257,6 @@ export default class Edit extends Component {
                                                     placeholder="ex:Rs.50"
                                                     type="number"
                                                     name="LocalDeiveryCharge"
-                                                    value={LocalDeiveryCharge}
                                                     defaultValue={LocalDeiveryCharge}
                                                     onChange={this.handleChange}
                                                 />
@@ -337,8 +328,8 @@ export default class Edit extends Component {
                                             Type
                                         </label>
                                         <div className="input-group">
-                                            <select className="form-control" name="warrantyType" defaultValue={this.state.warrantyType}>
-                                                <option selected>Select type</option>
+                                            <select className="form-control" name="warrantyType" defaultValue={this.state.warrantyType} onChange={this.handleChange}>
+                                                <option >Select type</option>
                                                 <option value="Local">Local Seller Warranty</option>
                                                 <option value="No">No Warranty</option>
                                                 <option value="International">International Warranty</option>
@@ -361,7 +352,7 @@ export default class Edit extends Component {
                                             Period
                                         </label>
                                         <div className="input-group">
-                                            <input type="text" className="form-control" placeholder="ex:1month,1year,lifetime" name="warrantyPeriod" value={this.state.warrantyPeriod} />
+                                            <input type="text" className="form-control" placeholder="ex:1month,1year,lifetime" name="warrantyPeriod" defaultValue={this.state.warrantyPeriod} onChange={this.handleChange} />
                                         </div>
                                     </div>
                                 </Paper>
@@ -424,8 +415,6 @@ export default class Edit extends Component {
                     </div>
                 </div>
             </div>
-
-
         )
     }
 }

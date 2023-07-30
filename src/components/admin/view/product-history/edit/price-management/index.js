@@ -33,8 +33,12 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
         const list = [...inputList];
-        list[index][name] = value;
 
+        if (name === 'TITLE') {
+            list[index].color.TITLE = value;
+        } else {
+            list[index][name] = value;
+        }
         // Handle the case when the discount is changed, and adjust discountPer accordingly
         if (name === 'discount') {
             if (value !== '' && list[index]['actualPrice'] !== '') {
@@ -59,22 +63,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     };
 
     const handleAddClick = () => {
-        setInputList([
-            ...inputList,
-            {
-                productName: '',
-                productCode: '',
-                actualPrice: '',
-                memory: '',
-                qty: '',
-                colorCode: '',
-                discountPer: '',
-                discount: '',
-                netPrice: '',
-                longDesc: '',
-                shortDesc: '',
-            },
-        ]);
+        console.log(inputList, "Inputlist")
+        parentCallback(inputList);
     };
 
     const handleContentChange = (contentHtml, index) => {
@@ -93,16 +83,16 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     return (
         <Grid >
             <div>
-                <Grid item md={3} lg={3}>
+                {/* <Grid item md={3} lg={3}>
                     <div>
                         <Button onClick={() => handleAddClick()}>Save-Me</Button>
                     </div>
-                </Grid>
+                </Grid> */}
             </div>
             {/* <label>Product Price</label> */}
             {inputList.map((x, i) => {
                 return (
-                    <Grid container spacing={2} style={i % 2 ? { marginTop: '1rem', background: 'rgb(195 232 191 / 25%)' } : { background: '#DAF7A6' }}>
+                    <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '1rem', background: 'rgb(195 232 191 / 25%)' } : { background: '#DAF7A6' }}>
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Product Name<span className="text-danger">*</span></label>
                             <input
@@ -111,7 +101,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 placeholder="ex: Enter product name"
                                 defaultValue={x.productName}
                                 onChange={(e) => handleInputChange(e, i)}
-
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
@@ -150,16 +139,15 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                             <label className="form-label">Color(<b>{x.color ? x.color.TITLE : ''}</b>)</label>
                             <input
                                 className="form-control"
-                                name="unitSize"
+                                name="color"
                                 defaultValue={x.color ? x.color.TITLE : ''}
                                 onChange={(e) => handleInputChange(e, i)}
-
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Stock Visibility*</label>
                             <select className="form-control" name="stockType" onChange={(e) => handleInputChange(e, i)} defaultValue={x.stockType}>
-                                <option disabled selected>Select type</option>
+                                <option >Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                             </select>
@@ -167,7 +155,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Refundabe*</label>
                             <select className="form-control" name="refundable" onChange={(e) => handleInputChange(e, i)} defaultValue={x.refundable}>
-                                <option disabled selected>Select type</option>
+                                <option >Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                             </select>
@@ -185,7 +173,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                         </Grid><Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Cash On Delivery*</label>
                             <select className="form-control" name="COD" onChange={(e) => handleInputChange(e, i)} defaultValue={x.COD} >
-                                <option disabled selected>Select type</option>
+                                <option >Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                             </select>
@@ -249,4 +237,4 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     )
 }
 
-export default Pricecolormanagement
+export default Pricecolormanagement;

@@ -99,11 +99,11 @@ export default class Newproduct extends Component {
             dangerMode: true,
         })
             .then(async (success) => {
-                if (success) {
+                if (success && formData) {
                     let list = await GetProductDetails.addProductList(formData, config);
                     if (list) {
                         this.setState({ isLoaded: false })
-                        // this.props.history.push("/admin/product/list")
+                        this.props.history.push("/admin/product/list")
                     } else {
                         this.setState({ isLoaded: false })
                         NotificationManager.error("Please! Check input field", "Input Field");

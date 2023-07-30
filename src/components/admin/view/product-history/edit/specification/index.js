@@ -7,11 +7,19 @@ const SpecificationList = ({ callback, state }) => {
       : [{ id: null, type: null, value: null }]
   );
 
+  const handleChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...inputList];
+    list[index][name] = value;
+    setInputList(list);
+    callback(list);
+  }
   return (
     <React.Fragment>
       {inputList.map((x, i) => {
         return (
           <Grid
+            key={i}
             container
             spacing={2}
             style={
@@ -25,8 +33,8 @@ const SpecificationList = ({ callback, state }) => {
                 className="form-control"
                 name="type"
                 placeholder="ex: Battery Backup"
-                value={x.type}
-                disabled
+                defaultValue={x.type}
+                onChange={(e) => handleChange(e, i)}
               />
             </Grid>
             <Grid item md={6} lg={6}>
@@ -34,8 +42,8 @@ const SpecificationList = ({ callback, state }) => {
                 className="form-control"
                 name="value"
                 placeholder="ex: Upto 15 hours"
-                value={x.value}
-                disabled
+                defaultValue={x.value}
+                onChange={(e) => handleChange(e, i)}
               />
             </Grid>
           </Grid>
