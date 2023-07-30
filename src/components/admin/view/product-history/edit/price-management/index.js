@@ -109,8 +109,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 className="form-control"
                                 name="productName"
                                 placeholder="ex: Enter product name"
-                                value={x.productName}
-                                disabled
+                                defaultValue={x.productName}
+
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
@@ -119,8 +119,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 className="form-control"
                                 name="productCode"
                                 placeholder="ex: FGSTW"
-                                value={x.productCode}
-                                disabled
+                                defaultValue={x.productCode}
+
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
@@ -128,9 +128,9 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                             <input
                                 className="form-control"
                                 name="unitSize"
-                                placeholder="ex: 100g, 200g, L, M, S"
-                                value={x.unitSize}
-                                disabled
+                                placeholder="ex: 10-12 years old"
+                                defaultValue={x.unitSize}
+
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
@@ -138,8 +138,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                             <input
                                 className="form-control"
                                 name="unitSize"
-                                value={x.brand ? x.brand.name : ''}
-                                disabled
+                                defaultValue={x.brand ? x.brand.name : ''}
+
                             />
                         </Grid>
                         <Grid item md={12} lg={12}>
@@ -147,13 +147,13 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                             <input
                                 className="form-control"
                                 name="unitSize"
-                                value={x.color ? x.color.TITLE : ''}
-                                disabled
+                                defaultValue={x.color ? x.color.TITLE : ''}
+
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Stock Visibility*</label>
-                            <select className="form-control" name="stockType" value={x.stockType} disabled>
+                            <select className="form-control" name="stockType" defaultValue={x.stockType}>
                                 <option disabled selected>Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
@@ -161,7 +161,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                         </Grid>
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Refundabe*</label>
-                            <select className="form-control" name="refundable" value={x.refundable} disabled>
+                            <select className="form-control" name="refundable" defaultValue={x.refundable}>
                                 <option disabled selected>Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
@@ -173,12 +173,12 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 className="form-control"
                                 name="qtyWarning"
                                 placeholder="ex: 100"
-                                value={x.qtyWarning}
-                                disabled
+                                defaultValue={x.qtyWarning}
+
                             />
                         </Grid><Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Cash On Delivery*</label>
-                            <select className="form-control" name="COD" value={x.COD} disabled>
+                            <select className="form-control" name="COD" defaultValue={x.COD} >
                                 <option disabled selected>Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
@@ -190,8 +190,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 className="form-control"
                                 name="netPrice"
                                 placeholder="ex: 100"
-                                value={x.distributorPrice}
-                                disabled
+                                defaultValue={x.distributorPrice}
+
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
@@ -200,8 +200,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 className="form-control"
                                 name="actualPrice"
                                 placeholder="ex: 1"
-                                value={x.buyerPrice}
-                                disabled
+                                defaultValue={x.buyerPrice}
+
                             />
                         </Grid>
                         <Grid item md={6} lg={6}>
@@ -210,8 +210,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 className="form-control"
                                 name="youTubeUrl"
                                 placeholder="ex: https://youtu.be/nqWZV_OYVIk"
-                                value={x.youTubeUrl}
-                                disabled
+                                defaultValue={x.youTubeUrl}
+
                             />
                         </Grid>
                         <Grid item md={6} lg={6}>
