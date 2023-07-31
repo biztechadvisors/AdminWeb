@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Modal } from "@material-ui/core";
 import { NotificationManager } from "react-notifications";
 import { GetProductDetails } from "../../../../../services";
+
 export default class CommonName extends Component {
   constructor(props) {
     super(props);
@@ -11,6 +12,7 @@ export default class CommonName extends Component {
       title: title,
       keyword: keyword,
       desc: desc,
+      open: false,
     };
   }
   handleChange(e) {
@@ -27,11 +29,11 @@ export default class CommonName extends Component {
       .replace(/-+$/, ""); // Trim - from end of text
   }
   handleOpen() {
-    this.setState({ open: !this.state.open, loading: true });
+    this.setState({ open: true, loading: true });
   }
 
   handleClose() {
-    this.setState({ open: !this.state.open });
+    this.setState({ open: false });
   }
   handleChangeLocation = (value) => {
     this.setState({ selectLocation: value });
