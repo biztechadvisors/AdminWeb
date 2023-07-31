@@ -33,8 +33,12 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
         const list = [...inputList];
-        list[index][name] = value;
 
+        if (name === 'TITLE') {
+            list[index].color.TITLE = value;
+          }else{
+            list[index][name] = value;
+          }
         // Handle the case when the discount is changed, and adjust discountPer accordingly
         if (name === 'discount') {
             if (value !== '' && list[index]['actualPrice'] !== '') {
@@ -59,22 +63,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     };
 
     const handleAddClick = () => {
-        setInputList([
-            ...inputList,
-            {
-                productName: '',
-                productCode: '',
-                actualPrice: '',
-                memory: '',
-                qty: '',
-                colorCode: '',
-                discountPer: '',
-                discount: '',
-                netPrice: '',
-                longDesc: '',
-                shortDesc: '',
-            },
-        ]);
+        console.log(inputList,"Inputlist")
+        parentCallback(inputList);
     };
 
     const handleContentChange = (contentHtml, index) => {
@@ -93,16 +83,11 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     return (
         <Grid >
             <div>
-                <Grid item md={3} lg={3}>
-                    <div>
-                        <Button onClick={() => handleAddClick()}>Save-Me</Button>
-                    </div>
-                </Grid>
             </div>
             {/* <label>Product Price</label> */}
             {inputList.map((x, i) => {
                 return (
-                    <Grid container spacing={2} style={i % 2 ? { marginTop: '1rem', background: 'rgb(195 232 191 / 25%)' } : { background: '#DAF7A6' }}>
+                    <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '1rem', background: 'rgb(195 232 191 / 25%)' } : { background: '#DAF7A6' }}>
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Product Name<span className="text-danger">*</span></label>
                             <input
@@ -110,7 +95,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 name="productName"
                                 placeholder="ex: Enter product name"
                                 defaultValue={x.productName}
-
+                                onChange={(e) => handleInputChange(e, i)}
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
@@ -120,6 +105,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 name="productCode"
                                 placeholder="ex: FGSTW"
                                 defaultValue={x.productCode}
+                                onChange={(e) => handleInputChange(e, i)}
 
                             />
                         </Grid>
@@ -127,42 +113,34 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                             <label className="form-label font-weight-bold">Age*</label>
                             <input
                                 className="form-control"
-                                name="unitSize"
+                                name="memory"
                                 placeholder="ex: 10-12 years old"
-                                defaultValue={x.unitSize}
-
-                            />
-                        </Grid>
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Collection(<b>{x.brand ? x.brand.name : ''}</b>)*</label>
-                            <input
-                                className="form-control"
-                                name="unitSize"
-                                defaultValue={x.brand ? x.brand.name : ''}
+                                defaultValue={x.memory}
+                                onChange={(e) => handleInputChange(e, i)}
 
                             />
                         </Grid>
                         <Grid item md={12} lg={12}>
-                            <label className="form-label">Color(<b>{x.color ? x.color.TITLE : ''}</b>)</label>
+                            <label className="form-label font-weight-bold">Color</label>
                             <input
                                 className="form-control"
-                                name="unitSize"
+                                name="color"
                                 defaultValue={x.color ? x.color.TITLE : ''}
-
+                                onChange={(e) => handleInputChange(e, i)}
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Stock Visibility*</label>
-                            <select className="form-control" name="stockType" defaultValue={x.stockType}>
-                                <option disabled selected>Select type</option>
+                            <select className="form-control" name="stockType" onChange={(e) => handleInputChange(e, i)} defaultValue={x.stockType}>
+                                <option >Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                             </select>
                         </Grid>
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Refundabe*</label>
-                            <select className="form-control" name="refundable" defaultValue={x.refundable}>
-                                <option disabled selected>Select type</option>
+                            <select className="form-control" name="refundable" onChange={(e) => handleInputChange(e, i)} defaultValue={x.refundable}>
+                                <option >Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                             </select>
@@ -174,12 +152,13 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 name="qtyWarning"
                                 placeholder="ex: 100"
                                 defaultValue={x.qtyWarning}
+                                onChange={(e) => handleInputChange(e, i)}
 
                             />
                         </Grid><Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Cash On Delivery*</label>
-                            <select className="form-control" name="COD" defaultValue={x.COD} >
-                                <option disabled selected>Select type</option>
+                            <select className="form-control" name="COD" onChange={(e) => handleInputChange(e, i)} defaultValue={x.COD} >
+                                <option >Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                             </select>
@@ -190,7 +169,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 className="form-control"
                                 name="netPrice"
                                 placeholder="ex: 100"
-                                defaultValue={x.distributorPrice}
+                                defaultValue={x.netPrice}
+                                onChange={(e) => handleInputChange(e, i)}
 
                             />
                         </Grid>
@@ -200,7 +180,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 className="form-control"
                                 name="actualPrice"
                                 placeholder="ex: 1"
-                                defaultValue={x.buyerPrice}
+                                defaultValue={x.actualPrice}
+                                onChange={(e) => handleInputChange(e, i)}
 
                             />
                         </Grid>
@@ -211,6 +192,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 name="youTubeUrl"
                                 placeholder="ex: https://youtu.be/nqWZV_OYVIk"
                                 defaultValue={x.youTubeUrl}
+                                onChange={(e) => handleInputChange(e, i)}
 
                             />
                         </Grid>
@@ -240,4 +222,4 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     )
 }
 
-export default Pricecolormanagement
+export default Pricecolormanagement;
