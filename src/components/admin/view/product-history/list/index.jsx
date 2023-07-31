@@ -116,6 +116,7 @@ export default class List extends Component {
   async getProductList(data) {
     this.setState({ isLoaded: true });
     let list = await GetProductDetails.getAllSellerProduct(data);
+    console.log("List", list)
     if (list) {
       this.setState({
         productList: list.data.items,
@@ -127,6 +128,7 @@ export default class List extends Component {
       this.setState({ isLoaded: false });
     }
   }
+
 
   async componentDidMount() {
     const urlSearchParams = new URLSearchParams(window.location.search);
