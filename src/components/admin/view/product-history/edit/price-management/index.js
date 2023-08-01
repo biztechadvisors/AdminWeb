@@ -126,16 +126,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Collection(<b>{x.brand ? x.brand.name : ''}</b>)*</label>
-                            <input
-                                className="form-control"
-                                name="unitSize"
-                                defaultValue={x.brand ? x.brand.name : ''}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-                        <Grid item md={12} lg={12}>
                             <label className="form-label">Color(<b>{x.color ? x.color.TITLE : ''}</b>)</label>
                             <input
                                 className="form-control"

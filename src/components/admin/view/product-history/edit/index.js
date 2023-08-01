@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Paper } from "@material-ui/core";
-import { GetCategoryDetails } from '../../../../services';
+import { GetCategoryDetails, GetProductDetails } from '../../../../services';
 import Pricecolormanagement from './price-management';
 import SpecificationList from './specification';
 import HighLightList from './HighLight';
@@ -68,7 +68,7 @@ export default class Edit extends Component {
         this.setState({ HighLightDetais: data })
     }
 
-    handleUpdate() {
+    async handleUpdate() {
         const {
             mainCatName,
             subCatName,
@@ -82,24 +82,34 @@ export default class Edit extends Component {
             warrantyType,
             warrantyPeriod,
             collection,
+            id
         } = this.state;
 
         const formData = {
+            productId: id,
             mainCatName: mainCatName,
             subCatName: subCatName,
             PubilshStatus: PubilshStatus,
             LocalDeiveryCharge: LocalDeiveryCharge,
             ShippingDays: ShippingDays,
             brandId: brandId,
-            priceDetails:priceDetails,
-            SpecificationDetails:SpecificationDetails,
-            HighLightDetais:HighLightDetais,
+            priceDetails: priceDetails,
+            SpecificationDetails: SpecificationDetails,
+            HighLightDetais: HighLightDetais,
             warrantyType,
             warrantyPeriod,
             collection,
         }
         console.log(formData);
+        // Assuming the getUpdateProduct method is defined correctly and returns a promise
+        try {
+            const res = await GetProductDetails.getUpdateProduct(formData);
+            console.log("response", res);
+        } catch (err) {
+            console.error("error", err);
+        }
     }
+
     render() {
         const {
             mainCatName,
