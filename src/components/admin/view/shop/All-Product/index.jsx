@@ -43,7 +43,8 @@ export default class List extends Component {
 
   getProductList = async (data) => {
     this.setState({ isLoaded: true });
-    let list = await GetSupplierDetails.getAllSellerProductList(data);
+    let list = await GetProductDetails.getAllSellerProduct(data);
+    console.log("first", list)
     if (list.code === 200) {
       this.setState({
         getAllProduct: list.data.items,
@@ -63,6 +64,7 @@ export default class List extends Component {
       page: this.state.pageNumber,
       searchString: this.state.searchValue,
     };
+    console.log("SearchData", data)
     this.getProductList(data);
   };
 
@@ -81,14 +83,19 @@ export default class List extends Component {
   }
 
   handlePageClick = (selectedPage) => {
-    console.log("SelectedPage", selectedPage)
-    let data = { limit: this.state.limit, page: selectedPage + 1 };
+    console.log("SelectedPage", selectedPage);
+
+    // Extract the page number from the 'selectedPage' object
+    const pageNumber = selectedPage.selected + 1;
+
+    let data = { limit: this.state.limit, page: pageNumber };
     this.props.history.push({
       pathname: location.pathname,
       search: "?" + new URLSearchParams({ page: data.page }).toString(),
     });
     this.getProductList(data);
   };
+
 
   render() {
     const { pages, pageNumber, isLoaded, getAllProduct } = this.state;
@@ -152,12 +159,12 @@ export default class List extends Component {
                         <th style={{ width: 200 }}>Name</th>
                         <th>Category</th>
                         <th>SubCategory</th>
-                        {/* <th>Brand</th> */}
+                        <th>Collection</th>
                         <th>DiscountPer</th>
                         <th>DiscountPrice</th>
                         <th>NetPrice</th>
+                        <th>ActualPrice</th>
                         <th>Status</th>
-                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -168,38 +175,27 @@ export default class List extends Component {
                               <tr key={row.id}>
                                 <td>{row.id}</td>
                                 <td>
-                                  <img src={row.thumbnail} height="40px" alt="Thumbnail" />
+                                  <img src={row.photo} height="40px" alt="Thumbnail" />
                                 </td>
-                                <td>{row.slug}</td>
-                                <td>{row.maincat}</td>
-                                <td>{row.subcat}</td>
-                                {/* <td>{row.Brand}</td> */}
-                                <td>{row.discountPer ? row.discountPer + "%" : ""}</td>
-                                <td>Rs.{row.discount}</td>
-                                <td>Rs.{row.netPrice}</td>
+                                <td>{row.name}</td>
+                                <td>{row.maincat.name}</td>
+                                <td>{row.SubCategory.sub_name}</td>
+                                <td>{row.collection.name}</td>
+                                <td>{row.ProductVariants[0].discountPer ? row.ProductVariants[0].discountPer + "%" : ""}</td>
+                                <td>Rs.{row.ProductVariants[0].discount}</td>
+                                <td>Rs.{row.ProductVariants[0].netPrice}</td>
+                                <td>Rs.{row.ProductVariants[0].actualPrice}</td>
                                 <td style={{ width: "200px" }}>
                                   <select
                                     className="form-control"
-                                    value={row.Status}
-                                    onChange={(e) => this.UpdateStatus(e, row.productId)}
+                                    value={row.PubilshStatus}
+                                    onChange={(e) => this.UpdateStatus(e, row.id)}
                                   >
                                     <option value="Pending">Pending</option>
                                     <option value="Processing">Processing</option>
                                     <option value="Unpublished">Unpublished</option>
                                     <option value="Published">Published</option>
                                   </select>
-                                </td>
-                                <td className="action-btns">
-                                  <Link
-                                    to={{
-                                      pathname: `/admin/shop/seller/edit-product/${row.id}`,
-                                      state: { row },
-                                    }}
-                                  >
-                                    <Typography className="edit-btn">
-                                      <i className="fas fa-edit" />
-                                    </Typography>
-                                  </Link>
                                 </td>
                               </tr>
                             );
@@ -212,7 +208,6 @@ export default class List extends Component {
                           <td colSpan="12">No data found</td>
                         </tr>
                       )}
-
                     </tbody>
                   </table>
                 </div>

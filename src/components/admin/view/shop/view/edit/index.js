@@ -13,16 +13,16 @@ export default class SellerProductEdit extends Component {
         const data = this.props.location.state.row
         this.state = {
             id: data.id,
-            productName: data.name, 
-            productCode: data.code, 
-            distributorPrice: data.distributorPrice, 
-            marginPer: data.marginPer, 
-            marginPrice: data.marginPrice, 
-            buyerPrice: data.buyerPrice, 
-            sellerPrice: data.sellerPrice, 
-            qty: data.qty, 
-            discountPer: data.discountPer, 
-            discount: data.discount, 
+            productName: data.name,
+            productCode: data.code,
+            distributorPrice: data.distributorPrice,
+            marginPer: data.marginPer,
+            marginPrice: data.marginPrice,
+            buyerPrice: data.buyerPrice,
+            sellerPrice: data.sellerPrice,
+            qty: data.qty,
+            discountPer: data.discountPer,
+            discount: data.discount,
             total: data.total,
             netPrice: data.netPrice
         }
@@ -30,18 +30,18 @@ export default class SellerProductEdit extends Component {
     handleBack() {
         this.props.history.goBack();
     }
-    
+
     handleChange(e) {
-       this.setState({ [e.target.name]: e.target.value})
+        this.setState({ [e.target.name]: e.target.value })
     }
-   
+
     callback = (data) => {
         this.setState({ priceDetails: data })
     }
     handleSubmit = event => {
         event.preventDefault();
         this.setState({ isLoaded: true })
-        let data = {id: this.state.id, distributorPrice: this.state.distributorPrice, buyerPrice: this.state.buyerPrice, sellerPrice: Number(this.state.sellerPrice)}
+        let data = { id: this.state.id, distributorPrice: this.state.distributorPrice, buyerPrice: this.state.buyerPrice, sellerPrice: Number(this.state.sellerPrice) }
         swal({
             title: "Are you sure?",
             text: "You want to update product",
@@ -65,16 +65,16 @@ export default class SellerProductEdit extends Component {
     }
 
     render() {
-        const { 
+        const {
             isLoaded,
-            productName, 
-            productCode, 
-            distributorPrice, 
-            marginPer, 
-            marginPrice, 
-            buyerPrice, 
-            sellerPrice, 
-            qty, 
+            productName,
+            productCode,
+            distributorPrice,
+            marginPer,
+            marginPrice,
+            buyerPrice,
+            sellerPrice,
+            qty,
         } = this.state;
         let disableSaveButton = !sellerPrice
         return (
@@ -99,98 +99,98 @@ export default class SellerProductEdit extends Component {
                                         <div className="row" >
                                             <div className="col-lg-12 col-md-12">
                                                 <Grid >
-            <label>Price List</label>
-                    <div className="row price_list_details">
-                        <div className="col-md-3">
-                            <label className="form-label">Product Name<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="productName"
-                                placeholder="ex: Bultra"
-                                value={productName}
-                               disabled
-                            />
-                        </div>
-                        <div className="col-md-3">
-                            <label className="form-label">Product Code<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="productCode"
-                                placeholder="ex: FGSTW"
-                                value={productCode}
-                               disabled
-                            />
-                        </div>
-                        <div className="col-md-3">
-                            <label className="form-label">DistributerPrice<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="distributorPrice"
-                                placeholder="ex: 100"
-                                value={distributorPrice}
-                               disabled
-                            />
-                        </div>
-                        <div className="col-md-3">
-                            <label className="form-label">Quantity<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="qty"
-                                placeholder="ex: 1"
-                                value={qty}
-                               disabled
-                            />
-                        </div>
-                        <div className="col-md-3">
-                            <label className="form-label">Margin(%)<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="marginPer"
-                                placeholder="ex: 5%"
-                                value={marginPer}
-                                disabled
-                            />
-                        </div>
-                        <div className="col-md-3">
-                            <label className="form-label">Margin Price<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="marginPrice"
-                                placeholder="ex: 50"
-                                value={marginPrice}
-                                disabled
-                            />
-                        </div>
+                                                    <label>Price List</label>
+                                                    <div className="row price_list_details">
+                                                        <div className="col-md-3">
+                                                            <label className="form-label">Product Name<span className="text-danger">*</span></label>
+                                                            <input
+                                                                className="form-control"
+                                                                name="productName"
+                                                                placeholder="ex: Bultra"
+                                                                value={productName}
+                                                                disabled
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <label className="form-label">Product Code<span className="text-danger">*</span></label>
+                                                            <input
+                                                                className="form-control"
+                                                                name="productCode"
+                                                                placeholder="ex: FGSTW"
+                                                                value={productCode}
+                                                                disabled
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <label className="form-label">DistributerPrice<span className="text-danger">*</span></label>
+                                                            <input
+                                                                className="form-control"
+                                                                name="distributorPrice"
+                                                                placeholder="ex: 100"
+                                                                value={distributorPrice}
+                                                                disabled
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <label className="form-label">Quantity<span className="text-danger">*</span></label>
+                                                            <input
+                                                                className="form-control"
+                                                                name="qty"
+                                                                placeholder="ex: 1"
+                                                                value={qty}
+                                                                disabled
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <label className="form-label">Margin(%)<span className="text-danger">*</span></label>
+                                                            <input
+                                                                className="form-control"
+                                                                name="marginPer"
+                                                                placeholder="ex: 5%"
+                                                                value={marginPer}
+                                                                disabled
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <label className="form-label">Margin Price<span className="text-danger">*</span></label>
+                                                            <input
+                                                                className="form-control"
+                                                                name="marginPrice"
+                                                                placeholder="ex: 50"
+                                                                value={marginPrice}
+                                                                disabled
+                                                            />
+                                                        </div>
 
-                        <div className="col-md-3">
-                            <label className="form-label">Buyer Price*</label>
-                            <input
-                                className="form-control"
-                                name="buyerPrice"
-                                placeholder="ex: 100"
-                                value={buyerPrice}
-                                disabled
-                            />
-                        </div>
+                                                        <div className="col-md-3">
+                                                            <label className="form-label">Buyer Price*</label>
+                                                            <input
+                                                                className="form-control"
+                                                                name="buyerPrice"
+                                                                placeholder="ex: 100"
+                                                                value={buyerPrice}
+                                                                disabled
+                                                            />
+                                                        </div>
 
-                        <div className="col-md-3">
-                            <label className="form-label"> Customer Price*</label>
-                            <input
-                                className="form-control"
-                                name="sellerPrice"
-                                placeholder="ex: 105"
-                                value={sellerPrice}
-                                onChange={e => this.handleChange(e)}
-                            />
-                        </div>
-                    </div>
-        </Grid>
+                                                        <div className="col-md-3">
+                                                            <label className="form-label"> Customer Price*</label>
+                                                            <input
+                                                                className="form-control"
+                                                                name="sellerPrice"
+                                                                placeholder="ex: 105"
+                                                                value={sellerPrice}
+                                                                onChange={e => this.handleChange(e)}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </Grid>
                                             </div>
                                         </div>
                                     </Paper>
                                     <div className="button_price">
                                         <div className="form-group" >
-                                            <Button variant="contained" disabled={disableSaveButton} className={disableSaveButton ? "bg-grey":"save-btn hover-btn"} onClick={this.handleSubmit}>update</Button>
+                                            <Button variant="contained" disabled={disableSaveButton} className={disableSaveButton ? "bg-grey" : "save-btn hover-btn"} onClick={this.handleSubmit}>update</Button>
                                         </div>
                                     </div>
 

@@ -4,7 +4,6 @@ import Allshop from "./All-Shop";
 import View from "./view";
 import Websitesellar from "../website-vendor-list";
 import List from "./All-Product";
-import Edit from "./All-Product/edit";
 import SellerProductEdit from "./view/edit";
 export default class Shop extends Component {
   render() {
@@ -26,10 +25,6 @@ export default class Shop extends Component {
             <Route
               path={[`${match.path}/seller/all-product`]}
               component={List}
-            />
-            <Route
-              path={[`${match.path}/seller/edit-product/:id`]}
-              component={Edit}
             />
           </Switch>
         </main>

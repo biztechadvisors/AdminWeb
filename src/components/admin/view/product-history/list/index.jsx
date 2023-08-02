@@ -174,21 +174,15 @@ export default class List extends Component {
     }
   };
 
-  handlePageClick = (e) => {
-    const { limit, searchValue, pageNumber } = this.state;
-    const nextPageNumber = e.selected + 1;
-    const data = { limit, page: nextPageNumber, searchString: searchValue };
+  handlePageClick = (selectedPage) => {
+    // Extract the page number from the 'selectedPage' object
+    const pageNumber = selectedPage.selected + 1;
 
+    let data = { limit: this.state.limit, page: pageNumber };
     this.props.history.push({
-      pathname: this.props.location.pathname,
+      pathname: location.pathname,
       search: "?" + new URLSearchParams({ page: data.page }).toString(),
     });
-
-    // Update the state directly without using the callback function
-    this.setState({
-      pageNumber: nextPageNumber,
-    });
-
     this.getProductList(data);
   };
 
@@ -388,21 +382,22 @@ export default class List extends Component {
                   </table>
                 </div>
                 <ReactPaginate
-                  breakClassName={"page-item"}
-                  breakLinkClassName={"page-link"}
-                  containerClassName={"pagination"}
-                  pageClassName={"page-item"}
-                  pageLinkClassName={"page-link"}
-                  previousClassName={"page-item"}
-                  previousLinkClassName={"page-link"}
-                  nextClassName={"page-item"}
-                  nextLinkClassName={"page-link"}
-                  activeClassName={"active"}
-                  pageCount={pages}
+                  breakClassName="page-item"
+                  breakLinkClassName="page-link"
+                  containerClassName="pagination"
+                  pageClassName="page-item"
+                  pageLinkClassName="page-link"
+                  previousClassName="page-item"
+                  previousLinkClassName="page-link"
+                  nextClassName="page-item"
+                  nextLinkClassName="page-link"
+                  activeClassName="active"
+                  breakLabel={"..."}
                   marginPagesDisplayed={2}
                   pageRangeDisplayed={5}
-                  onPageChange={this.handlePageClick}
+                  pageCount={pages || 0}
                   forcePage={pageNumber - 1}
+                  onPageChange={this.handlePageClick}
                 />
               </div>
             </div>
