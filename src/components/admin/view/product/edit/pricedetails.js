@@ -7,7 +7,7 @@ export const Pricedetails = ({ parentCallback, state }) => {
     // const dispatch = useDispatch();
 
     // add new block
-    const [inputList, setInputList] = useState(state.ProductVariants.length > 0 ? state.ProductVariants.map(item => ({ ...item, readonly: true })) : [{ productName: null, productCode: null, actualPrice:null, distributorPrice: null, marginPer: null, marginPrice: null, buyerPrice: null, sellerPrice: null, unitSize: null, qty: null, colorCode: null, discountPer: null, discount: null, netPrice: null }]);
+    const [inputList, setInputList] = useState(state.ProductVariants.length > 0 ? state.ProductVariants.map(item => ({ ...item, readonly: true })) : [{ productName: null, productCode: null, actualPrice: null, distributorPrice: null, marginPer: null, marginPrice: null, buyerPrice: null, sellerPrice: null, unitSize: null, qty: null, colorCode: null, discountPer: null, discount: null, netPrice: null }]);
     //end
 
     // handle input change
@@ -16,14 +16,28 @@ export const Pricedetails = ({ parentCallback, state }) => {
         const list = [...inputList];
         list[index][name] = value;
 
-        if (list[index].marginPer) {
-            list[index].marginPrice = Math.round(((list[index].distributorPrice * list[index].qty) * list[index].marginPer) / 100);
+        if (name === 'discount') {
+            const discount = value; // rename discount to discount
+            list[index]['discountPer'] = Math.round((discount / list[index]['actualPrice']) * 100);
+            list[index]['netPrice'] = Math.round(list[index]['actualPrice'] - discount);
+        } else if (name === 'actualPrice') {
+            const actualPrice = value; // define value as actualPrice
+            const discount = list[index]['discount'];
+            list[index]['discountPer'] = Math.round((discount / actualPrice) * 100);
+            list[index]['netPrice'] = Math.round(actualPrice - discount);
+        } else if (name === 'discountPer') {
+            const discountPercent = value; // define value as discountPercent
+            const actualPrice = list[index]['actualPrice'];
+            const discount = Math.round((discountPercent / 100) * actualPrice); // update discount based on discountPercent
+            list[index]['netPrice'] = Math.round(actualPrice - discount);
+            list[index]['discount'] = discount; // update discount value
+        } else {
+            // handle default case
+            list[index]['discountPer'] = null;
+            list[index]['netPrice'] = null;
+            list[index]['discount'] = null;
         }
 
-        list[index].buyerPrice = Math.round(list[index].distributorPrice - list[index].marginPrice);
-        list[index].discount = Math.round((list[index].sellerPrice * list[index].discountPer) / 100);
-        list[index].total = Math.round(list[index].sellerPrice);
-        list[index].netPrice = Math.round(list[index].sellerPrice - list[index].discount);
         setInputList(list);
         parentCallback(list)
     };
@@ -39,6 +53,7 @@ export const Pricedetails = ({ parentCallback, state }) => {
     // handle click event of the Add button
     const handleAddClick = () => {
         setInputList([...inputList, { productName: null, productCode: null, actualPrice: null, distributorPrice: null, marginPer: null, marginPrice: null, buyerPrice: null, sellerPrice: null, unitSize: null, qty: null, colorCode: null, discountPer: null, discount: null, netPrice: null }]);
+        console.log("inputList", inputList)
     };
     //end block
 
@@ -72,26 +87,6 @@ export const Pricedetails = ({ parentCallback, state }) => {
                                     onChange={e => handleInputChange(e, i)}
                                 />
                             </div>
-                            <div className="col-md-3">
-                                <label className="form-label">Actual Price<span className="text-danger">*</span></label>
-                                <input
-                                    className="form-control"
-                                    name="actualPrice"
-                                    placeholder="ex: 100"
-                                    value={x.actualPrice}
-                                    onChange={e => handleInputChange(e, i)}
-                                />
-                            </div>
-                            <div className="col-md-3">
-                                <label className="form-label">DistributerPrice<span className="text-danger">*</span></label>
-                                <input
-                                    className="form-control"
-                                    name="distributorPrice"
-                                    placeholder="ex: 100"
-                                    value={x.distributorPrice}
-                                    onChange={e => handleInputChange(e, i)}
-                                />
-                            </div>
                             <div className="col-md-2">
                                 <label className="form-label">Quantity<span className="text-danger">*</span></label>
                                 <input
@@ -102,58 +97,14 @@ export const Pricedetails = ({ parentCallback, state }) => {
                                     onChange={e => handleInputChange(e, i)}
                                 />
                             </div>
-                            <div className="col-md-2">
-                                <label className="form-label">Margin(%)<span className="text-danger">*</span></label>
-                                <input
-                                    className="form-control"
-                                    name="marginPer"
-                                    placeholder="ex: 5%"
-                                    value={x.marginPer}
-                                    onChange={e => handleInputChange(e, i)}
-                                />
-                            </div>
-                            <div className="col-md-2">
-                                <label className="form-label">Margin Price<span className="text-danger">*</span></label>
-                                <input
-                                    className="form-control"
-                                    name="marginPrice"
-                                    placeholder="ex: 50"
-                                    value={x.marginPrice}
-                                    /* disabled */
-                                    onChange={e => handleInputChange(e, i)}
-                                />
-                            </div>
 
                             <div className="col-md-2">
-                                <label className="form-label">Buyer Price*</label>
+                                <label className="form-label">Age*</label>
                                 <input
                                     className="form-control"
-                                    name="buyerPrice"
-                                    placeholder="ex: 100"
-                                    value={x.buyerPrice}
-                                    disabled
-                                    onChange={e => handleInputChange(e, i)}
-                                />
-                            </div>
-
-                            <div className="col-md-2">
-                                <label className="form-label">Seller Price*</label>
-                                <input
-                                    className="form-control"
-                                    name="sellerPrice"
-                                    placeholder="ex: 105"
-                                    value={x.sellerPrice}
-                                    onChange={e => handleInputChange(e, i)}
-                                />
-                            </div>
-
-                            <div className="col-md-2">
-                                <label className="form-label">Size*</label>
-                                <input
-                                    className="form-control"
-                                    name="unitSize"
-                                    placeholder="ex: 1L"
-                                    value={x.unitSize}
+                                    name="memory"
+                                    placeholder="ex: 1 to 2 Yrs"
+                                    value={x.memory}
                                     onChange={e => handleInputChange(e, i)}
                                 />
                             </div>
@@ -165,6 +116,17 @@ export const Pricedetails = ({ parentCallback, state }) => {
                                     name="colorCode"
                                     placeholder="ex: #ffff"
                                     value={x.colorCode}
+                                    onChange={e => handleInputChange(e, i)}
+                                />
+                            </div>
+
+                            <div className="col-md-3">
+                                <label className="form-label">Actual Price<span className="text-danger">*</span></label>
+                                <input
+                                    className="form-control"
+                                    name="actualPrice"
+                                    placeholder="ex: 100"
+                                    value={x.actualPrice}
                                     onChange={e => handleInputChange(e, i)}
                                 />
                             </div>
@@ -185,29 +147,17 @@ export const Pricedetails = ({ parentCallback, state }) => {
                                     name="discount"
                                     placeholder="ex: 1"
                                     value={x.discount}
-                                    disabled
                                     onChange={e => handleInputChange(e, i)}
                                 />
                             </div>
+
                             <div className="col-md-3">
-                                <label className="form-label">Total*</label>
-                                <input
-                                    className="form-control"
-                                    name="discountPer"
-                                    placeholder="ex: 1"
-                                    value={x.total}
-                                    disabled
-                                    onChange={e => handleInputChange(e, i)}
-                                />
-                            </div>
-                            <div className="col-md-3">
-                                <label className="form-label">Grand Total*</label>
+                                <label className="form-label">NetPrice*</label>
                                 <input
                                     className="form-control"
                                     name="netPrice"
                                     placeholder="ex: 1"
                                     value={x.netPrice}
-                                    disabled
                                     onChange={e => handleInputChange(e, i)}
                                 />
                             </div>

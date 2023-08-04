@@ -14,9 +14,10 @@ const Arrays = (data, fieldName, fieldValue) => {
 
 export default class SubCategorylist extends Component {
     constructor(props) {
+        console.log("Props", props)
         super(props);
         this.state = {
-             supplierList: this.props.state, selectedType: ''
+            supplierList: this.props.state, selectedType: ''
         }
     }
     handleSelectChange = (name, selected) => {

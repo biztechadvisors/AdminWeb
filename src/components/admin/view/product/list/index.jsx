@@ -46,6 +46,7 @@ export default class List extends Component {
     async getProductList(data) {
         this.setState({ isloaded: false })
         let list = await GetProductDetails.getAllProductList(data);
+        console.log("List--", list)
         if (list) {
             this.setState({
                 getAllProduct: list,
@@ -258,7 +259,7 @@ export default class List extends Component {
                         <div className="card card-static-2 mt-30 mb-30">
                             <div className="col-lg-12">
                                 {
-                                    isLoaded ? <Loader />:''
+                                    isLoaded ? <Loader /> : ''
                                 }
                                 <div className="row">
                                     <div className="col-lg-8 col-md-8">
@@ -344,7 +345,7 @@ export default class List extends Component {
                                                                                 </td>
                                                                                 <td>
                                                                                     <input className="form-control" type="file" multiple name="files" onChange={this.fileSelectedHandler} />
-                                                                                    <button className="save-btn hover-btn" type="submit" onClick={(e)=>this.handleUpload(row)}>Upload</button>
+                                                                                    <button className="save-btn hover-btn" type="submit" onClick={(e) => this.handleUpload(row)}>Upload</button>
                                                                                 </td>
                                                                                 <Typography className="delete-btn" onClick={(e) => this.handlProductVarient(row.id)} ><i className="fas fa-trash-alt" /></Typography>
                                                                             </tr>

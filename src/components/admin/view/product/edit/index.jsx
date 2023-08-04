@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import {
-    Button, Paper
-} from "@material-ui/core";
-// import MainCategorylist from '../../../../common/category/main-category';
-// import { GetCategoryDetails } from '../../../../services';
-// import SubCategorylist from '../../../../common/category/sub-category';
-// import ChildCategorylist from '../../../../common/category/child-category';
+import { Button, Paper } from "@material-ui/core";
+import MainCategorylist from '../../../../common/category/main-category';
+import { GetCategoryDetails } from '../../../../services';
+import SubCategorylist from '../../../../common/category/sub-category';
 import Brandlist from '../../../../common/brand';
 import { GetProductDetails } from '../../../../services';
 import RichTextEditor from '../../../../RichTextEditor';
@@ -34,9 +31,7 @@ export default class Edit extends Component {
             content: self.desc,
             ProductVarient: self
         };
-
     }
-
     handleBack() {
         this.props.history.goBack();
     }
@@ -52,38 +47,16 @@ export default class Edit extends Component {
             content: contentHtml
         });
     };
-    // handleCategory = async (value) => {
-    //     this.setState({ selectedCategory: value });
-    //     let categoryId = value;
-    //     let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
-    //     this.setState({ getList: list.data })
-    // }
-    // handleSubCategory = async (value) => {
-    //     this.setState({ selectedSubCategory: value });
-    //     let list = await GetCategoryDetails.getAllSubChildCategory(value);
-    //     this.setState({ getsublist: list.data, blockHide: !this.state.blockHide })
-    // }
-    // handleChildCategory = async (value) => {
-    //     this.setState({ selectedChildCategory: value });
-    // }
-    caculationTable = () => {
-        let price = this.state.price;
-        let qty = this.state.qty;
-        let discountPer = this.state.discountPer;
-        if (price > 0 && qty > 0 && discountPer >= 0) {
-            let discount = (Math.round(((price * qty) * discountPer) / 100));
-            let total = (Math.round(price * qty));
-            let grand_total = (Math.round((price * qty) - discount));
+    handleCategory = async (value) => {
+        this.setState({ selectedCategory: value });
+        let categoryId = value;
+        let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
+        this.setState({ getList: list.data })
+    }
+    handleSubCategory = async (value) => {
+        this.setState({ selectedSubCategory: value });
+    }
 
-            this.setState({ total: total, grand_total: grand_total, discount: discount })
-        } else {
-            NotificationManager.error("Negative value & Zero Price not allowed", "Input Field");
-        }
-    }
-    handleCheckPrice() {
-        this.caculationTable();
-        this.setState({ toggle: !this.state.toggle })
-    }
     callback = (data) => {
         this.setState({ priceDetails: data })
     }
@@ -101,15 +74,12 @@ export default class Edit extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.setState({ loading: true })
-        const { productId, image, name,/* selectedCategory, selectedSubCategory,selectedChildCategory, */ status, brandId, unit, content, priceDetails } = this.state;
-
+        const { productId, image, name, selectedCategory, selectedSubCategory, status, brandId, unit, content, priceDetails } = this.state;
         let slug = this.convertToSlug(name)
-
         const formData = new FormData();
         formData.append('productId', productId);
-        // formData.append('categoryId', selectedCategory);
-        // formData.append('subCategoryId', selectedSubCategory);
-        // formData.append('childCategoryId', selectedChildCategory);
+        formData.append('categoryId', selectedCategory);
+        formData.append('subCategoryId', selectedSubCategory);
         formData.append('name', name);
         formData.append('slug', slug);
         formData.append('brand', brandId);
@@ -132,22 +102,22 @@ export default class Edit extends Component {
         })
             .then(async (success) => {
                 if (success) {
-                    let list = await GetProductDetails.getUpdateProduct(formData, config);
-                    if (list) {
-                        this.setState({ loading: false })
-                        this.props.history.push("/admin/product/list")
-                    } else {
-                        this.setState({ loading: false })
-                        NotificationManager.error("Please! Check input field", "Input Field");
-                    }
+                    console.log("success", formData)
+                    // let list = await GetProductDetails.getUpdateProduct(formData, config);
+                    // if (list) {
+                    //     this.setState({ loading: false })
+                    //     this.props.history.push("/admin/product/list")
+                    // } else {
+                    //     this.setState({ loading: false })
+                    //     NotificationManager.error("Please! Check input field", "Input Field");
+                    // }
                 } else {
                     this.setState({ loading: false })
                 }
             });
-
     }
     render() {
-        const { loading } = this.state;
+        const { loading, getList } = this.state;
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -163,8 +133,7 @@ export default class Edit extends Component {
                     <li className="breadcrumb-item"><a href="/admin/product/create">Products</a></li>
                     <li className="breadcrumb-item active">Update Product</li>
                 </ol>
-
-                {/* <div className="row">
+                <div className="row">
                     <div className="col-lg-6 col-md-6">
                         <div className="card card-static-2 mb-30">
                             <div className="card-body-table">
@@ -189,8 +158,7 @@ export default class Edit extends Component {
                             </div>
                         </div>
                     </div>
-                </div> */}
-
+                </div>
                 <div className="row">
                     <div className="col-lg-12 col-md-12">
                         <div className="card card-static-2 mb-30">
@@ -209,24 +177,17 @@ export default class Edit extends Component {
                                                 <input type="text" className="form-control" placeholder="Product Name" name="name" value={this.state.name} onChange={(e) => this.handleChange(e)} />
                                             </div>
                                         </div>
-                                        {/* <div className="col-lg-2 col-md-2">
-                                            <div className="form-group">
-                                                <label className="form-label">Category*</label>
-                                                <ChildCategorylist state={getsublist} onSelectchildCategory={this.handleChildCategory} />
-                                            </div>
-                                        </div> */}
-                                        {/* <div className="col-lg-2 col-md-2">
+                                        <div className="col-lg-2 col-md-2">
                                             <div className="form-group">
                                                 <label className="form-label">Slug*</label>
                                                 <input type="text" className="form-control" placeholder="Enter Slug" name="slug" value={this.state.slug} onChange={(e) => this.handleChange(e)} />
                                             </div>
-                                        </div> */}
+                                        </div>
                                         <div className="col-lg-3 col-md-3">
                                             <div className="form-group">
                                                 <label className="form-label">Brand*</label>
                                                 <Brandlist onSelectBrand={this.handleBrandList} />
-
-                                                {/* <input type="text" className="form-control" placeholder="Brand Name" name="brand" value={this.state.brand} onChange={(e) => this.handleChange(e)} /> */}
+                                                <input type="text" className="form-control" placeholder="Brand Name" name="brand" value={this.state.brand} onChange={(e) => this.handleChange(e)} />
                                             </div>
                                         </div>
                                         <div className="col-lg-3 col-md-3">
@@ -244,9 +205,7 @@ export default class Edit extends Component {
                                                 </select>
                                             </div>
                                         </div>
-
                                     </div>
-
                                     <div className="row" style={{ paddingTop: '2rem' }}>
                                         <div className="col-lg-12 col-md-12">
                                             <div className="form-group">
@@ -256,7 +215,6 @@ export default class Edit extends Component {
                                                     handleContentChange={this.handleContentChange}
                                                     placeholder="insert text here..."
                                                 />
-
                                             </div>
                                         </div>
                                     </div>
@@ -281,15 +239,12 @@ export default class Edit extends Component {
                                             </button>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         )
     }
 }

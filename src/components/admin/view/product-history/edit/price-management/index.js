@@ -217,7 +217,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                     </Grid>
                 );
             })}
-
         </Grid>
     )
 }

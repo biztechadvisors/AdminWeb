@@ -27,13 +27,22 @@ export default class Home extends Component {
     this.getOrderList(data);
   };
   handleChange(e) {
-    const data = { searchString: e.target.value };
-    this.getOrderList(data);
+    const searchString = e.target.value;
+    if (searchString.length > 2) {
+      this.setState({ searchString }, () => {
+        const data = { searchString };
+        console.log("Data_search", data);
+        this.getOrderList(data);
+      });
+    } else {
+      // If the search input has less than 3 characters, reset the search
+      this.setState({ searchString: null });
+    }
   }
   async getOrderList(data) {
     this.setState({ isloaded: true });
     let list = await GetOrderDetails.getAllOrderList(data);
-    console.log("Ram", list)
+    console.log("Ram", list);
     if (list.code === 200) {
       this.setState({
         getList: list.data.items,
@@ -44,6 +53,7 @@ export default class Home extends Component {
       this.setState({ isloaded: false });
     }
   }
+
   async getStatusList() {
     this.setState({ isloaded: true });
     let list = await GetDashboardDetails.getAllStatusOrder();
@@ -57,6 +67,7 @@ export default class Home extends Component {
     let { value } = e.target;
     this.setState({ isloaded: true });
     const data = { status: value };
+    console.log("data-search", data)
     this.getOrderList(data);
   }
   componentDidMount() {
@@ -120,7 +131,7 @@ export default class Home extends Component {
                               : { display: "none" }
                           }
                         >
-                         {row.total ? row.total : "-"} {/* Placeholder */}
+                          {row.total ? row.total : "-"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -145,7 +156,7 @@ export default class Home extends Component {
                               : { display: "none" }
                           }
                         >
-                        {row.total ? row.total : "-"} {/* Placeholder */}
+                          {row.total ? row.total : "-"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -170,7 +181,7 @@ export default class Home extends Component {
                               : { display: "none" }
                           }
                         >
-                         {row.total ? row.total : "-"} {/* Placeholder */}
+                          {row.total ? row.total : "-"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -195,7 +206,7 @@ export default class Home extends Component {
                               : { display: "none" }
                           }
                         >
-                        {row.total ? row.total : "-"} {/* Placeholder */}
+                          {row.total ? row.total : "-"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -228,7 +239,7 @@ export default class Home extends Component {
                       <div className="input-group">
                         <div className="input-group-append">
                           <input
-                            value={this.state.searchString || ""}
+                            value={this.state.searchString}
                             type="text"
                             className="form-control w-100"
                             placeholder="Search order ..."
