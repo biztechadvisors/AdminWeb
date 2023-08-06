@@ -36,22 +36,30 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
 
         if (name === 'TITLE') {
             list[index].color.TITLE = value;
-          }else{
+        } else {
             list[index][name] = value;
-          }
+        }
         // Handle the case when the discount is changed, and adjust discountPer accordingly
         if (name === 'discount') {
             if (value !== '' && list[index]['actualPrice'] !== '') {
                 list[index]['discountPer'] = (value / list[index]['actualPrice']) * 100;
+                list[index]['netPrice'] = (list[index]['actualPrice'] - value);
             } else {
                 list[index]['discountPer'] = '';
             }
         }
-
+        if (name === 'discountPer') {
+            const discountPercent = value; // define value as discountPercent
+            const actualPrice = list[index]['actualPrice'];
+            const discount = Math.round((discountPercent / 100) * actualPrice); // update discount based on discountPercent
+            list[index]['netPrice'] = Math.round(actualPrice - discount);
+            list[index]['discount'] = discount; // update discount value
+        }
         // Handle the case when actualPrice is changed, and adjust discountPer accordingly
         if (name === 'actualPrice') {
             const discount = list[index]['discount'];
             if (value !== '' && discount !== '') {
+                list[index]['discountPer'] = (discount / value) * 100;
                 list[index]['discountPer'] = (discount / value) * 100;
             } else {
                 list[index]['discountPer'] = '';
@@ -63,7 +71,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     };
 
     const handleAddClick = () => {
-        console.log(inputList,"Inputlist")
+        console.log(inputList, "Inputlist")
         parentCallback(inputList);
     };
 
@@ -78,7 +86,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         list[index].shortDesc = contentHtml;
         setInputList(list);
     };
-
 
     return (
         <Grid >
@@ -121,7 +128,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                             />
                         </Grid>
                         <Grid item md={3} lg={3}>
-                            <label className="form-label">Color(<b>{x.color ? x.color.TITLE : ''}</b>)</label>
+                            <label className="form-label font-weight-bold">Color*</label>
                             <input
                                 className="form-control"
                                 name="color"
@@ -163,39 +170,55 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 <option value={false}>No</option>
                             </select>
                         </Grid>
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">MRP Price<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="netPrice"
-                                placeholder="ex: 100"
-                                defaultValue={x.netPrice}
-                                onChange={(e) => handleInputChange(e, i)}
 
-                            />
-                        </Grid>
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Your Selling Price*</label>
                             <input
                                 className="form-control"
                                 name="actualPrice"
                                 placeholder="ex: 1"
-                                defaultValue={x.actualPrice}
+                                value={x.actualPrice}
                                 onChange={(e) => handleInputChange(e, i)}
 
                             />
                         </Grid>
-                        <Grid item md={6} lg={6}>
-                            <label className="form-label font-weight-bold">YouTube Video Url*</label>
+
+                        <Grid item md={3} lg={3}>
+                            <label className="form-label font-weight-bold">Discount*</label>
                             <input
                                 className="form-control"
-                                name="youTubeUrl"
-                                placeholder="ex: https://youtu.be/nqWZV_OYVIk"
-                                defaultValue={x.youTubeUrl}
+                                name="discount"
+                                placeholder="ex: 1"
+                                value={x.discount}
                                 onChange={(e) => handleInputChange(e, i)}
 
                             />
                         </Grid>
+
+                        <Grid item md={3} lg={3}>
+                            <label className="form-label font-weight-bold">Discount Percent*</label>
+                            <input
+                                className="form-control"
+                                name="discountPer"
+                                placeholder="ex: 1"
+                                value={x.discountPer}
+                                onChange={(e) => handleInputChange(e, i)}
+
+                            />
+                        </Grid>
+
+                        <Grid item md={3} lg={3}>
+                            <label className="form-label font-weight-bold">MRP Price<span className="text-danger">*</span></label>
+                            <input
+                                className="form-control"
+                                name="netPrice"
+                                placeholder="ex: 100"
+                                value={x.netPrice}
+                                onChange={(e) => handleInputChange(e, i)}
+
+                            />
+                        </Grid>
+
                         <Grid item md={6} lg={6}>
                             <label className="form-label font-weight-bold"><b>Short Description*</b></label>
                             <RichTextEditor
@@ -212,6 +235,18 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 handleContentChange={e => handleContentChange(e, i)}
                                 placeholder="insert text here..."
                                 onChange={(e) => handleInputChange(e, i)}
+                            />
+                        </Grid>
+
+                        <Grid item md={6} lg={6}>
+                            <label className="form-label font-weight-bold">YouTube Video Url*</label>
+                            <input
+                                className="form-control"
+                                name="youTubeUrl"
+                                placeholder="ex: https://youtu.be/nqWZV_OYVIk"
+                                defaultValue={x.youTubeUrl}
+                                onChange={(e) => handleInputChange(e, i)}
+
                             />
                         </Grid>
                     </Grid>

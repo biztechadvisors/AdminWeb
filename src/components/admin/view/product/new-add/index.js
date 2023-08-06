@@ -103,7 +103,7 @@ export default class Newproduct extends Component {
                     let list = await GetProductDetails.addProductList(formData, config);
                     if (list) {
                         this.setState({ isLoaded: false })
-                        this.props.history.push("/admin/product/list")
+                        this.props.history.push("/admin/shop/seller/all-product")
                     } else {
                         this.setState({ isLoaded: false })
                         NotificationManager.error("Please! Check input field", "Input Field");

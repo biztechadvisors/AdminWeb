@@ -11,7 +11,7 @@ export default class Edit extends Component {
     constructor(props) {
         super(props);
         const data = this.props.location.state;
-        console.log("first", data)
+        console.log("Data", data)
 
         this.state = {
             id: data ? data.id : null,
@@ -19,6 +19,7 @@ export default class Edit extends Component {
             selectedCategory: data.maincat.id,
             selectedSubCategory: data.SubCategory.id,
             mainCatName: data.maincat.name,
+            name: data.name,
             collection: data.collection,
             subCatName: data.SubCategory.sub_name,
             isLoaded: false,
@@ -72,6 +73,7 @@ export default class Edit extends Component {
         const {
             mainCatName,
             subCatName,
+            name,
             PubilshStatus,
             LocalDeiveryCharge,
             ShippingDays,
@@ -89,6 +91,7 @@ export default class Edit extends Component {
             productId: id,
             mainCatName: mainCatName,
             subCatName: subCatName,
+            name: name,
             PubilshStatus: PubilshStatus,
             LocalDeiveryCharge: LocalDeiveryCharge,
             ShippingDays: ShippingDays,
@@ -105,6 +108,7 @@ export default class Edit extends Component {
         try {
             const res = await GetProductDetails.getUpdateProduct(formData);
             console.log("response", res);
+            this.setState({ showAlert: true });
         } catch (err) {
             console.error("error", err);
         }
@@ -114,6 +118,7 @@ export default class Edit extends Component {
         const {
             mainCatName,
             subCatName,
+            name,
             PubilshStatus,
             LocalDeiveryCharge,
             ShippingDays,
@@ -201,6 +206,23 @@ export default class Edit extends Component {
                                                         onChange={this.handleChange}
                                                     />
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Paper>
+
+                                <Paper>
+                                    <div className="card card-static-2">
+                                        <div className="card-body-table p-2">
+                                            <div className="form-group">
+                                                <label className="form-label">Product Name<span className="text-danger">*</span></label>
+                                                <input
+                                                    className="form-control"
+                                                    type="text"
+                                                    name='name'
+                                                    defaultValue={name}
+                                                    onChange={this.handleChange}
+                                                />
                                             </div>
                                         </div>
                                     </div>
