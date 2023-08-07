@@ -6,6 +6,9 @@ import SpecificationList from './specification';
 import HighLightList from './HighLight';
 import ImageDetail from './Image-field';
 import Loader from "../../../../loader";
+import swal from 'sweetalert';
+import MainCategorylist from '../../../../common/category/main-category';
+import SubCategorylist from '../../../../common/category/sub-category';
 
 export default class Edit extends Component {
     constructor(props) {
@@ -19,9 +22,9 @@ export default class Edit extends Component {
             selectedCategory: data.maincat.id,
             selectedSubCategory: data.SubCategory.id,
             mainCatName: data.maincat.name,
+            subCatName: data.SubCategory.sub_name,
             name: data.name,
             collection: data.collection,
-            subCatName: data.SubCategory.sub_name,
             isLoaded: false,
             priceDetails: [],
             SpecificationDetails: data.ch_specifications,
@@ -42,6 +45,18 @@ export default class Edit extends Component {
     }
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    handleCategory = async (value) => {
+        this.setState({ selectedCategory: value });
+        let categoryId = value;
+        let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
+        this.setState({ getList: list.data })
+    }
+    handleSubCategory = async (value) => {
+        this.setState({ selectedSubCategory: value });
+        let list = await GetCategoryDetails.getAllSubChildCategory(value);
+        this.setState({ getsublist: list.data, blockHide: !this.state.blockHide })
     }
 
     handleBack() {
@@ -89,29 +104,41 @@ export default class Edit extends Component {
 
         const formData = {
             productId: id,
-            mainCatName: mainCatName,
-            subCatName: subCatName,
-            name: name,
-            PubilshStatus: PubilshStatus,
-            LocalDeiveryCharge: LocalDeiveryCharge,
-            ShippingDays: ShippingDays,
-            brandId: brandId,
-            priceDetails: priceDetails,
-            SpecificationDetails: SpecificationDetails,
-            HighLightDetais: HighLightDetais,
+            mainCatName,
+            subCatName,
+            name,
+            PubilshStatus,
+            LocalDeiveryCharge,
+            ShippingDays,
+            brandId,
+            priceDetails,
+            SpecificationDetails,
+            HighLightDetais,
             warrantyType,
             warrantyPeriod,
             collection,
         }
-        console.log(formData);
-        // Assuming the getUpdateProduct method is defined correctly and returns a promise
-        try {
-            const res = await GetProductDetails.getUpdateProduct(formData);
-            console.log("response", res);
-            this.setState({ showAlert: true });
-        } catch (err) {
-            console.error("error", err);
+        swal({
+            title: "Are you sure?",
+            text: "You want to Update",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (success) => {
+            if (success) {
+                console.log(formData);
+                try {
+                    const res = await GetProductDetails.getUpdateProduct(formData);
+                    console.log("response", res);
+                    this.setState({ showAlert: true });
+                    // window.location.reload()
+                }
+                catch (err) {
+                    swal("error", err);
+                }
+            }
         }
+        )
     }
 
     render() {
@@ -123,6 +150,7 @@ export default class Edit extends Component {
             LocalDeiveryCharge,
             ShippingDays,
             collection,
+            getList,
         } = this.state;
 
         const collection_name = collection.name;
@@ -183,13 +211,15 @@ export default class Edit extends Component {
                                             <div className="news-content-right p-2">
                                                 <div className="form-group">
                                                     <label className="form-label">Main Category<span className="text-danger">*</span></label>
-                                                    <input
+                                                    {/* <input
                                                         className="form-control"
                                                         type="text"
                                                         name='mainCatName'
                                                         defaultValue={mainCatName}
                                                         onChange={this.handleChange}
-                                                    />
+                                                    /> */}
+                                                    <MainCategorylist onSelectCategory={this.handleCategory} />
+
                                                 </div>
                                             </div>
                                         </div>
@@ -198,13 +228,14 @@ export default class Edit extends Component {
                                             <div className="card-body-table p-2">
                                                 <div className="form-group">
                                                     <label className="form-label">Sub Category<span className="text-danger">*</span></label>
-                                                    <input
+                                                    {/* <input
                                                         className="form-control"
                                                         type="text"
                                                         name='subCatName'
                                                         defaultValue={subCatName}
                                                         onChange={this.handleChange}
-                                                    />
+                                                    /> */}
+                                                    <SubCategorylist state={getList} onSelectSubCategory={this.handleSubCategory} />
                                                 </div>
                                             </div>
                                         </div>
@@ -437,16 +468,32 @@ export default class Edit extends Component {
                             </div>
                         </div>
                     </div>
-                    {/* type six*/}
-                    <div className="tab-pane fade" id="pills-six" role="tabpanel" aria-labelledby="pills-six-tab">
+
+                    <div className="tab-pane fade" id="pills-four" role="tabpanel" aria-labelledby="pills-four-tab">
                         <div className="row" >
                             <div className="col-lg-12 col-md-12">
-                                <ImageDetail />
+                                <div className="card card-static-2 mb-30">
+                                    <div className="card-header">
+                                        <h5 className="mb-0 h6 font-weight-bold">Product Image*</h5>
+                                    </div>
+                                    <div className="card-body-table">
+                                        <div className="news-content-right">
+                                            <Paper style={{ padding: '1rem', background: '#f7f7f' }}>
+                                                <div className="row" >
+                                                    <div className="col-lg-12 col-md-12">
+                                                        <input type="file" className="form-control" name="image" onChange={this.onFileChange} />
+                                                    </div>
+                                                </div>
+                                            </Paper>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-            </div>
+            </div >
         )
     }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GetCategoryDetails  from '../../../services/GetCategoryDetails';
+import GetCategoryDetails from '../../../services/GetCategoryDetails';
 import AutoSelect from "../../autoselect";
 
 const Arrays = (data, fieldName, fieldValue) => {
@@ -14,19 +14,24 @@ const Arrays = (data, fieldName, fieldValue) => {
 };
 
 export default class MainCategorylist extends Component {
+
     constructor(props) {
+        console.log("cat-props", props)
         super(props);
         this.state = {
-             getList:{}, selectCategory: ''
+            getList: {}, selectCategory: ''
         }
     }
+
     async componentDidMount() {
         this.getLocation();
     }
+
     async getLocation() {
         let list = await GetCategoryDetails.getCategoryList();
         this.setState({ getList: list.data })
     }
+
     handleSelectChange = (name, selected) => {
         if (name === "category_id") {
             this.setState({
@@ -40,6 +45,7 @@ export default class MainCategorylist extends Component {
             this.setState({ changed: true });
         }
     };
+
     render() {
         const { getList, selectCategory } = this.state;
         return (
@@ -53,8 +59,6 @@ export default class MainCategorylist extends Component {
                     options={Arrays(getList, "name", "id")}
                 />
             </div>
-
-
         )
     }
 }

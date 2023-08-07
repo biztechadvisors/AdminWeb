@@ -14,17 +14,16 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                     specification: null,
                     productName: null,
                     productCode: null,
-                    distributorPrice: null,
-                    buyerPrice: null,
+                    qtyWarning: null,
+                    Available: null,
                     unitSize: null,
-                    qty: 1,
-                    colorId: null,
+                    qty: null,
+                    color: null,
                     thumbnail: null,
                     galleryImg: null,
                     youTubeUrl: null,
                     stockType: false,
                     refundable: true,
-                    qtyWarning: null,
                     COD: null,
                 },
             ]
@@ -153,7 +152,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                             </select>
                         </Grid>
                         <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Stock Quantity*</label>
+                            <label className="form-label font-weight-bold">Stock Quantity warning*</label>
                             <input
                                 className="form-control"
                                 name="qtyWarning"
@@ -162,9 +161,32 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 onChange={(e) => handleInputChange(e, i)}
 
                             />
-                        </Grid><Grid item md={3} lg={3}>
+                        </Grid>
+
+                        <Grid item md={3} lg={3}>
+                            <label className="form-label font-weight-bold">Stock Quantity*</label>
+                            <input
+                                className="form-control"
+                                name="qty"
+                                placeholder="ex: 100"
+                                defaultValue={x.qty}
+                                onChange={(e) => handleInputChange(e, i)}
+
+                            />
+                        </Grid>
+
+                        <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Cash On Delivery*</label>
                             <select className="form-control" name="COD" onChange={(e) => handleInputChange(e, i)} defaultValue={x.COD} >
+                                <option >Select type</option>
+                                <option value={true}>Yes</option>
+                                <option value={false}>No</option>
+                            </select>
+                        </Grid>
+
+                        <Grid item md={3} lg={3}>
+                            <label className="form-label font-weight-bold">Available*</label>
+                            <select className="form-control" name="Available" onChange={(e) => handleInputChange(e, i)} defaultValue={x.Available} >
                                 <option >Select type</option>
                                 <option value={true}>Yes</option>
                                 <option value={false}>No</option>
@@ -220,6 +242,18 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                         </Grid>
 
                         <Grid item md={6} lg={6}>
+                            <label className="form-label font-weight-bold">YouTube Video Url*</label>
+                            <input
+                                className="form-control"
+                                name="youTubeUrl"
+                                placeholder="ex: https://youtu.be/nqWZV_OYVIk"
+                                defaultValue={x.youTubeUrl}
+                                onChange={(e) => handleInputChange(e, i)}
+
+                            />
+                        </Grid>
+
+                        <Grid item md={6} lg={6}>
                             <label className="form-label font-weight-bold"><b>Short Description*</b></label>
                             <RichTextEditor
                                 content={x.shortDesc}
@@ -235,18 +269,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 handleContentChange={e => handleContentChange(e, i)}
                                 placeholder="insert text here..."
                                 onChange={(e) => handleInputChange(e, i)}
-                            />
-                        </Grid>
-
-                        <Grid item md={6} lg={6}>
-                            <label className="form-label font-weight-bold">YouTube Video Url*</label>
-                            <input
-                                className="form-control"
-                                name="youTubeUrl"
-                                placeholder="ex: https://youtu.be/nqWZV_OYVIk"
-                                defaultValue={x.youTubeUrl}
-                                onChange={(e) => handleInputChange(e, i)}
-
                             />
                         </Grid>
                     </Grid>

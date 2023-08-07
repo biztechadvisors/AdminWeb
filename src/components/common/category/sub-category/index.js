@@ -13,8 +13,9 @@ const Arrays = (data, fieldName, fieldValue) => {
 };
 
 export default class SubCategorylist extends Component {
+
     constructor(props) {
-        console.log("Props", props)
+        console.log("SubCat-Props", props)
         super(props);
         this.state = {
             supplierList: this.props.state, selectedType: ''
@@ -30,7 +31,6 @@ export default class SubCategorylist extends Component {
                 selectedType: selected,
             });
             this.props.onSelectSubCategory(selected.value)
-
             this.setState({ changed: true });
         }
     };
@@ -48,8 +48,6 @@ export default class SubCategorylist extends Component {
                     options={Arrays(this.props.state, "sub_name", "id")}
                 />
             </div>
-
-
         )
     }
 }
