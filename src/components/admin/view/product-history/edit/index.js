@@ -43,20 +43,40 @@ export default class Edit extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
     }
-    handleChange(e) {
+    handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
 
     handleCategory = async (value) => {
-        this.setState({ selectedCategory: value });
-        let categoryId = value;
-        let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
-        this.setState({ getList: list.data })
+        try {
+            this.setState({ selectedCategory: value });
+            console.log("selectedCategory-main", this.state.selectedCategory);
+            let categoryId = value;
+            let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
+            this.setState({ getList: list.data });
+        } catch (error) {
+            console.error("Error fetching category details:", error);
+        }
     }
+
     handleSubCategory = async (value) => {
-        this.setState({ selectedSubCategory: value });
-        let list = await GetCategoryDetails.getAllSubChildCategory(value);
-        this.setState({ getsublist: list.data, blockHide: !this.state.blockHide })
+        try {
+            this.setState({ selectedSubCategory: value });
+            console.log("selectedSubCategory-sub", this.state.selectedSubCategory);
+            let list = await GetCategoryDetails.getAllSubChildCategory(value);
+            this.setState({ getsublist: list.data, blockHide: !this.state.blockHide });
+        } catch (error) {
+            console.error("Error fetching subcategory details:", error);
+        }
+    }
+
+    async componentDidMount() {
+        try {
+            await this.handleCategory(); // Call handleCategory to fetch category data
+            await this.handleSubCategory(this.state.selectedSubCategory); // Pass the initial selected subcategory
+        } catch (error) {
+            console.error("Error in componentDidMount:", error);
+        }
     }
 
     handleBack() {
@@ -88,6 +108,8 @@ export default class Edit extends Component {
         const {
             mainCatName,
             subCatName,
+            selectedCategory,
+            selectedSubCategory,
             name,
             PubilshStatus,
             LocalDeiveryCharge,
@@ -106,6 +128,8 @@ export default class Edit extends Component {
             productId: id,
             mainCatName,
             subCatName,
+            selectedCategory,
+            selectedSubCategory,
             name,
             PubilshStatus,
             LocalDeiveryCharge,
@@ -131,7 +155,7 @@ export default class Edit extends Component {
                     const res = await GetProductDetails.getUpdateProduct(formData);
                     console.log("response", res);
                     this.setState({ showAlert: true });
-                    // window.location.reload()
+                    window.location.reload()
                 }
                 catch (err) {
                     swal("error", err);
@@ -218,7 +242,14 @@ export default class Edit extends Component {
                                                         defaultValue={mainCatName}
                                                         onChange={this.handleChange}
                                                     /> */}
-                                                    <MainCategorylist onSelectCategory={this.handleCategory} />
+                                                    <MainCategorylist
+                                                        value={{
+                                                            id: this.state.selectedCategory,
+                                                            label: mainCatName
+                                                        }}
+                                                        onSelectCategory={this.handleCategory}
+                                                    />
+
 
                                                 </div>
                                             </div>
@@ -235,7 +266,15 @@ export default class Edit extends Component {
                                                         defaultValue={subCatName}
                                                         onChange={this.handleChange}
                                                     /> */}
-                                                    <SubCategorylist state={getList} onSelectSubCategory={this.handleSubCategory} />
+                                                    <SubCategorylist
+                                                        state={getList}
+                                                        value={{
+                                                            id: this.state.selectedSubCategory,
+                                                            label: subCatName
+                                                        }}
+                                                        onSelectSubCategory={this.handleSubCategory}
+                                                    />
+
                                                 </div>
                                             </div>
                                         </div>
@@ -446,6 +485,7 @@ export default class Edit extends Component {
                         </div>
                     </div>
                     {/* type five */}
+
                     <div className="tab-pane fade" id="pills-five" role="tabpanel" aria-labelledby="pills-five-tab">
                         <div className="row" >
                             <div className="col-lg-12 col-md-12">
@@ -468,32 +508,16 @@ export default class Edit extends Component {
                             </div>
                         </div>
                     </div>
-
-                    <div className="tab-pane fade" id="pills-four" role="tabpanel" aria-labelledby="pills-four-tab">
+                    {/* type six*/}
+                    <div className="tab-pane fade" id="pills-six" role="tabpanel" aria-labelledby="pills-six-tab">
                         <div className="row" >
                             <div className="col-lg-12 col-md-12">
-                                <div className="card card-static-2 mb-30">
-                                    <div className="card-header">
-                                        <h5 className="mb-0 h6 font-weight-bold">Product Image*</h5>
-                                    </div>
-                                    <div className="card-body-table">
-                                        <div className="news-content-right">
-                                            <Paper style={{ padding: '1rem', background: '#f7f7f' }}>
-                                                <div className="row" >
-                                                    <div className="col-lg-12 col-md-12">
-                                                        <input type="file" className="form-control" name="image" onChange={this.onFileChange} />
-                                                    </div>
-                                                </div>
-                                            </Paper>
-                                        </div>
-                                    </div>
-                                </div>
+                                <ImageDetail />
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div >
+            </div>
         )
     }
 }

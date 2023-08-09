@@ -19,7 +19,7 @@ export default class MainCategorylist extends Component {
         console.log("cat-props", props)
         super(props);
         this.state = {
-            getList: {}, selectCategory: ''
+            getList: {}, selectCategory: this.props.value
         }
     }
 
@@ -33,17 +33,15 @@ export default class MainCategorylist extends Component {
     }
 
     handleSelectChange = (name, selected) => {
-        if (name === "category_id") {
-            this.setState({
-                list: {
-                    ...this.state.list,
-                    [name]: selected.value,
-                },
-                selectCategory: selected,
-            });
-            this.props.onSelectCategory(selected.value)
-            this.setState({ changed: true });
-        }
+        this.setState({
+            list: {
+                ...this.state.list,
+                [name]: selected.value,
+            },
+            selectCategory: selected,
+        });
+        this.props.onSelectCategory(selected.value)
+        this.setState({ changed: true });
     };
 
     render() {

@@ -65,6 +65,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
             }
         }
 
+        console.log("List", list)
         setInputList(list);
         parentCallback(list);
     };

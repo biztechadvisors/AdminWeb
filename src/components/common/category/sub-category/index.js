@@ -18,21 +18,19 @@ export default class SubCategorylist extends Component {
         console.log("SubCat-Props", props)
         super(props);
         this.state = {
-            supplierList: this.props.state, selectedType: ''
+            supplierList: this.props.state, selectedType: this.props.value
         }
     }
     handleSelectChange = (name, selected) => {
-        if (name === "supplier_id") {
-            this.setState({
-                supplierlist: {
-                    ...this.state.supplierlist,
-                    [name]: selected.value,
-                },
-                selectedType: selected,
-            });
-            this.props.onSelectSubCategory(selected.value)
-            this.setState({ changed: true });
-        }
+        this.setState({
+            supplierlist: {
+                ...this.state.supplierlist,
+                [name]: selected.value,
+            },
+            selectedType: selected,
+        });
+        this.props.onSelectSubCategory(selected.value)
+        this.setState({ changed: true });
     };
 
     render() {
