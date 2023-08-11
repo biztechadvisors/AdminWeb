@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import Loader from "../../../../loader";
 import { ExportToExcel } from "../../../../common/ExportToExcel";
+import swal from "sweetalert";
 
 export default class List extends Component {
   constructor(props) {
@@ -96,7 +97,24 @@ export default class List extends Component {
     this.getProductList(data);
   };
 
-
+handlProductDelete = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "You want to delete product",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (success) => {
+      if (success) {
+        let value = await GetProductDetails.getDeleteProduct(id);
+        if (value) {
+          this.getProductList();
+        }
+        window.location.reload();
+      }
+    });
+  };
+  
   render() {
     const { pages, pageNumber, isLoaded, getAllProduct } = this.state;
     const fileName = "productlist";
@@ -165,6 +183,7 @@ export default class List extends Component {
                         <th>NetPrice</th>
                         <th>ActualPrice</th>
                         <th>Status</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -196,6 +215,16 @@ export default class List extends Component {
                                     <option value="Unpublished">Unpublished</option>
                                     <option value="Published">Published</option>
                                   </select>
+                                </td>
+                                   <td>
+                                  <div className="action-btns">
+                                    <Typography
+                                      className="delete-btn"
+                                      onClick={() => this.handlProductDelete(row.id)}
+                                    >
+                                      <i className="fas fa-trash-alt" />
+                                    </Typography>
+                                  </div>
                                 </td>
                               </tr>
                             );

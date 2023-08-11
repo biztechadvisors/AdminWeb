@@ -1,6 +1,6 @@
 const API_URL =
   document.domain === "localhost"
-    ? "http://localhost:5050"
+    ? "http://localhost:5010"
     : "https://diversitech.link";
 
 const Apis = {

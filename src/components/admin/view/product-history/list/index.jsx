@@ -186,8 +186,6 @@ export default class List extends Component {
     this.getProductList(data);
   };
 
-
-
   render() {
     const { productList, pages, pageNumber, isLoaded } = this.state;
 
