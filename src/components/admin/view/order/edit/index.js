@@ -13,7 +13,6 @@ export default class Edit extends Component {
     };
   }
 
-
   handleBack() {
     this.props.history.goBack();
   }
@@ -68,7 +67,7 @@ export default class Edit extends Component {
                             <br />
                             Customer Phone : {self.phone}
                             <br />
-                            Address : {self.StreetAddress}
+                            Address : {self.StreetAddress}, {self.city}, {self.state}.
                             <br />
                             Shipping Address: {self.shipping}
                             <br />
@@ -121,12 +120,6 @@ export default class Edit extends Component {
                                         className="text-center"
                                       >
                                         Total
-                                      </th>
-                                      <th
-                                        style={{ width: 100 }}
-                                        className="text-center"
-                                      >
-                                        Action
                                       </th>
                                     </tr>
                                   </thead>
@@ -191,9 +184,6 @@ export default class Edit extends Component {
                                           <td className="text-center">
                                             &#8377;
                                             {p.varient ? p.qty * p.varient.netPrice : null}
-                                          </td>
-                                          <td className="text-center">
-                                            <Changestatus state={p} />
                                           </td>
                                         </tr>
                                       ))

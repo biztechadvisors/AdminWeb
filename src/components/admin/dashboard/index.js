@@ -114,7 +114,6 @@ export default class Home extends Component {
             <ol className="breadcrumb mb-30">
               <li className="breadcrumb-item active">Dashboard</li>
             </ol>
-
             <div className="row">
               <div className="col-xl-3 col-md-6">
                 <div className="dashboard-report-card purple">
@@ -216,6 +215,8 @@ export default class Home extends Component {
                   </div>
                 </div>
               </div>
+
+
               <div className="col-lg-12 col-md-12">
                 <div className="card card-static-2 mb-30">
                   <div className="row p-2">
@@ -314,15 +315,7 @@ export default class Home extends Component {
                                   Rs{row.Total} for {row.count} Items
                                 </td>
                                 <td className="action-btns">
-                                  <Link
-                                    className="views-btn"
-                                    to={{
-                                      pathname: `/admin/order/view/${row.id}`,
-                                      state: row,
-                                    }}
-                                  >
-                                    <i className="fas fa-eye" />
-                                  </Link>
+
                                   <Link
                                     className="edit-btn"
                                     to={{

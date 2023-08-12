@@ -199,20 +199,20 @@ export default class Edit extends Component {
                 }
                 <ul className="breadcrumb mb-30 nav nav-pills my-4" id="pills-tab" role="tablist" >
                     <li className="nav-item ">
-                        <a className="nav-link show active" id="pills-one-tab" data-toggle="pill" href="#pills-one" role="tab" aria-controls="pills-one" aria-selected="true">Category Info</a>
+                        <a className="nav-link show active" id="pills-one-tab" data-toggle="pill" href="#pills-one" role="tab" aria-controls="pills-one" aria-selected="true">Info</a>
                     </li>
-                    <li className="nav-item text-black " >
+                    {/* <li className="nav-item text-black " >
                         <a className="nav-link show " id="pills-three-tab" data-toggle="pill" href="#pills-three" role="tab" aria-controls="pills-three" aria-selected="false">Warranty Service</a>
-                    </li>
-                    <li className="nav-item ">
+                    </li> */}
+                    {/* <li className="nav-item ">
                         <a className="nav-link show " id="pills-four-tab" data-toggle="pill" href="#pills-four" role="tab" aria-controls="pills-four" aria-selected="false">Specifications</a>
-                    </li>
-                    <li className="nav-item ">
+                    </li> */}
+                    {/* <li className="nav-item ">
                         <a className="nav-link show " id="pills-five-tab" data-toggle="pill" href="#pills-five" role="tab" aria-controls="pills-five" aria-selected="false">HighLight</a>
-                    </li>
-                    <li className="nav-item ">
+                    </li> */}
+                    {/* <li className="nav-item ">
                         <a className="nav-link show " id="pills-six-tab" data-toggle="pill" href="#pills-six" role="tab" aria-controls="pills-six" aria-selected="false">Image</a>
-                    </li>
+                    </li> */}
                     <li className="nav-item ">
                         <a className="nav-link show " id="pills-two-tab" data-toggle="pill" href="#pills-two" role="tab" aria-controls="pills-two" aria-selected="false">Product Info</a>
                     </li>
@@ -389,6 +389,9 @@ export default class Edit extends Component {
                                         </div>
                                     </div>
                                 </Paper>
+                                <Paper className="mt-3">
+                                    <ImageDetail />
+                                </Paper>
                             </div>
                         </div>
                     </div>
@@ -417,7 +420,7 @@ export default class Edit extends Component {
                         </div>
                     </div>
                     {/* tab 3 */}
-                    <div className="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">
+                    {/* <div className="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">
 
                         <div className="row">
                             <div className="col-lg-6 col-md-6">
@@ -460,9 +463,9 @@ export default class Edit extends Component {
                                 </Paper>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* type four */}
-                    <div className="tab-pane fade" id="pills-four" role="tabpanel" aria-labelledby="pills-four-tab">
+                    {/* <div className="tab-pane fade" id="pills-four" role="tabpanel" aria-labelledby="pills-four-tab">
                         <div className="row" >
                             <div className="col-lg-12 col-md-12">
                                 <div className="card card-static-2 mb-30">
@@ -483,10 +486,10 @@ export default class Edit extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* type five */}
 
-                    <div className="tab-pane fade" id="pills-five" role="tabpanel" aria-labelledby="pills-five-tab">
+                    {/* <div className="tab-pane fade" id="pills-five" role="tabpanel" aria-labelledby="pills-five-tab">
                         <div className="row" >
                             <div className="col-lg-12 col-md-12">
                                 <div className="card card-static-2 mb-30">
@@ -507,15 +510,15 @@ export default class Edit extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* type six*/}
-                    <div className="tab-pane fade" id="pills-six" role="tabpanel" aria-labelledby="pills-six-tab">
-                        <div className="row" >
-                            <div className="col-lg-12 col-md-12">
-                                <ImageDetail />
-                            </div>
-                        </div>
-                    </div>
+                    {/* <div className="tab-pane fade" id="pills-six" role="tabpanel" aria-labelledby="pills-six-tab"> */}
+                    {/* <div className="row" >
+                            <div className="col-lg-12 col-md-12"> */}
+                    {/* <ImageDetail /> */}
+                    {/* </div>
+                        </div> */}
+                    {/* </div> */}
                 </div>
             </div>
         )

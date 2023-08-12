@@ -5,6 +5,8 @@ import { GetProductDetails } from "../../../../../services";
 import swal from "sweetalert";
 import NotificationManager from "react-notifications/lib/NotificationManager";
 
+import "./ImageDetail.css"; // Import your CSS file for styling
+
 export default class ImageDetail extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +16,6 @@ export default class ImageDetail extends Component {
       isLoaded: false,
     };
   }
-
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -25,7 +26,6 @@ export default class ImageDetail extends Component {
   fileSelectedHandler = (event) => {
     this.setState({ files: event.target.files });
   };
-
   async componentDidMount() {
     try {
       const url = window.location.href.split("/");
@@ -39,8 +39,8 @@ export default class ImageDetail extends Component {
           {
             productId,
             productName,
-            photos: Array.isArray(photos) ? photos : []
-          }
+            photos: Array.isArray(photos) ? photos : [],
+          },
         ];
 
         this.setState({ dataList });
@@ -49,7 +49,6 @@ export default class ImageDetail extends Component {
       console.error(error);
     }
   }
-
 
   handleMultipeUpload = async (row) => {
     const formData = new FormData();
@@ -63,7 +62,6 @@ export default class ImageDetail extends Component {
         "content-type": "multipart/form-data",
       },
     };
-
     swal({
       title: "Are you sure?",
       text: "You want to add Images",
@@ -80,9 +78,7 @@ export default class ImageDetail extends Component {
           );
           if (response && response.success) {
             NotificationManager.success(response.message, "Message");
-            await this.getProductList();
-          } else {
-            NotificationManager.error(response.message, "Error");
+            window.location.reload()
           }
         } catch (error) {
           console.error(error);
@@ -107,7 +103,7 @@ export default class ImageDetail extends Component {
         let value = await GetProductDetails.getMultipleImageDelete(data);
         if (value) {
           NotificationManager.success(value.message, "Message");
-          this.getProductList();
+          window.location.reload()
         }
       }
     });
@@ -116,73 +112,66 @@ export default class ImageDetail extends Component {
     const { dataList, isLoaded } = this.state;
 
     return (
-      <Paper style={{ background: "#f7f7f" }}>
+      <Paper className="image-detail-paper">
         {isLoaded && <Loader />}
         <div className="card card-static-2">
           <div className="card-body-table">
             <div className="table-responsive">
-              <table className="table ucp-table table-hover">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Product Name</th>
-                    <th>Banner</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dataList
-                    ? dataList.map((row, index) => (
-                      <tr key={index}>
-                        <td>{row.productId}</td>
-                        <td>{row.productName}</td>
-                        <td>
-                          <div>
-                            <input
-                              className="form-control"
-                              type="file"
-                              multiple
-                              name="files"
-                              onChange={this.fileSelectedHandler}
-                            />
-                            <small>
-                              <b className="text-danger">*</b> Add at least 4
-                              images of your product & Size between 500x500
-                            </small>
+              {dataList ? (
+                dataList.map((row, index) => (
+                  <div key={index} className="image-detail-row">
+                    <div>{row.productId}</div>
+                    {/* File input for image upload */}
+                    <td>
+                      <div className="image-upload-container">
+                        <div className="upload-section">
+                          <input
+                            className="form-control"
+                            type="file"
+                            multiple
+                            name="files"
+                            onChange={this.fileSelectedHandler}
+                          />
+                          <small>
+                            <b className="text-danger">*</b>
                             <br />
-                            <Button
-                              variant="contained"
-                              onClick={(e) =>
-                                this.handleMultipeUpload(row)
-                              }
-                              disabled={!this.state.files}
-                            >
-                              Upload
-                            </Button>
-                          </div>
+                            Add at least 4 images of your product & Size between 500x500
+                          </small>
+                          <Button
+                            variant="contained"
+                            className="upload-button"
+                            onClick={() => this.handleMultipeUpload(row)}
+                            disabled={!this.state.files}
+                          >
+                            Upload
+                          </Button>
+                        </div>
+                        <div className="separator"></div>
+                        {/* Display existing images */}
+                        <div className="image-gallery">
                           {row.photos.map((data, index) => (
-                            <div key={index}>
+                            <div key={index} className="image-container">
                               <img
                                 src={data.imgUrl}
                                 alt="product-name"
-                                height="65px"
+                                className="product-image"
                               />
                               <span
                                 className="delete-btn"
-                                style={{ cursor: "pointer" }}
-                                onClick={(e) =>
-                                  this.handlMultipeDelete(data)
-                                }
+                                onClick={() => this.handlMultipeDelete(data)}
                               >
                                 <i className="fas fa-trash-alt" />
                               </span>
                             </div>
                           ))}
-                        </td>
-                      </tr>
-                    ))
-                    : "No data found"}
-                </tbody>
-              </table>
+                        </div>
+                      </div>
+                    </td>
+                  </div>
+                ))
+              ) : (
+                <p>No data found</p>
+              )}
             </div>
           </div>
         </div>

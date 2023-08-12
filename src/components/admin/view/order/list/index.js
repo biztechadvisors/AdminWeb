@@ -188,15 +188,7 @@ class List extends Component {
                               Rs{row.Total} for {row.count} Items
                             </td>
                             <td className="action-btns">
-                              <Link
-                                className="views-btn"
-                                to={{
-                                  pathname: `/admin/order/view/${row.id}`,
-                                  state: row,
-                                }}
-                              >
-                                <i className="fas fa-eye" />
-                              </Link>
+                             
                               <Link
                                 className="edit-btn"
                                 to={{

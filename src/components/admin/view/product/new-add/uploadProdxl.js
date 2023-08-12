@@ -161,20 +161,21 @@ const UploadProdxl = () => {
     return (
         <div>
             <div className="upload-container">
-                <h3 className="upload-title">Products Excel file upload here</h3>
+                <h3 className="upload-title">Upload Products Excel File</h3>
                 <div className="upload-form">
                     <form onSubmit={handleFormSubmit}>
-                        <label htmlFor="file-upload" className="upload-button">
-                            Choose File
+                        <label htmlFor="file-upload" className="upload-input-label">
+                            <input
+                                id="file-upload"
+                                type="file"
+                                onChange={handleFileChange}
+                                className="upload-input"
+                                accept=".xlsx, .xls"
+                                multiple={false}
+                            />
+                            <span className="input-text">Choose File</span>
                         </label>
-                        <input
-                            id="file-upload"
-                            type="file"
-                            onChange={handleFileChange}
-                            className="upload-input"
-                            accept=".xlsx,.xls"
-                            multiple={false}
-                        />
+                        <br></br>
                         <button type="submit" className="upload-button">
                             Upload
                         </button>
@@ -185,6 +186,7 @@ const UploadProdxl = () => {
                 </div>
             </div>
         </div>
+
     );
 };
 

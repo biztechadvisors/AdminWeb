@@ -1,0 +1,120 @@
+/* ImageDetail.css */
+.image-detail-paper {
+  background: #f7f7f7;
+  padding: 20px;
+}
+
+.image-detail-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.image-upload-container {
+  margin-bottom: 10px;
+}
+
+.upload-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+.image-container {
+  position: relative;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  flex: 0 0 calc(20% - 10px);
+}
+
+.delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: red;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Expand images and show delete button on hover */
+.image-container:hover .product-image {
+  transform: scale(1.1);
+}
+
+.image-container:hover .delete-btn {
+  opacity: 1;
+}
+
+/* Full-size image display on hover */
+.product-image:hover {
+  max-width: none;
+  max-height: none;
+  transform: none;
+  z-index: 1;
+}
+
+/* Style for the "Upload" button */
+.upload-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+  background-color: #45a049;
+}
+
+/* Additional styling for the file input */
+.file-input {
+  display: none;
+}
+.file-input-label {
+  display: inline-block;
+  background-color: #2196f3;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.file-input-label:hover {
+  background-color: #0f7ae5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .image-detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .image-container {
+    flex: 0 0 calc(50% - 10px);
+    margin-bottom: 20px;
+  }
+}
+.separator {
+  height: 1px;
+  width: 100%;
+  background-color: #ccc;
+  margin: 20px 0;
+}
