@@ -77,6 +77,7 @@ export default class MainCategory extends Component {
         let list = await GetCategoryDetails.createCategoryList(data);
         if (list) {
           this.getCategory();
+          window.location.reload()
         }
       }
     });
@@ -93,6 +94,7 @@ export default class MainCategory extends Component {
         let value = await GetCategoryDetails.getCategoryDeleteById(id);
         if (value) {
           this.getCategory();
+          window.location.reload()
         }
       }
     });
