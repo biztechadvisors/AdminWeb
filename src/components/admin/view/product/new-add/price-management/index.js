@@ -45,7 +45,6 @@ const Pricecolormanagement = ({ parentCallback }) => {
         const { name, value } = e.target;
         const list = [...inputList];
         list[index][name] = value;
-
         // Handle the case when the discount is changed, and adjust discountPer accordingly
         if (name === 'discount') {
             if (value !== '' && list[index]['actualPrice'] !== '') {
@@ -56,6 +55,7 @@ const Pricecolormanagement = ({ parentCallback }) => {
         }
         setInputList(list);
         parentCallback(list);
+        console.log(list,"callback Data")
         calculateNetPrice(index);
     };
 

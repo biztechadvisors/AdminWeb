@@ -164,7 +164,6 @@ export default class Edit extends Component {
         }
         )
     }
-
     render() {
         const {
             mainCatName,

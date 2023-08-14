@@ -24,16 +24,15 @@ export default class Header extends Component {
     return (
       <div>
         <nav className="sb-topnav navbar navbar-expand navbar-light bg-clr">
+          <a className="navbar-brand logo-brand" href="/">
+            Codenox
+          </a>
           <button
             className="btn btn-link btn-sm order-1 order-lg-0"
             id="sidebarToggle"
           >
             <i className="fas fa-bars" />
           </button>
-          <a className="navbar-brand logo-brand" href="/">
-            Codenox
-          </a>
-
           <a href="/" className="frnt-link">
             <i className="fas fa-external-link-alt" />
             Home
@@ -58,13 +57,13 @@ export default class Header extends Component {
                   aria-labelledby="userDropdown"
                   style={{ width: "20rem", padding: "5px" }}
                 >
-                  {
-                    list ?
-                      list.data.map((row, index) => (
-                        <h6 key={index} style={index % 2 ? { color: "#ffa64d" } : { color: '#ff8000' }}>{index + 1}.{row.details ? row.details.product_detail.name : ''}</h6>
-                      ))
-                      : ''
-                  }
+                  {/* {
+                                        list ?
+                                            list.data.map((row, index) => (
+                                                <h6 key={index} style={index%2?{color: "#ffa64d"}:{color:'#ff8000'}}>{index+1}.{row.details? row.details.product_detail.name:''}</h6>
+                                            ))
+                                            : ''
+                                    } */}
                 </div>
               </li>
             </div>

@@ -40,7 +40,7 @@
   flex: 0 0 calc(20% - 10px);
 }
 
-.del-btn {
+.delete-btn {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -55,7 +55,7 @@
   transform: scale(1.1);
 }
 
-.image-container:hover .del-btn {
+.image-container:hover .delete-btn {
   opacity: 1;
 }
 
