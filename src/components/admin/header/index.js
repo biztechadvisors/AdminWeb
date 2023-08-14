@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { Link } from 'react-router-dom';
 import { GetUserLogin, GetOrderDetails } from "../../services";
 
 export default class Header extends Component {
@@ -27,18 +26,17 @@ export default class Header extends Component {
           <button
             className="btn btn-link btn-sm order-1 order-lg-0"
             id="sidebarToggle"
+            onClick={this.props.toggleSidebar}
           >
             <i className="fas fa-bars" />
           </button>
           <a className="navbar-brand logo-brand" href="/">
             Codenox
           </a>
-
           <a href="/" className="frnt-link">
             <i className="fas fa-external-link-alt" />
             Home
           </a>
-
           <ul className="navbar-nav ml-auto mr-md-0">
             <div className="my-2">
               <li className="nav-item dropdown">
@@ -68,7 +66,6 @@ export default class Header extends Component {
                 </div>
               </li>
             </div>
-
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"

@@ -1,0 +1,12 @@
+/* Add these styles to your CSS file */
+.open-sidebar {
+  width: 250px;
+}
+
+.closed-sidebar {
+  width: 0;
+}
+
+#layoutSidenav_nav {
+  transition: width 0.3s ease-in-out;
+}

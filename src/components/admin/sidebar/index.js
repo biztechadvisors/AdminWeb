@@ -1,18 +1,39 @@
 import React, { Component } from "react";
 import { getCookie } from "../../../function";
+import "./sidebar.css"
 
 export default class Sidebar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: true, // Initially open on larger screens
+    };
+  }
+  toggleSidebar = () => {
+    this.setState((prevState) => ({
+      isOpen: !prevState.isOpen,
+    }));
+  };
+
   render() {
+    const { isOpen } = this.state;
     let role = getCookie("role");
     return (
-      <div id="layoutSidenav_nav">
+      <div
+        id="layoutSidenav_nav"
+        className={`${isOpen ? "open-sidebar" : "closed-sidebar"
+          } sb-sidenav`} // Use isOpen prop to determine class
+      >
         <nav
           className="sb-sidenav accordion sb-sidenav-dark"
           id="sidenavAccordion"
         >
           <div className="sb-sidenav-menu">
             <div className="nav">
-              <a className="nav-link active" href="/">
+              <a
+                className="nav-link active"
+                href="/"
+              >
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-tachometer-alt" />
                 </div>
@@ -20,9 +41,9 @@ export default class Sidebar extends Component {
               </a>
               <a
                 className="nav-link collapsed"
-                href="#"
+                href="#collapseShops"
                 data-toggle="collapse"
-                data-target="#collapseShops"
+                data-target="#collapseShops" // Unique ID for each collapse element
                 aria-expanded="false"
                 aria-controls="collapseShops"
               >
@@ -78,7 +99,7 @@ export default class Sidebar extends Component {
               </div>
               <a
                 className="nav-link collapsed"
-                href="#"
+                href="#collapseProducts"
                 data-toggle="collapse"
                 data-target="#collapseProducts"
                 aria-expanded="false"
@@ -99,23 +120,14 @@ export default class Sidebar extends Component {
                 data-parent="#sidenavAccordion"
               >
                 <nav className="sb-sidenav-menu-nested nav">
-                  {/* <a className="nav-link sub_nav_link" href="/admin/brand/list">
-                    Brand
-                  </a> */}
                   <a className="nav-link sub_nav_link" href="/admin/color/list">
                     Color
                   </a>
-                  {/* <a
-                    className="nav-link sub_nav_link"
-                    href="/admin/processor/list"
-                  >
-                    Processor
-                  </a> */}
                 </nav>
               </div>
               <a
                 className="nav-link collapsed"
-                href="#"
+                href="#collapseCategories"
                 data-toggle="collapse"
                 data-target="#collapseCategories"
                 aria-expanded="false"
@@ -142,12 +154,6 @@ export default class Sidebar extends Component {
                   >
                     All Categories
                   </a>
-                  {/* <a
-                    className="nav-link sub_nav_link"
-                    href="/admin/category/super"
-                  >
-                    Super Categories
-                  </a> */}
                   <a
                     className="nav-link sub_nav_link"
                     href="/admin/category/create"
@@ -160,51 +166,8 @@ export default class Sidebar extends Component {
                   >
                     Add Sub-Category
                   </a>
-                  {/* <a
-                    className="nav-link sub_nav_link"
-                    href="/admin/category/sub-child-create"
-                  >
-                    Add Child-Category
-                  </a> */}
                 </nav>
               </div>
-              {/* <a
-                className="nav-link collapsed"
-                href="#"
-                data-toggle="collapse"
-                data-target="#collapseLocations"
-                aria-expanded="false"
-                aria-controls="collapseLocations"
-              >
-                <div className="sb-nav-link-icon">
-                  <i className="fas fa-map-marker-alt" />
-                </div>
-                City
-                <div className="sb-sidenav-collapse-arrow">
-                  <i className="fas fa-angle-down" />
-                </div>
-              </a> */}
-              {/* <div
-                className="collapse"
-                id="collapseLocations"
-                aria-labelledby="headingTwo"
-                data-parent="#sidenavAccordion"
-              >
-                <nav className="sb-sidenav-menu-nested nav">
-                  <a
-                    className="nav-link sub_nav_link"
-                    href="/admin/location/list"
-                  >
-                    All city
-                  </a>
-                  <a
-                    className="nav-link sub_nav_link"
-                    href="/admin/location/create"
-                  >
-                    Add city
-                  </a>
-                </nav>
-              </div> */}
               <a className="nav-link" href="/admin/order/list">
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-cart-arrow-down" />
@@ -223,12 +186,6 @@ export default class Sidebar extends Component {
                 </div>
                 DileveryCharges-Changer
               </a>
-              {/* <a className="nav-link" href="/admin/shop/website-sellar-list">
-                <div className="sb-nav-link-icon">
-                  <i className="fas fa-store" />
-                </div>
-                Website Vendor
-              </a> */}
               <a className="nav-link" href="/admin/image/upload">
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-image"></i>
@@ -243,7 +200,7 @@ export default class Sidebar extends Component {
               </a>
               <a
                 className="nav-link collapsed"
-                href="#"
+                href="#collapseMarketing"
                 data-toggle="collapse"
                 data-target="#collapseMarketing"
                 aria-expanded="false"
@@ -299,7 +256,6 @@ export default class Sidebar extends Component {
                 </div>
                 Roles Management
               </a>
-
               <a className="nav-link" href="/admin/customer/list">
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-users" />

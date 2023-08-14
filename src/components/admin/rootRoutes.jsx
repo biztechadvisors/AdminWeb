@@ -22,13 +22,24 @@ import CouponDiscount from "./view/couponDiscount";
 import Customization from "./view/customizatoin";
 
 export default class rootRoutes extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSidebarOpen: true, // Initially open on larger screens
+    };
+  }
+  toggleSidebar = () => {
+    this.setState((prevState) => ({
+      isSidebarOpen: !prevState.isSidebarOpen,
+    }));
+  };
   render() {
     const { match } = this.props;
     return (
       <main>
-        <Header />
+      <Header toggleSidebar={this.toggleSidebar} /> {/* Pass the toggleSidebar function */}
         <div id="layoutSidenav">
-          <SideBar />
+          <SideBar isOpen={this.state.isSidebarOpen} />
           <Switch>
             <Route
               exact
