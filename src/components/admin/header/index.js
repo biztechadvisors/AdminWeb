@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { GetUserLogin, GetOrderDetails } from "../../services";
+import "../sidebar/sidebar.css"
 
 export default class Header extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ export default class Header extends Component {
       list: "",
     };
   }
+
   async getOrderNotifications() {
     this.setState({ isloaded: true });
     let list = await GetOrderDetails.getOrderNotification();
@@ -15,24 +17,29 @@ export default class Header extends Component {
       this.setState({ list: list });
     }
   }
+
   componentDidMount() {
     this.getOrderNotifications();
   }
+
   render() {
+
     let { list } = this.state;
+    const { headerCallback } = this.props;
+    console.log("first",headerCallback)
     return (
       <div>
         <nav className="sb-topnav navbar navbar-expand navbar-light bg-clr">
-          <button
-            className="btn btn-link btn-sm order-1 order-lg-0"
-            id="sidebarToggle"
-            onClick={this.props.toggleSidebar}
-          >
-            <i className="fas fa-bars" />
-          </button>
           <a className="navbar-brand logo-brand" href="/">
             Codenox
           </a>
+          <button
+            className="btn btn-link btn-sm order-1 order-lg-0"
+            id="sidebarToggle"
+            onClick={headerCallback} // Assuming this prop is passed from parent
+          >
+            <i className="fas fa-bars" />
+          </button>
           <a href="/" className="frnt-link">
             <i className="fas fa-external-link-alt" />
             Home

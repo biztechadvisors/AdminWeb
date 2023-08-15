@@ -8,6 +8,7 @@ import { NotificationManager } from "react-notifications";
 import { Link } from "react-router-dom";
 import { Paper, Grid, Button } from "@material-ui/core";
 import AdminDetail from "./adminDetail";
+import './index.css'
 
 export default class Home extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ export default class Home extends Component {
     if (searchString.length > 2) {
       this.setState({ searchString }, () => {
         const data = { searchString };
-        console.log("Data_search", data);
+        // console.log("Data_search", data);
         this.getOrderList(data);
       });
     } else {
@@ -42,7 +43,7 @@ export default class Home extends Component {
   async getOrderList(data) {
     this.setState({ isloaded: true });
     let list = await GetOrderDetails.getAllOrderList(data);
-    console.log("Ram", list);
+    // console.log("Ram", list);
     if (list.code === 200) {
       this.setState({
         getList: list.data.items,
@@ -67,7 +68,7 @@ export default class Home extends Component {
     let { value } = e.target;
     this.setState({ isloaded: true });
     const data = { status: value };
-    console.log("data-search", data)
+    // console.log("data-search", data)
     this.getOrderList(data);
   }
   componentDidMount() {
@@ -78,7 +79,7 @@ export default class Home extends Component {
   async handlDeleteById(data) {
     this.setState({ isLoaded: true });
     let list = { id: data.id };
-    console.log("Delete", list)
+    // console.log("Delete", list)
     swal({
       title: "Are you sure?",
       text: "You want to delete Order from the List",
@@ -104,6 +105,7 @@ export default class Home extends Component {
 
   render() {
     const { getList, isloaded, status, statusList } = this.state;
+    console.log("statusList", statusList)
     return (
       <div id="layoutSidenav_content">
         <AdminDetail />
@@ -124,13 +126,8 @@ export default class Home extends Component {
                         <span
                           className="card-count"
                           key={index}
-                          style={
-                            row.status === "shipping"
-                              ? { display: "block" }
-                              : { display: "none" }
-                          }
                         >
-                          {row.total ? row.total : "-"} {/* Placeholder */}
+                          {row.status === "shipping" ? row.total : "0"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -149,13 +146,8 @@ export default class Home extends Component {
                         <span
                           className="card-count"
                           key={index}
-                          style={
-                            row.status === "cancel"
-                              ? { display: "block" }
-                              : { display: "none" }
-                          }
                         >
-                          {row.total ? row.total : "-"} {/* Placeholder */}
+                          {row.status === "cancel" ? row.total : "0"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -174,13 +166,8 @@ export default class Home extends Component {
                         <span
                           className="card-count"
                           key={index}
-                          style={
-                            row.status === "processing"
-                              ? { display: "block" }
-                              : { display: "none" }
-                          }
                         >
-                          {row.total ? row.total : "-"} {/* Placeholder */}
+                          {row.status === "processing" ? row.total : "0"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
@@ -199,13 +186,8 @@ export default class Home extends Component {
                         <span
                           className="card-count"
                           key={index}
-                          style={
-                            row.status === "delivered"
-                              ? { display: "block" }
-                              : { display: "none" }
-                          }
                         >
-                          {row.total ? row.total : "-"} {/* Placeholder */}
+                          {row.status === "delivered" ? row.total : "0"} {/* Placeholder */}
                         </span>
                       ))
                       : ""}
