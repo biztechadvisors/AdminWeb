@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getCookie } from "../../../function";
 import "./sidebar.css"; // Import your CSS file for styling
-import { GetUserLogin, GetOrderDetails } from "../../services";
+import { GetUserLogin } from "../../services";
 
 export default class Sidebar extends Component {
   constructor(props) {
@@ -18,96 +18,46 @@ export default class Sidebar extends Component {
     }));
   };
 
-  async getOrderNotifications() {
-    this.setState({ isloaded: true });
-    let list = await GetOrderDetails.getOrderNotification();
-    if (list) {
-      this.setState({ list: list });
-    }
-  }
-
-  componentDidMount() {
-    this.getOrderNotifications();
-  }
-
   render() {
-    const { isOpen, list } = this.state;
+    const { isOpen } = this.state;
     const role = getCookie("role");
 
     return (
       <div className={`container-fluid mt-3`}>
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-md">
           <div className="container-fluid p-2">
-            <a className="navbar-brand text-primary mr-0" href="#">
+            <a className="navbar-brand text-primary mr-0" href="/">
               Codenox
             </a>
 
-            <ul className="navbar-nav ml-auto mr-md-0">
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="notificationDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i className="fa fa-bell" aria-hidden="true">
-                    {list && list.count > 0 && (
-                      <sup className="sup_num">{list.count}</sup>
-                    )}
-                  </i>
-                </a>
-                <div
-                  className="dropdown-menu dropdown-menu-right"
-                  aria-labelledby="notificationDropdown"
-                  style={{ width: "20rem", padding: "5px" }}
-                >
-                  {list &&
-                    list.data.map((row, index) => (
-                      <h6
-                        key={index}
-                        style={{
-                          color: index % 2 ? "#ffa64d" : "#ff8000",
-                        }}
-                      >
-                        {index + 1}.{row.details && row.details.product_detail.name}
-                      </h6>
-                    ))}
-                </div>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="userDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i className="fas fa-user fa-fw" />
-                </a>
-                <div
-                  className="dropdown-menu dropdown-menu-right"
-                  aria-labelledby="userDropdown"
-                >
-                  <a className="dropdown-item admin-dropdown-item" href="#">
-                    Edit Profile
-                  </a>
-                  <a className="dropdown-item admin-dropdown-item" href="#">
-                    Change Password
-                  </a>
-                  <span
-                    className="dropdown-item admin-dropdown-item"
-                    onClick={() => GetUserLogin.logout()}
-                  >
-                    Logout
-                  </span>
-                </div>
-              </li>
-            </ul>
+            <a style={{ marginLeft: "30px" }}
+              className="navbar-brand text-primary mr-0 dropdown-toggle"
+              href="#"
+              id="userDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i className="fas fa-user fa-fw" />
+            </a>
+            <div
+              className="dropdown-menu"
+              aria-labelledby="userDropdown"
+            >
+              <a className="dropdown-item admin-dropdown-item" href="/admin/user/list">
+                Edit Profile
+              </a>
+              <a className="dropdown-item admin-dropdown-item" href="/admin/user/list">
+                Change Password
+              </a>
+              <span
+                className="dropdown-item admin-dropdown-item"
+                onClick={() => GetUserLogin.logout()}
+              >
+                Logout
+              </span>
+            </div>
 
             <div className="form-inline ml-auto">
               <button

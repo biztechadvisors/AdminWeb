@@ -167,7 +167,7 @@ export default class Home extends Component {
                           className="card-count"
                           key={index}
                         >
-                          {row.status === "processing" ? row.total : "0"} {/* Placeholder */}
+                          {row.status === "processing" ? row.total : "0"}
                         </span>
                       ))
                       : ""}
