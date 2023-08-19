@@ -82,9 +82,6 @@ const Edit = (props) => {
     setDropDownOpt(serverResponse);
   };
 
-  useEffect(() => {
-    renderData();
-  }, []);
 
   const generateRandomCouponCode = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -96,7 +93,7 @@ const Edit = (props) => {
     }
     return couponCode;
   };
-  
+
   useEffect(() => {
     setEditableCouponCode(props.state.couponCode || "");
     renderData();
@@ -170,7 +167,7 @@ const Edit = (props) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <a className="edit-btn" onClick={handleOpen}>
         <i className="fas fa-edit" />
       </a>
@@ -210,6 +207,7 @@ const Edit = (props) => {
                 <div className="card-body">
                   <form onSubmit={handleSubmit}>
                     <div className="form-group" id="discount_table">
+                     
                       <div className="form-group row">
                         <label className="col-sm-3 control-label">Coupon Code</label>
                         <div className="col-sm-6">
@@ -422,23 +420,23 @@ const Edit = (props) => {
                   </form>
                 </div>
               </div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-                onClick={handleClose}
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSubmit}
-              >
-                Save changes
-              </button>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                  onClick={handleClose}
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                >
+                  Save changes
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -156,6 +156,7 @@ export default class Edit extends Component {
                     console.log("response", res);
                     this.setState({ showAlert: true });
                     window.location.reload()
+                    window.location.href = "/admin/seller/product-detail/list/history"
                 }
                 catch (err) {
                     swal("error", err);

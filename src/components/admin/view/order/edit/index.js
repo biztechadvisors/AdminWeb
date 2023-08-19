@@ -21,8 +21,17 @@ export default class Edit extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  handleUpdateStatus = async (event) => {
+    let data = { status: this.state.status, id: this.state.id, deliverydate: new Date(this.state.deliverydate) }
+    if (data) {
+
+    }
+  }
+
   render() {
     let self = this.props.location.state;
+
+    console.log("self", self)
 
     return (
       <div>
@@ -121,6 +130,12 @@ export default class Edit extends Component {
                                       >
                                         Total
                                       </th>
+                                      <th
+                                        style={{ width: 100 }}
+                                        className="text-center"
+                                      >
+                                        Action
+                                      </th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -155,14 +170,23 @@ export default class Edit extends Component {
                                             ) : null}
                                           </td>
                                           <td>
+                                            {" "}
                                             {p.status === "processing" ? (
-                                              <span className="badge-item badge-primary">{p.status}</span>
+                                              <span className="badge-item badge-primary">
+                                                {p.status}
+                                              </span>
                                             ) : p.status === "shipping" ? (
-                                              <span className="badge-item badge-info">{p.status}</span>
-                                            ) : p.status === "delivered" ? (
-                                              <span className="badge-item badge-success">{p.status}</span>
+                                              <span className="badge-item badge-info">
+                                                {p.status}
+                                              </span>
+                                            ) : p.status === "delieverd" ? (
+                                              <span className="badge-item badge-success">
+                                                {p.status}
+                                              </span>
                                             ) : (
-                                              <span className="badge-item badge-danger">{p.status}</span>
+                                              <span className="badge-item badge-danger">
+                                                {p.status}
+                                              </span>
                                             )}
                                           </td>
                                           <td>
@@ -184,6 +208,9 @@ export default class Edit extends Component {
                                           <td className="text-center">
                                             &#8377;
                                             {p.varient ? p.qty * p.varient.netPrice : null}
+                                          </td>
+                                          <td className="text-center">
+                                            <Changestatus state={p} />
                                           </td>
                                         </tr>
                                       ))
@@ -213,23 +240,23 @@ export default class Edit extends Component {
                               Discount Price
                             </div>
                             <div className="order-total-right-text fsz-18">
+                              <span className="text-success">save  {" "}</span>
                               &#8377;
                               {self.Items.reduce(function (acc, obj) {
                                 return obj.varient && obj.varient.discount
                                   ? acc + Math.round(obj.varient.discount)
                                   : acc;
                               }, 0)}{" "}
-                              <span className="text-success">save</span>
                             </div>
                           </div>
-                          {/* <div className="order-total-dt">
+                          <div className="order-total-dt">
                             <div className="order-total-left-text">
                               Delivery Fees
                             </div>
                             <div className="order-total-right-text">
                               &#8377;
                             </div>
-                          </div> */}
+                          </div>
                           <div className="order-total-dt">
                             <div className="order-total-left-text fsz-18">
                               Total Amount

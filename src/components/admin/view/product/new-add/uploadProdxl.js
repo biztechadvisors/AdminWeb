@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import XLSX from 'xlsx';
 import './upload.css';
 import { GetProductDetails } from '../../../../services'; // Update import path based on your project structure
+import swal from 'sweetalert';
+import NotificationManager from 'react-notifications/lib/NotificationManager';
 
 const UploadProdxl = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -61,7 +63,7 @@ const UploadProdxl = () => {
 
                         const productType = row[headerRow.indexOf('productType')];
 
-                        if (productType === 'variant') {
+                        if (productType == 'variant' || productType == 'Variant') {
                             const parentId = row[headerRow.indexOf('parentId')];
 
                             if (!parentId || !products[parentId]) {
@@ -100,7 +102,7 @@ const UploadProdxl = () => {
                             };
 
                             products[parentId].productVariants.push(variant);
-                        } else if (productType === 'main') {
+                        } else if (productType == 'main' || productType == 'Main') {
                             const productId = row[headerRow.indexOf('id')];
 
                             const product = {
@@ -124,7 +126,7 @@ const UploadProdxl = () => {
                     });
 
                     const finalProducts = Object.values(products);
-                    console.log(finalProducts);
+                    // console.log(finalProducts);
 
                     resolve(JSON.stringify(finalProducts, null, 2));
                 } catch (error) {
@@ -146,12 +148,28 @@ const UploadProdxl = () => {
 
         if (selectedFile) {
             try {
-                const jsonData = await convertExcelToJson(selectedFile);
-                const response = await GetProductDetails.uploadProductList(jsonData);
-                console.log(response);
-                setUploadResult([response.data]);
-                setSelectedFile(null);
-                setSelectedFileName('');
+                swal({
+                    title: "Are you sure?",
+                    text: "You want to Upload Product's",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then(async (success) => {
+                        if (success) {
+                            const jsonData = await convertExcelToJson(selectedFile);
+                            const response = await GetProductDetails.uploadProductList(jsonData);
+                            if (response) {
+                                NotificationManager.success(response.message, "Product Successfully Uploaded")
+                                setUploadResult([response.data]);
+                                // console.log("response.data", response.data)
+                                setSelectedFile(null);
+                                setSelectedFileName('');
+                            }
+                        } else {
+                            this.setState({ isLoaded: false })
+                        }
+                    })
             } catch (error) {
                 console.error(error);
             }
