@@ -243,49 +243,17 @@ export default class Sidebar extends Component {
                     </div>
                     Collections
                   </a>
+
                   <a
-                    className="nav-link collapsed"
-                    href="#collapseMarketing"
-                    data-toggle="collapse"
-                    data-target="#collapseMarketing"
-                    aria-expanded="false"
-                    aria-controls="collapseMarketing"
+                    className="nav-link sub_nav_link"
+                    href="/admin/couponDiscount/list"
                   >
                     <div className="sb-nav-link-icon">
-                      <i className="fa fa-bullhorn" aria-hidden="true" />
+                      <i className="fas fa-bullhorn"></i>
                     </div>
-                    Marketing
-                    <div className="sb-sidenav-collapse-arrow">
-                      <i className="fas fa-angle-down" />
-                    </div>
+                    Flash Sale
                   </a>
-                  <div
-                    className="collapse"
-                    id="collapseMarketing"
-                    aria-labelledby="headingTwo"
-                    data-parent="#sidenavAccordion"
-                  >
-                    <nav className="sb-sidenav-menu-nested nav">
-                      <ul className="aiz-side-nav-list level-2 mm-collapse mm-show">
-                        <li className="aiz-side-nav-item">
-                          <a
-                            className="nav-link sub_nav_link"
-                            href="/admin/marketing/list"
-                          >
-                            Flash Sale
-                          </a>
-                        </li>
-                        <li className="aiz-side-nav-item">
-                          <a
-                            className="nav-link sub_nav_link"
-                            href="/admin/couponDiscount/list"
-                          >
-                            Coupon-Code Management
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
+
                   <a className="nav-link" href="/admin/seo/list">
                     <div className="sb-nav-link-icon">
                       <i className="fab fa-yoast"></i>
