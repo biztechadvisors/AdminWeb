@@ -116,18 +116,23 @@ export default class List extends Component {
   async getProductList(data) {
     this.setState({ isLoaded: true });
     let list = await GetProductDetails.getAllSellerProduct(data);
-    console.log("List", list)
+    console.log("List", list);
+  
     if (list) {
       this.setState({
-        productList: list.data.items,
-        pages: list.data.pages,
-        pageNumber: Number(list.data.page),
+        productList: list.data.items || [], // Ensure productList is an array even if items is undefined
+        pages: list.data.pages || 0, // Default to 0 if pages is undefined
+        pageNumber: Number(list.data.page || 1), // Default to page 1 if page is undefined
         isLoaded: false,
       });
     } else {
       this.setState({ isLoaded: false });
+      console.log("Error fetching product data");
     }
   }
+  
+
+
 
 
   async componentDidMount() {

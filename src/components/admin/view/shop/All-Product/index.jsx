@@ -42,21 +42,22 @@ export default class List extends Component {
     this.props.history.goBack();
   };
 
-  getProductList = async (data) => {
+  async getProductList(data) {
     this.setState({ isLoaded: true });
     let list = await GetProductDetails.getAllSellerProduct(data);
-    console.log("first", list)
-    if (list.code === 200) {
+    // console.log("List", list);
+    if (list) {
       this.setState({
-        getAllProduct: list.data.items,
+        getAllProduct: list.data.items || [], // Ensure productList is an array even if items is undefined
+        pages: list.data.pages || 0, // Default to 0 if pages is undefined
+        pageNumber: Number(list.data.page || 1), // Default to page 1 if page is undefined
         isLoaded: false,
-        pageNumber: list.data.page,
-        pages: list.data.pages,
       });
     } else {
       this.setState({ isLoaded: false });
+      console.log("Error fetching product data");
     }
-  };
+  }
 
   SearchAllProductList = (event) => {
     event.preventDefault();
@@ -97,7 +98,7 @@ export default class List extends Component {
     this.getProductList(data);
   };
 
-handlProductDelete = (id) => {
+  handlProductDelete = (id) => {
     swal({
       title: "Are you sure?",
       text: "You want to delete product",
@@ -114,10 +115,11 @@ handlProductDelete = (id) => {
       }
     });
   };
-  
+
   render() {
     const { pages, pageNumber, isLoaded, getAllProduct } = this.state;
     const fileName = "productlist";
+    console.log("getAllProduct", getAllProduct)
     return (
       <div className="container-fluid">
         <div className="row">
@@ -197,9 +199,9 @@ handlProductDelete = (id) => {
                                   <img src={row.photo} height="40px" alt="Thumbnail" />
                                 </td>
                                 <td>{row.name}</td>
-                                <td>{row.maincat.name}</td>
+                                <td>{row.maincat ? row.maincat.name : ''}</td>
                                 <td>{row.SubCategory.sub_name}</td>
-                                <td>{row.collection.name}</td>
+                                <td>{row.collection ? row.collection.name : ''}</td>
                                 <td>{row.ProductVariants[0].discountPer ? row.ProductVariants[0].discountPer + "%" : ""}</td>
                                 <td>Rs.{row.ProductVariants[0].discount}</td>
                                 <td>Rs.{row.ProductVariants[0].netPrice}</td>
@@ -216,7 +218,7 @@ handlProductDelete = (id) => {
                                     <option value="Published">Published</option>
                                   </select>
                                 </td>
-                                   <td>
+                                <td>
                                   <div className="action-btns">
                                     <Typography
                                       className="delete-btn"

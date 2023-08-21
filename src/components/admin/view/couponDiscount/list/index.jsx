@@ -23,6 +23,8 @@ const List = () => {
     setGetList(list.data);
   };
 
+  console.log("flashSale", getList)
+
   const CouponHandlDeleteById = async (id) => {
     swal({
       title: "Are you sure?",

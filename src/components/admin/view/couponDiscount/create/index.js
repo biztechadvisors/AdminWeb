@@ -21,8 +21,9 @@ const Create = () => {
   const [onShopping, setOnShopping] = useState("");
   const [discountOption, setDiscountOption] = useState("discount");
 
-  const handleBack = () => {
 
+  const handleBack = () => {
+    window.history.goBack();
   };
 
   useEffect(() => {
@@ -394,6 +395,7 @@ const Create = () => {
                         </button>
                       </div>
                     </div>
+
                   </form>
                 </div>
               </div>
