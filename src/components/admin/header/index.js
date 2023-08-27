@@ -21,6 +21,7 @@ export default class Header extends Component {
   }
   render() {
     let { list } = this.state;
+    const { headerCallback} = this.props;
     return (
       <div>
         <nav className="sb-topnav navbar navbar-expand navbar-light bg-clr">
@@ -30,6 +31,7 @@ export default class Header extends Component {
           <button
             className="btn btn-link btn-sm order-1 order-lg-0"
             id="sidebarToggle"
+            onClick={headerCallback}
           >
             <i className="fas fa-bars" />
           </button>

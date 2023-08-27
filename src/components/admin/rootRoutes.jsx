@@ -22,13 +22,28 @@ import CouponDiscount from "./view/couponDiscount";
 import Customization from "./view/customizatoin";
 
 export default class rootRoutes extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      ButtonClicked: false
+    };
+  }
+
+  handleHeaderCallback = () => {
+      this.setState((prevState) => ({
+        ButtonClicked: !prevState.ButtonClicked
+    }));
+  };
+
   render() {
+    const { ButtonClicked } = this.state;
     const { match } = this.props;
     return (
       <main>
-        <Header />
-        <div id="layoutSidenav">
-          <SideBar />
+        <Header headerCallback={this.handleHeaderCallback} />
+        <div id={ButtonClicked ? "layoutSidenav" : null }>
+          {ButtonClicked && <SideBar />}
           <Switch>
             <Route
               exact
