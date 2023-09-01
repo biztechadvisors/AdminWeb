@@ -88,6 +88,7 @@ export default class Home extends Component {
       dangerMode: true,
     }).then(async (success) => {
       if (success) {
+        console.log("list", list)
         let value = await GetOrderDetails.getDeleteOrder(list);
         if (value) {
           NotificationManager.success("successfully Deleted");
@@ -126,8 +127,13 @@ export default class Home extends Component {
                         <span
                           className="card-count"
                           key={index}
+                          style={
+                            row.status === "shipping"
+                              ? { display: "block" }
+                              : { display: "none" }
+                          }
                         >
-                          {row.status === "shipping" ? row.total : "0"} {/* Placeholder */}
+                          {row.total}
                         </span>
                       ))
                       : ""}
@@ -146,8 +152,13 @@ export default class Home extends Component {
                         <span
                           className="card-count"
                           key={index}
+                          style={
+                            row.status === "cancel"
+                              ? { display: "block" }
+                              : { display: "none" }
+                          }
                         >
-                          {row.status === "cancel" ? row.total : "0"} {/* Placeholder */}
+                          {row.total}
                         </span>
                       ))
                       : ""}
@@ -166,8 +177,13 @@ export default class Home extends Component {
                         <span
                           className="card-count"
                           key={index}
+                          style={
+                            row.status === "processing"
+                              ? { display: "block" }
+                              : { display: "none" }
+                          }
                         >
-                          {row.status === "processing" ? row.total : "0"}
+                          {row.total}
                         </span>
                       ))
                       : ""}
@@ -186,8 +202,13 @@ export default class Home extends Component {
                         <span
                           className="card-count"
                           key={index}
+                          style={
+                            row.status === "delivered"
+                              ? { display: "block" }
+                              : { display: "none" }
+                          }
                         >
-                          {row.status === "delivered" ? row.total : "0"} {/* Placeholder */}
+                          {row.total}
                         </span>
                       ))
                       : ""}

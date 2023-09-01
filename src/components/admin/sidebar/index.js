@@ -29,7 +29,6 @@ export default class Sidebar extends Component {
             <a className="navbar-brand text-primary mr-0" href="/">
               Codenox
             </a>
-
             <a style={{ marginLeft: "30px" }}
               className="navbar-brand text-primary mr-0 dropdown-toggle"
               href="#"
@@ -45,12 +44,6 @@ export default class Sidebar extends Component {
               className="dropdown-menu"
               aria-labelledby="userDropdown"
             >
-              <a className="dropdown-item admin-dropdown-item" href="/admin/user/list">
-                Edit Profile
-              </a>
-              <a className="dropdown-item admin-dropdown-item" href="/admin/user/list">
-                Change Password
-              </a>
               <span
                 className="dropdown-item admin-dropdown-item"
                 onClick={() => GetUserLogin.logout()}
@@ -58,7 +51,6 @@ export default class Sidebar extends Component {
                 Logout
               </span>
             </div>
-
             <div className="form-inline ml-auto">
               <button
                 className="btn btn-primary btn-toggle"

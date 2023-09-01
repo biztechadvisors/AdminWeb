@@ -23,7 +23,7 @@ const Edit = (props) => {
   const [discountType, setDiscountType] = useState(props.state.discountType);
   const [discountPer, setDiscountPer] = useState(props.state.discountPer);
   const [onShopping, setOnShopping] = useState(props.state.onShopping);
-  const [discountOption, setDiscountOption] = useState("discount");
+  const [discountOption, setDiscountOption] = useState(props.state.discount ? "discount" : "discountPer");
 
   console.log("Props", props)
 

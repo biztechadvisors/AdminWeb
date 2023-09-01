@@ -11,7 +11,7 @@ const Cart = () => {
 
   const fetchDeliveryCharges = async () => {
     try {
-      const response = await fetch('http://localhost:5050/api/couponDiscount/changeDeliveryCharge', {
+      const response = await fetch('https://diversitech.link/api/couponDiscount/changeDeliveryCharge', {
         method: 'post', // Change the method to 'post'
         headers: {
           'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ const Cart = () => {
         localDeliveryCharge
       };
 
-      const response = await fetch('http://localhost:5050/api/couponDiscount/changeDeliveryCharge', {
+      const response = await fetch('https://diversitech.link/api/couponDiscount/changeDeliveryCharge', {
         method: 'post', // Change the method to 'post'
         headers: {
           'Content-Type': 'application/json',

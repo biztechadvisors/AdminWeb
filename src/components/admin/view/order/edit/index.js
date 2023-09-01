@@ -62,7 +62,7 @@ export default class Edit extends Component {
                   <div className="card card-static-2 mb-30">
                     <div className="card-title-2">
                       <h2 className="title1458">Invoice</h2>
-                      <span className="order-id">Order NO. : {self.OrderNo}</span>
+                      <span className="order-id">Order Phone no. : {self.OrderNo}</span>
                     </div>
                     <div className="invoice-content">
                       <div className="row">
@@ -144,9 +144,9 @@ export default class Edit extends Component {
                                         <tr key={index}>
                                           <td>{index + 1}</td>
                                           <td>
-                                            {p.varient && p.varient.thumbnail ? (
+                                            {p.varient.product && p.varient.product.photo ? (
                                               <img
-                                                src={p.varient.thumbnail}
+                                                src={p.varient.product.photo}
                                                 alt="cartimage"
                                                 style={{ height: "50px" }}
                                               />
