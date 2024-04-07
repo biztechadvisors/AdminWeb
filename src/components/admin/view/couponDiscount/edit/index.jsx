@@ -13,18 +13,19 @@ const Edit = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [title, setTitle] = useState(props.state.title || "");
   const [startDate, setStartDate] = useState(new Date(props.state.startDate) || new Date());
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState(props.state.photo);
   const [endDate, setEndDate] = useState(new Date(props.state.endDate) || new Date());
   const [productIds, setProductIds] = useState([]);
   const [dropDownOpt, setDropDownOpt] = useState([]);
-  const [couponCode, setCouponCode] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [content, setContent] = useState("");
-  const [discountType, setDiscountType] = useState("totalAmount");
-  const [discountPer, setDiscountPer] = useState("");
-  const [onShopping, setOnShopping] = useState("");
-  const [editableCouponCode, setEditableCouponCode] = useState("");
+  const [couponCode, setCouponCode] = useState(props.state.couponCode);
+  const [discount, setDiscount] = useState(props.state.discount);
+  const [content, setContent] = useState(props.state.description);
+  const [discountType, setDiscountType] = useState(props.state.discountType);
+  const [discountPer, setDiscountPer] = useState(props.state.discountPer);
+  const [onShopping, setOnShopping] = useState(props.state.onShopping);
+  const [discountOption, setDiscountOption] = useState("discount");
 
+  console.log("Props", props)
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -81,32 +82,33 @@ const Edit = (props) => {
     const serverResponse = API.data;
     setDropDownOpt(serverResponse);
   };
+  const handleDiscountChange = (e) => {
+    setDiscount(e.target.value);
+  };
 
-  useEffect(() => {
-    renderData();
-  }, []);
+  const handleDiscountOptionChange = (e) => {
+    setDiscountOption(e.target.value);
+  };
 
-  const generateRandomCouponCode = () => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const couponLength = 8;
+
+  const generateCouponCode = () => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    const length = 10;
     let couponCode = "";
-    for (let i = 0; i < couponLength; i++) {
+    for (let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
-      couponCode += characters[randomIndex];
+      couponCode += characters.charAt(randomIndex);
     }
     return couponCode;
   };
-  
+
   useEffect(() => {
-    setEditableCouponCode(props.state.couponCode || "");
     renderData();
   }, []);
 
-
   const handleGenerateCouponCode = () => {
-    const generatedCouponCode = generateRandomCouponCode();
-    setCouponCode(generatedCouponCode);
-    setEditableCouponCode(generatedCouponCode);
+    const generatedCode = generateCouponCode();
+    setCouponCode(generatedCode);
   };
 
 
@@ -114,19 +116,22 @@ const Edit = (props) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("id", props.state.id);
-    formData.append("title", title);
-    formData.append("photo", photo);
-    formData.append("description", content);
     formData.append("couponCode", couponCode);
-    formData.append("discount", discount);
     formData.append("discountType", discountType);
+    formData.append("title", title);
+    formData.append("description", content);
+    formData.append("photo", photo);
     formData.append("startDate", startDate);
     formData.append("endDate", endDate);
+
     if (discountType === "totalAmount") {
-      formData.append('onShopping', onShopping);
+      formData.append("onShopping", onShopping);
+      formData.append("discountPer", discountPer);
+      formData.append("discount", discount);
     } else {
-      formData.append('discountPer', discountPer);
-      formData.append('productIds', productIds);
+      formData.append("productIds", productIds);
+      formData.append("discountPer", discountPer);
+      formData.append("discount", discount);
     }
 
     const config = {
@@ -170,7 +175,7 @@ const Edit = (props) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <a className="edit-btn" onClick={handleOpen}>
         <i className="fas fa-edit" />
       </a>
@@ -216,8 +221,8 @@ const Edit = (props) => {
                           <input
                             type="text"
                             className="form-control"
-                            value={editableCouponCode}
-                            onChange={(e) => setEditableCouponCode(e.target.value)}
+                            value={couponCode}
+                            onChange={(e) => setCouponCode(e.target.value)}
                           />
                         </div>
                         <div className="col-sm-3">
@@ -229,25 +234,6 @@ const Edit = (props) => {
                             Generate
                           </button>
                         </div>
-                      </div>
-
-                    </div>
-                    <br />
-                    <div className="form-group row">
-                      <label className="col-sm-3 control-label" htmlFor="discount">
-                        Discount
-                      </label>
-                      <div className="col-sm-9">
-                        <input
-                          type="number"
-                          placeholder="Discount"
-                          id="discount"
-                          name="discount"
-                          className="form-control"
-                          required
-                          value={discount}
-                          onChange={(e) => setDiscount(parseFloat(e.target.value))}
-                        />
                       </div>
                     </div>
                     <br />
@@ -380,24 +366,6 @@ const Edit = (props) => {
                           </div>
                         </div>
                         <br />
-                        <div className="form-group row">
-                          <label className="col-sm-3 control-label" htmlFor="discountPer">
-                            Discount Percentage*
-                          </label>
-                          <div className="col-sm-9">
-                            <input
-                              type="number"
-                              placeholder="Discount Percentage"
-                              id="discountPer"
-                              name="discountPer"
-                              className="form-control"
-                              required
-                              value={discountPer}
-                              onChange={(e) => setDiscountPer(parseFloat(e.target.value))}
-                            />
-                          </div>
-                        </div>
-                        <br />
                       </div>
                     )}
                     {discountType === "totalAmount" && (
@@ -419,26 +387,92 @@ const Edit = (props) => {
                         </div>
                       </div>
                     )}
+                    <br />
+
+                    <div className="form-group row">
+                      <label className="col-sm-3 control-label" htmlFor="discount">
+                        Discount*
+                      </label>
+                      <div className="col-sm-9">
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="discountOption"
+                            id="discount"
+                            value="discount"
+                            checked={discountOption === "discount"}
+                            onChange={handleDiscountOptionChange}
+                          />
+                          <label className="form-check-label" htmlFor="discountPer">
+                            Discount
+                          </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="discountOption"
+                            id="discountPer"
+                            value="discountPer"
+                            checked={discountOption === "discountPer"}
+                            onChange={handleDiscountOptionChange}
+                          />
+                          <label className="form-check-label" htmlFor="discountPer">
+                            Discount Percentage
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {discountOption === "discount" && (
+                      <div className="form-group" style={{ flex: "1" }}>
+                        <input
+                          type="number"
+                          placeholder="Discount"
+                          id="discount"
+                          name="discount"
+                          className="form-control"
+                          value={discount}
+                          onChange={handleDiscountChange}
+                        />
+                      </div>
+                    )}
+
+                    {discountOption === "discountPer" && (
+                      <div className="form-group" style={{ flex: "1" }}>
+                        <input
+                          type="number"
+                          placeholder="Discount Percentage"
+                          id="discountPer"
+                          name="discountPer"
+                          className="form-control"
+                          value={discountPer}
+                          onChange={(e) => setDiscountPer(e.target.value)}
+                        />
+                      </div>
+                    )}
                   </form>
                 </div>
               </div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-                onClick={handleClose}
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSubmit}
-              >
-                Save changes
-              </button>
+
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                  onClick={handleClose}
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                >
+                  Save changes
+                </button>
+              </div>
             </div>
           </div>
         </div>

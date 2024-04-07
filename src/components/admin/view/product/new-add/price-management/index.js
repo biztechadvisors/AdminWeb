@@ -46,13 +46,33 @@ const Pricecolormanagement = ({ parentCallback }) => {
         const list = [...inputList];
         list[index][name] = value;
         // Handle the case when the discount is changed, and adjust discountPer accordingly
+        // Handle the case when the discount is changed, and adjust discountPer accordingly
         if (name === 'discount') {
             if (value !== '' && list[index]['actualPrice'] !== '') {
                 list[index]['discountPer'] = (value / list[index]['actualPrice']) * 100;
+                list[index]['netPrice'] = (list[index]['actualPrice'] - value);
             } else {
                 list[index]['discountPer'] = '';
             }
         }
+        if (name === 'discountPer') {
+            const discountPercent = value; // define value as discountPercent
+            const actualPrice = list[index]['actualPrice'];
+            const discount = Math.round((discountPercent / 100) * actualPrice); // update discount based on discountPercent
+            list[index]['netPrice'] = Math.round(actualPrice - discount);
+            list[index]['discount'] = discount; // update discount value
+        }
+        // Handle the case when actualPrice is changed, and adjust discountPer accordingly
+        if (name === 'actualPrice') {
+            const discount = list[index]['discount'];
+            if (value !== '' && discount !== '') {
+                list[index]['discountPer'] = (discount / value) * 100;
+                list[index]['discountPer'] = (discount / value) * 100;
+            } else {
+                list[index]['discountPer'] = '';
+            }
+        }
+
         setInputList(list);
         parentCallback(list);
         console.log(list,"callback Data")

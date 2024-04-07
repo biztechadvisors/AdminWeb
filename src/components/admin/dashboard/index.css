@@ -1,0 +1,141 @@
+
+/* Update card colors */
+.dashboard-report-card {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.dashboard-report-card .card-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.dashboard-report-card .card-count {
+  font-size: 24px;
+  font-weight: bold;
+  display: block;
+}
+
+/* Update pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.pagination a {
+  color: #5a8dee;
+  font-size: 14px;
+  margin: 0 5px;
+  transition: color 0.3s;
+}
+
+.pagination a:hover {
+  color: #293b61;
+}
+
+/* Update search input styles */
+.form-control {
+  border-radius: 6px;
+}
+
+/* Update table styles */
+.ucp-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.ucp-table th,
+.ucp-table td {
+  padding: 10px;
+  text-align: center;
+}
+
+.ucp-table th {
+  background-color: #f2f2f2;
+}
+
+.ucp-table td {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.ucp-table .action-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-btn,
+.delete-btn {
+  font-size: 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  color: #5a8dee;
+}
+
+/* Update buttons styles */
+.status-btn,
+.view-btn {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.status-btn {
+  background-color: #f5f5f5;
+  margin-right: 10px;
+}
+
+.status-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.view-btn {
+  background-color: #5a8dee;
+  color: #fff;
+}
+
+.view-btn:hover {
+  background-color: #293b61;
+}
+
+/* Update card media icons */
+.card-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.card-media i {
+  font-size: 32px;
+  color: #5a8dee;
+}
+
+/* Update footer styles */
+.bg-footer {
+  background-color: #f2f2f2;
+  padding: 10px 0;
+}
+
+.footer-links a {
+  color: #5a8dee;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #293b61;
+}

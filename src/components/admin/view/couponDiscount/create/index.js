@@ -15,11 +15,16 @@ const Create = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [couponCode, setCouponCode] = useState("");
   const [discountType, setDiscountType] = useState("totalAmount");
-  const [isProductsFieldEnabled, setIsProductsFieldEnabled] = useState(false);
-  const [discount, setDiscount] = useState(0);
+  const [discount, setDiscount] = useState("");
   const [content, setContent] = useState("");
   const [discountPer, setDiscountPer] = useState("");
   const [onShopping, setOnShopping] = useState("");
+  const [discountOption, setDiscountOption] = useState("discount");
+
+
+  const handleBack = () => {
+    window.history.goBack();
+  };
 
   useEffect(() => {
     renderData();
@@ -49,12 +54,12 @@ const Create = () => {
   };
 
   const onSelect = (selectedList, selectedItem) => {
-    const value = Array.from(selectedList, (option) => option.id);
+    const value = selectedList.map((option) => option.id);
     setProductIds(value);
   };
 
   const onRemove = (selectedList, removedItem) => {
-    const value = Array.from(selectedList, (option) => option.id);
+    const value = selectedList.map((option) => option.id);
     setProductIds(value);
   };
 
@@ -68,29 +73,6 @@ const Create = () => {
 
   const handleDiscountTypeChange = (e) => {
     setDiscountType(e.target.value);
-    setIsProductsFieldEnabled(e.target.value === "particularProduct");
-  };
-
-  const handleBack = () => {
-    // Do something when back button is clicked
-    // e.g., navigate to the previous page
-  };
-
-  const handleDiscountChange = (e) => {
-    setDiscount(parseFloat(e.target.value));
-  };
-
-  const generateCouponCode = () => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-    const length = 10;
-    let couponCode = "";
-
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      couponCode += characters.charAt(randomIndex);
-    }
-
-    return couponCode;
   };
 
   const handleGenerateCouponCode = () => {
@@ -98,45 +80,50 @@ const Create = () => {
     setCouponCode(generatedCode);
   };
 
+  const handleDiscountChange = (e) => {
+    setDiscount(e.target.value);
+  };
+
+  const handleDiscountOptionChange = (e) => {
+    setDiscountOption(e.target.value);
+  };
+
+  const generateCouponCode = () => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    const length = 10;
+    let couponCode = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      couponCode += characters.charAt(randomIndex);
+    }
+    return couponCode;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const generatedCode = generateCouponCode();
-    setCouponCode(generatedCode);
-
     const formData = new FormData();
-    formData.append("couponCode", generatedCode);
-    formData.append("discount", discount);
+    formData.append("couponCode", couponCode);
     formData.append("discountType", discountType);
     formData.append("title", title);
     formData.append("description", content);
     formData.append("photo", thumbnail);
     formData.append("startDate", startDate);
     formData.append("endDate", endDate);
+
     if (discountType === "totalAmount") {
-      formData.append('onShopping', onShopping);
+      formData.append("onShopping", onShopping);
+      formData.append("discountPer", discountPer);
+      formData.append("discount", discount);
     } else {
-      formData.append('discountPer', discountPer);
-      formData.append('productIds', productIds);
+      formData.append("productIds", productIds);
+      formData.append("discountPer", discountPer);
+      formData.append("discount", discount);
     }
-
     try {
-      swal({
-        title: "Are you sure?",
-        text: "You want to create the product",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      }).then(async (success) => {
-        if (success) {
-
-          const response = await GetCouponDetails.couponDiscCreate(formData);
-
-          if (response && response.data) {
-            NotificationManager.success(response.data.message);
-            window.location.reload();
-          }
-        }
-      });
+      const response = await GetCouponDetails.couponDiscCreate(formData);
+      if (response && response.data) {
+        NotificationManager.success(response.data.message);
+      }
     } catch (error) {
       console.error("Error creating coupon:", error.response.data.error);
     }
@@ -162,7 +149,7 @@ const Create = () => {
                             type="text"
                             className="form-control"
                             value={couponCode}
-                            readOnly
+                            onChange={(e) => setCouponCode(e.target.value)}
                           />
                         </div>
                         <div className="col-sm-3">
@@ -174,24 +161,6 @@ const Create = () => {
                             Generate
                           </button>
                         </div>
-                      </div>
-                    </div>
-                    <br />
-                    <div className="form-group row">
-                      <label className="col-sm-3 control-label" htmlFor="discount">
-                        Discount
-                      </label>
-                      <div className="col-sm-9">
-                        <input
-                          type="number"
-                          placeholder="Discount"
-                          id="discount"
-                          name="discount"
-                          className="form-control"
-                          required
-                          value={discount}
-                          onChange={handleDiscountChange}
-                        />
                       </div>
                     </div>
                     <br />
@@ -324,24 +293,6 @@ const Create = () => {
                           </div>
                         </div>
                         <br />
-                        <div className="form-group row">
-                          <label className="col-sm-3 control-label" htmlFor="discountPer">
-                            Discount Percentage*
-                          </label>
-                          <div className="col-sm-9">
-                            <input
-                              type="number"
-                              placeholder="Discount Percentage"
-                              id="discountPer"
-                              name="discountPer"
-                              className="form-control"
-                              required
-                              value={discountPer}
-                              onChange={(e) => setDiscountPer(parseFloat(e.target.value))}
-                            />
-                          </div>
-                        </div>
-                        <br />
                       </div>
                     )}
                     {discountType === "totalAmount" && (
@@ -363,6 +314,73 @@ const Create = () => {
                         </div>
                       </div>
                     )}
+                    <br />
+
+                    <div className="form-group row">
+                      <label className="col-sm-3 control-label" htmlFor="discount">
+                        Discount*
+                      </label>
+                      <div className="col-sm-9">
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="discountOption"
+                            id="discount"
+                            value="discount"
+                            checked={discountOption === "discount"}
+                            onChange={handleDiscountOptionChange}
+                          />
+                          <label className="form-check-label" htmlFor="discountPer">
+                            Discount
+                          </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="discountOption"
+                            id="discountPer"
+                            value="discountPer"
+                            checked={discountOption === "discountPer"}
+                            onChange={handleDiscountOptionChange}
+                          />
+                          <label className="form-check-label" htmlFor="discountPer">
+                            Discount Percentage
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {discountOption === "discount" && (
+                      <div className="form-group" style={{ flex: "1" }}>
+                        <input
+                          type="number"
+                          placeholder="Discount"
+                          id="discount"
+                          name="discount"
+                          className="form-control"
+                          value={discount}
+                          onChange={handleDiscountChange}
+                        />
+                      </div>
+                    )}
+
+                    {discountOption === "discountPer" && (
+                      <div className="form-group" style={{ flex: "1" }}>
+                        <input
+                          type="number"
+                          placeholder="Discount Percentage"
+                          id="discountPer"
+                          name="discountPer"
+                          className="form-control"
+                          value={discountPer}
+                          onChange={(e) => setDiscountPer(e.target.value)}
+                        />
+                      </div>
+                    )}
+                    {/* <div className="form-container" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}></div> */}
+
                     <div className="form-group row">
                       <div className="col-lg-9 ml-auto">
                         <button type="submit" className="btn btn-primary">
@@ -377,6 +395,7 @@ const Create = () => {
                         </button>
                       </div>
                     </div>
+
                   </form>
                 </div>
               </div>

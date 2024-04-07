@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-// import { Link } from 'react-router-dom';
 import { GetUserLogin, GetOrderDetails } from "../../services";
+import "../sidebar/sidebar.css"
 
 export default class Header extends Component {
   constructor(props) {
@@ -9,6 +9,7 @@ export default class Header extends Component {
       list: "",
     };
   }
+
   async getOrderNotifications() {
     this.setState({ isloaded: true });
     let list = await GetOrderDetails.getOrderNotification();
@@ -16,12 +17,16 @@ export default class Header extends Component {
       this.setState({ list: list });
     }
   }
+
   componentDidMount() {
     this.getOrderNotifications();
   }
+
   render() {
+
     let { list } = this.state;
-    const { headerCallback} = this.props;
+    const { headerCallback } = this.props;
+    console.log("first",headerCallback)
     return (
       <div>
         <nav className="sb-topnav navbar navbar-expand navbar-light bg-clr">
@@ -31,7 +36,7 @@ export default class Header extends Component {
           <button
             className="btn btn-link btn-sm order-1 order-lg-0"
             id="sidebarToggle"
-            onClick={headerCallback}
+            onClick={headerCallback} // Assuming this prop is passed from parent
           >
             <i className="fas fa-bars" />
           </button>
@@ -39,7 +44,6 @@ export default class Header extends Component {
             <i className="fas fa-external-link-alt" />
             Home
           </a>
-
           <ul className="navbar-nav ml-auto mr-md-0">
             <div className="my-2">
               <li className="nav-item dropdown">
@@ -69,7 +73,6 @@ export default class Header extends Component {
                 </div>
               </li>
             </div>
-
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"

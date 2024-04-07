@@ -13,6 +13,10 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                     shortDesc: null,
                     specification: null,
                     productName: null,
+                    discount: null,
+                    discountPer: null,
+                    actualPrice: null,
+                    netPrice: null,
                     productCode: null,
                     qtyWarning: null,
                     Available: null,
@@ -40,11 +44,11 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         }
         // Handle the case when the discount is changed, and adjust discountPer accordingly
         if (name === 'discount') {
-            if (value !== '' && list[index]['actualPrice'] !== '') {
+            if (value !== null && list[index]['actualPrice'] !== null) {
                 list[index]['discountPer'] = (value / list[index]['actualPrice']) * 100;
                 list[index]['netPrice'] = (list[index]['actualPrice'] - value);
             } else {
-                list[index]['discountPer'] = '';
+                list[index]['discountPer'] = null;
             }
         }
         if (name === 'discountPer') {
@@ -57,11 +61,11 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         // Handle the case when actualPrice is changed, and adjust discountPer accordingly
         if (name === 'actualPrice') {
             const discount = list[index]['discount'];
-            if (value !== '' && discount !== '') {
+            if (value !== null && discount !== null) {
                 list[index]['discountPer'] = (discount / value) * 100;
                 list[index]['discountPer'] = (discount / value) * 100;
             } else {
-                list[index]['discountPer'] = '';
+                list[index]['discountPer'] = null;
             }
         }
 
