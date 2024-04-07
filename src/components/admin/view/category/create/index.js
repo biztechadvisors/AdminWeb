@@ -158,7 +158,7 @@ export default class MainCategory extends Component {
                     </label>
                     <textarea
                       className="form-control"
-                      placeholder="ex: janakpur,souqarena"
+                      placeholder="ex: Ninobyvani"
                       name="keyword"
                       value={this.state.keyword}
                       onChange={(e) => this.handleChange(e)}

@@ -177,7 +177,7 @@ export default class Edit extends Component {
             getList,
         } = this.state;
 
-        const collection_name = collection.name;
+        const collection_name = collection ? collection.name : "";
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -307,7 +307,7 @@ export default class Edit extends Component {
                                             <select
                                                 className="form-control"
                                                 name="collection"
-                                                defaultValue={this.state.collection.id}
+                                                defaultValue={this.state.collection ? this.state.collection.id : 0}
                                                 onChange={this.handleChange}
                                             >
                                                 <option >Select type</option>

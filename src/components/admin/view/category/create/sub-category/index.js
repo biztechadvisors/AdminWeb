@@ -134,7 +134,7 @@ export default class SubCategory extends Component {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Category Name"
+                      placeholder="Sub-Category Name"
                       name="name"
                       onChange={(e) => this.handleChange(e)}
                     />
@@ -161,7 +161,7 @@ export default class SubCategory extends Component {
                     </label>
                     <textarea
                       className="form-control"
-                      placeholder="ex: janakpur,souqarena"
+                      placeholder="ex: Ninobyvani"
                       name="keyword"
                       value={this.state.keyword}
                       onChange={(e) => this.handleChange(e)}

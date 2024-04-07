@@ -115,6 +115,20 @@ const getOrderTrackingById = async (shipment_id) => {
 };
 
 
+const getAllOrdermatrix = async (data) => {
+    console.log("first", data)
+    try {
+        let result = await api.post(Apis.GetAllOrdermatrix, data);
+        if (result.errors) {
+            NotificationManager.error(result.errors);
+            return null;
+        }
+        return result.data;
+    } catch (error) {
+        apiError(error)
+    }
+};
+
 
 export default {
     getAllOrderList,
@@ -124,4 +138,5 @@ export default {
     getAllProductProfitList,
     getDeleteOrder,
     getOrderTrackingById,
+    getAllOrdermatrix
 };

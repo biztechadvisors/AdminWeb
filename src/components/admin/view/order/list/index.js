@@ -84,6 +84,7 @@ class List extends Component {
       }
     });
   }
+
   render() {
     const { getList } = this.state;
     return (
@@ -188,7 +189,7 @@ class List extends Component {
                               Rs{row.Total} for {row.count} Items
                             </td>
                             <td className="action-btns">
-                             
+
                               <Link
                                 className="edit-btn"
                                 to={{

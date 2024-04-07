@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { GetUserLogin } from "../../services";
+import { NotificationManager } from "react-notifications";
 export default class Register extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +34,8 @@ export default class Register extends Component {
     };
     let user = await GetUserLogin.getUserRegister(data);
     if (user) {
+      console.log("successfully registered")
+      NotificationManager.success("successfully registered");
       this.setState({ redirectToReferrer: true });
       window.location.reload();
     }

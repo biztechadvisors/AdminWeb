@@ -5,9 +5,9 @@ import { GetCategoryDetails } from "../../../../../../services";
 export default class SubEdit extends Component {
   constructor(props) {
     super(props);
-    const { name, slug, title, keyword, desc } = this.props.state;
+    const { sub_name, slug, title, keyword, desc } = this.props.state;
     this.state = {
-      name: name,
+      name: sub_name,
       slug: slug,
       image: null,
       keyword: keyword,
@@ -129,7 +129,7 @@ export default class SubEdit extends Component {
                   </label>
                   <textarea
                     className="form-control"
-                    placeholder="ex: janakpur,souqarena"
+                    placeholder="ex: Ninobyvani"
                     name="keyword"
                     value={this.state.keyword}
                     onChange={(e) => this.handleChange(e)}
@@ -148,10 +148,10 @@ export default class SubEdit extends Component {
                   />
 
                   {/* <RichTextEditor
-                                        content={this.state.content}
-                                        handleContentChange={this.handleContentChange}
-                                        placeholder="insert text here..."
-                                    /> */}
+                    content={this.state.content}
+                    handleContentChange={this.handleContentChange}
+                    placeholder="insert text here..."
+                  /> */}
                 </div>
               </div>
               <div className="modal-footer">

@@ -23,10 +23,10 @@ export default class Signin extends Component {
       password: this.state.password,
       role: "admin",
     };
-    
-    console.log("first",data)
+
     let user = await GetUserLogin.getUserLogin(data);
-    console.log(user)
+    const id = user.custId;
+    localStorage.setItem("id", id);
     if (user) {
       GetUserLogin.authenticate(user, () => {
         this.setState({ redirectToReferrer: true, isloaded: false });
@@ -55,7 +55,7 @@ export default class Signin extends Component {
                         <div className="card-header card-sign-header">
                           <div className="panel-header text-center mb-3">
                             <img
-                              src="/images/logo.png"
+                              src="/images/nino-logo.png"
                               className="brand_logo"
                               alt="Logo"
                             />
@@ -109,7 +109,7 @@ export default class Signin extends Component {
                               <a className="btn btn-sign hover-btn">Login</a>
                             </div>
                             <p className="text-muted text-center mt-3 mb-2">
-                              Copyright © 2022 Codenox. All Rights Reserved
+                              Copyright © 2022 Codenoxx. All Rights Reserved
                             </p>
                           </form>
                         </div>
