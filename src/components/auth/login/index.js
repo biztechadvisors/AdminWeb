@@ -55,7 +55,7 @@ export default class Signin extends Component {
                         <div className="card-header card-sign-header">
                           <div className="panel-header text-center mb-3">
                             <img
-                              src="/images/logo.png"
+                              src="/images/nino-logo.png"
                               className="brand_logo"
                               alt="Logo"
                             />

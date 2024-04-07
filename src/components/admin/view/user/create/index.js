@@ -61,21 +61,22 @@ export default class Create extends Component {
         let user = await GetUserLogin.getUserRegister(data);
         if (user) {
           this.setState({ isLoaded: false });
-          if (user.data.status) {
+          if (user.data && user.data.status) {
             NotificationManager.warning(user.message);
-            setTimeout(() => {
-              this.props.history.goBack();
-            }, 1000);
-          } else {
+          } else if (user.data) {
             NotificationManager.success(user.message);
-            setTimeout(() => {
-              this.props.history.goBack();
-            }, 1000);
+          } else {
+            console.error('User data is not defined');
           }
+          setTimeout(() => {
+            this.props.history.goBack();
+          }, 1000);
         } else {
+          console.error('User is not defined');
           this.setState({ isLoaded: false });
         }
       } catch (err) {
+        console.error(err);
         this.setState({ isLoaded: false });
       }
     }

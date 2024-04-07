@@ -102,6 +102,7 @@ export default class Newproduct extends Component {
                 if (success && formData) {
                     let list = await GetProductDetails.addProductList(formData, config);
                     if (list) {
+                        console.log('list-105', list)
                         this.setState({ isLoaded: false })
                         this.props.history.push("/admin/shop/seller/all-product")
                     } else {

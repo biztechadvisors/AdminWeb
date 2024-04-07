@@ -130,10 +130,6 @@ export default class List extends Component {
       console.log("Error fetching product data");
     }
   }
-  
-
-
-
 
   async componentDidMount() {
     const urlSearchParams = new URLSearchParams(window.location.search);

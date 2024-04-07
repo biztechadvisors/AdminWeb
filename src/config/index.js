@@ -1,7 +1,8 @@
 const API_URL =
   document.domain === "localhost"
     ? "http://localhost:5050"
-    : "https://diversitech.link";
+    : "http://localhost:5050";
+// : "https://diversitech.link";
 
 const Apis = {
   //Authentication api
@@ -117,6 +118,9 @@ const Apis = {
   GetOrderStatusUpdate: `${API_URL}/api/order/status/update`,
   GetOrderNotification: `${API_URL}/api/order/notifications`,
   GetDetailAdmin: `${API_URL}/api/order/totalDash-list`,
+
+  // Matrix Graph-Bar
+  GetAllOrdermatrix: `${API_URL}/api/order/OrderMatrix`,
 
   // business details
   GetAllProductProfitList: `${API_URL}/api/business/getAllProductProfit`,

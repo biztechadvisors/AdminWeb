@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { Paper, Grid, Button } from "@material-ui/core";
 import AdminDetail from "./adminDetail";
 import './index.css'
+import Metrics from "./metrics";
 
 export default class Home extends Component {
   constructor(props) {
@@ -122,21 +123,16 @@ export default class Home extends Component {
                 <div className="dashboard-report-card purple">
                   <div className="card-content">
                     <span className="card-title">Order Shipping</span>
-                    {statusList
-                      ? statusList.map((row, index) => (
-                        <span
-                          className="card-count"
-                          key={index}
-                          style={
-                            row.status === "shipping"
-                              ? { display: "block" }
-                              : { display: "none" }
-                          }
-                        >
-                          {row.total}
-                        </span>
-                      ))
-                      : ""}
+                    {/* {statusList
+                      ? statusList.map((row, index) => ( */}
+                    <span
+                      className="card-count"
+                    // key={index}
+                    >
+                      {statusList && statusList.status === "shipping" ? statusList.total : "0"}
+                    </span>
+                    {/* ))
+                      : ""} */}
                   </div>
                   <div className="card-media">
                     <i className="fab fa-rev" />
@@ -147,21 +143,16 @@ export default class Home extends Component {
                 <div className="dashboard-report-card red">
                   <div className="card-content">
                     <span className="card-title">Order Cancel</span>
-                    {statusList
-                      ? statusList.map((row, index) => (
-                        <span
-                          className="card-count"
-                          key={index}
-                          style={
-                            row.status === "cancel"
-                              ? { display: "block" }
-                              : { display: "none" }
-                          }
-                        >
-                          {row.total}
-                        </span>
-                      ))
-                      : ""}
+                    {/* {statusList
+                      ? statusList.map((row, index) => ( */}
+                    <span
+                      className="card-count"
+                    // key={index}
+                    >
+                      {statusList && statusList.status === "cancel" ? statusList.total : "0"}
+                    </span>
+                    {/* ))
+                      : ""} */}
                   </div>
                   <div className="card-media">
                     <i className="far fa-times-circle" />
@@ -172,21 +163,16 @@ export default class Home extends Component {
                 <div className="dashboard-report-card info">
                   <div className="card-content">
                     <span className="card-title">Order Process</span>
-                    {statusList
-                      ? statusList.map((row, index) => (
-                        <span
-                          className="card-count"
-                          key={index}
-                          style={
-                            row.status === "processing"
-                              ? { display: "block" }
-                              : { display: "none" }
-                          }
-                        >
-                          {row.total}
-                        </span>
-                      ))
-                      : ""}
+                    {/* {statusList
+                      ? statusList.map((row, index) => ( */}
+                    <span
+                      className="card-count"
+                    // key={index}
+                    >
+                      {statusList && statusList.status === "processing" ? statusList.total : "0"}
+                    </span>
+                    {/* ))
+                      : ""} */}
                   </div>
                   <div className="card-media">
                     <i className="fas fa-sync-alt rpt_icon" />
@@ -197,21 +183,16 @@ export default class Home extends Component {
                 <div className="dashboard-report-card success">
                   <div className="card-content">
                     <span className="card-title">Order Delivered</span>
-                    {statusList
-                      ? statusList.map((row, index) => (
-                        <span
-                          className="card-count"
-                          key={index}
-                          style={
-                            row.status === "delivered"
-                              ? { display: "block" }
-                              : { display: "none" }
-                          }
-                        >
-                          {row.total}
-                        </span>
-                      ))
-                      : ""}
+                    {/* {statusList
+                      ? statusList.map((row, index) => ( */}
+                    <span
+                      className="card-count"
+                    // key={index}
+                    >
+                      {statusList && statusList.status === "delivered" ? statusList.total : "0"}
+                    </span>
+                    {/* ))
+                      : ""} */}
                   </div>
                   <div className="card-media">
                     <i className="fas fa-money-bill rpt_icon" />
@@ -360,53 +341,40 @@ export default class Home extends Component {
                   <div>
                     <Grid container className="mt-3">
                       <div className="col-xl-7 col-md-7">
+
                         <Paper>
                           <div className="card">
                             <div className="card-header">
-                              <h6 className="mb-0">Products</h6>
+                              <h6 className="mb-0">Sales Graph</h6>
                             </div>
                             <div className="card-body">
-                              <div className="text-center">
-                                <Button
-                                  variant="contained"
-                                  color="secondary"
-                                  onClick={() =>
-                                    this.props.history.push("/admin/product/create")
-                                  }
-                                >
-                                  {" "}
-                                  Add new Proudct
-                                </Button>
-                              </div>
+                              <Metrics />
                             </div>
                           </div>
                         </Paper>
+
                       </div>
                       <div className="col-xl-5 col-md-5">
                         <Grid container>
                           <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <div className="card mb-4 p-4 text-center">
-                              <div className="h5 fw-600">Shop</div>
-                              <p>Manage &amp; organize your shop</p>
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={() =>
-                                  this.props.history.push("/admin/shop/list")
-                                }
-                              >
-                                Go to setting
-                              </Button>
-                            </div>
-                          </Grid>
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <div className="card mb-4 p-4 text-center">
-                              <div className="h5 fw-600">Payment</div>
-                              <p>Configure your payment method</p>
-                              <Button variant="contained" color="secondary">
-                                Configure Now
-                              </Button>
-                              <div></div>
+                            <div className="card">
+                              <div className="card-header">
+                                <h6 className="mb-0">Products</h6>
+                              </div>
+                              <div className="card-body">
+                                <div className="text-center">
+                                  <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() =>
+                                      this.props.history.push("/admin/product/create")
+                                    }
+                                  >
+                                    {" "}
+                                    Add new Proudct
+                                  </Button>
+                                </div>
+                              </div>
                             </div>
                           </Grid>
                         </Grid>
@@ -422,7 +390,7 @@ export default class Home extends Component {
           <div className="container-fluid">
             <div className="d-flex align-items-center justify-content-between small">
               <div className="text-muted-1">
-                © 2020 <b>Eshop Supermarket</b>. by <a>codenox</a>
+                © 2024 <b>Ninobyvani</b>.
               </div>
               <div className="footer-links">
                 <a href="/">Privacy Policy</a>
