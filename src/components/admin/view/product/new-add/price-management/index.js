@@ -125,6 +125,8 @@ const Pricecolormanagement = ({ parentCallback }) => {
                 attribute: {},
             },
         ]);
+
+        console.log('inputList', inputList)
     };
 
     return (
@@ -140,7 +142,7 @@ const Pricecolormanagement = ({ parentCallback }) => {
                                         <label className="form-label font-weight-bold">{value.name}*</label>
                                         <select
                                             name="attribute"
-                                            value={x.attribute[value.name] || ''}
+                                            value={x.attribute[value.name] || value.name} // Set default value to label name
                                             onChange={(e) => handleAttributeChange(e, i, value)}
                                             style={{
                                                 backgroundColor: '#fff',
@@ -152,7 +154,7 @@ const Pricecolormanagement = ({ parentCallback }) => {
                                                 marginBottom: '10px'
                                             }}
                                         >
-                                            {/* <option value="">{value.name}</option> */}
+                                            <option value={value.name}>{value.name}</option> {/* Add default option with label name */}
                                             {value.AttributeValues.map((val, index) => (
                                                 <option key={index} value={val.value}>
                                                     {val.value}
