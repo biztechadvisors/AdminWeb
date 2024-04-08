@@ -185,5 +185,15 @@ const Apis = {
 
   GetOrderTrackingById: `${API_URL}/api/order/track-order`,
 
+
+  // ******Attribute****** //
+
+  AttributeAdd: `${API_URL}/api/attribute/attributeAdd`,
+  AttributeValuesAdd: `${API_URL}/api/attribute/attributeValuesAdd`,
+  GetAllAttribute: `${API_URL}/api/attribute/getAllAttribute`,
+  GetAttribute: `${API_URL}/api/attribute/getAttribute`,
+  GetDeleteAttributeValue: `${API_URL}/api/attribute/getDeleteAttributeValue`,
+  GetDeleteAttribute: `${API_URL}/api/attribute/getDeleteAttribute`,
+
 };
 export { API_URL, Apis };

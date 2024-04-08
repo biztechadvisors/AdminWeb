@@ -10,3 +10,4 @@ export { default as GetSalonDetails } from "./GetSalonDetails";
 export { default as GetSeoDetails } from "./GetSeoDetails";
 export { default as GetCollection } from "./GetCollection";
 export { default as GetCouponDetails } from "./GetCouponDetails";
+export { default as GetAttribute } from "./GetAttribute";

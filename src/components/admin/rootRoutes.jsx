@@ -20,6 +20,7 @@ import Product from "./view/product";
 import CouponDiscount from "./view/couponDiscount";
 import Customization from "./view/customizatoin";
 import "./sidebar/sidebar.css";
+import Attribute from "./view/Attribute";
 
 export default class rootRoutes extends Component {
 
@@ -70,6 +71,7 @@ export default class rootRoutes extends Component {
           <Route path={`${match.path}/customization`} component={Customization} />
           <Route path={`${match.path}/seo`} component={SeoDetail} />
           <Route path={`${match.path}/image/upload`} component={Bannerlist} />
+          <Route path={`${match.path}/Attribute`} component={Attribute} />
         </Switch>
       </main>
     );

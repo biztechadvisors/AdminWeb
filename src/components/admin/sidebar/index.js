@@ -134,7 +134,7 @@ export default class Sidebar extends Component {
                       </a>
                     </nav>
                   </div>
-                  <a
+                  {/* <a
                     className="nav-link collapsed"
                     href="#collapseProducts"
                     data-toggle="collapse"
@@ -159,6 +159,35 @@ export default class Sidebar extends Component {
                     <nav className="sb-sidenav-menu-nested nav">
                       <a className="nav-link sub_nav_link" href="/admin/color/list">
                         Color
+                      </a>
+                    </nav>
+                  </div> */}
+
+<a
+                    className="nav-link collapsed"
+                    href="#collapseAttribute"
+                    data-toggle="collapse"
+                    data-target="#collapseAttribute"
+                    aria-expanded="false"
+                    aria-controls="collapseProducts"
+                  >
+                    <div className="sb-nav-link-icon">
+                      <i className="fas fa-box" />
+                    </div>
+                    Attributes
+                    <div className="sb-sidenav-collapse-arrow">
+                      <i className="fas fa-angle-down" />
+                    </div>
+                  </a>
+                  <div
+                    className="collapse"
+                    id="collapseAttribute"
+                    aria-labelledby="headingTwo"
+                    data-parent="#sidenavAccordion"
+                  >
+                    <nav className="sb-sidenav-menu-nested nav">
+                      <a className="nav-link sub_nav_link" href="/admin/Attribute/list">
+                        Attribute
                       </a>
                     </nav>
                   </div>

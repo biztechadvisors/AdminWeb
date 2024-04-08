@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Button, TextField } from '@material-ui/core';
 import RichTextEditor from '../../../../../RichTextEditor';
+import { GetAttribute } from '../../../../../services';
 
 const Pricecolormanagement = ({ parentCallback }) => {
     const [inputList, setInputList] = useState([
@@ -14,10 +15,31 @@ const Pricecolormanagement = ({ parentCallback }) => {
             discountPer: '',
             discount: '',
             netPrice: '',
-            longDesc: '', 
+            longDesc: '',
             shortDesc: '',
+            attribute: {},
         },
     ]);
+
+    const [attributeList, setAttributeList] = useState([])
+    useEffect(() => {
+        async function fetchAttributeList() {
+            const AttributeList = await GetAttribute.getAllAttribute();
+            setAttributeList(AttributeList.data);
+        }
+        fetchAttributeList();
+    }, []);
+
+    console.log("attributeList", attributeList)
+
+    const handleAttributeChange = (e, index, attribute) => {
+        const { value } = e.target;
+        const list = [...inputList];
+        list[index]['attribute'][attribute.name] = value;
+        setInputList(list);
+
+        console.log("List***change", list)
+    };
 
     const calculateNetPrice = (index) => {
         const list = [...inputList];
@@ -75,7 +97,7 @@ const Pricecolormanagement = ({ parentCallback }) => {
 
         setInputList(list);
         parentCallback(list);
-        console.log(list,"callback Data")
+        console.log(list, "callback Data")
         calculateNetPrice(index);
     };
 
@@ -98,8 +120,9 @@ const Pricecolormanagement = ({ parentCallback }) => {
                 discountPer: '',
                 discount: '',
                 netPrice: '',
-                longDesc: '', 
-                shortDesc: '', 
+                longDesc: '',
+                shortDesc: '',
+                attribute: {},
             },
         ]);
     };
@@ -109,7 +132,38 @@ const Pricecolormanagement = ({ parentCallback }) => {
             <label>Price List</label>
             {inputList.map((x, i) => {
                 return (
-                    <div className="row price_list_details" key={i}>
+                    <div className="row price_list_details" key={i} style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginBottom: '10px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%', boxSizing: 'border-box' }}>
+                            {attributeList.map((value, key) => (
+                                value.name !== undefined && (
+                                    <div key={key} style={{ marginBottom: '10px', width: '100%', boxSizing: 'border-box' }}>
+                                        <label className="form-label font-weight-bold">{value.name}*</label>
+                                        <select
+                                            name="attribute"
+                                            value={x.attribute[value.name] || ''}
+                                            onChange={(e) => handleAttributeChange(e, i, value)}
+                                            style={{
+                                                backgroundColor: '#fff',
+                                                color: '#000',
+                                                padding: '15px',
+                                                fontSize: '16px',
+                                                width: '100%',
+                                                border: 'none',
+                                                marginBottom: '10px'
+                                            }}
+                                        >
+                                            {/* <option value="">{value.name}</option> */}
+                                            {value.AttributeValues.map((val, index) => (
+                                                <option key={index} value={val.value}>
+                                                    {val.value}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )
+                            ))}
+                        </div>
+
                         <div className="col-md-3">
                             <TextField
                                 label="Product Name*"
@@ -227,7 +281,7 @@ const Pricecolormanagement = ({ parentCallback }) => {
                     </div>
                 );
             })}
-        </Grid>
+        </Grid >
     );
 };
 
