@@ -35,6 +35,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
             ]
     );
 
+    console.log('Options*****', inputList)
+
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
         const list = [...inputList];
@@ -175,7 +177,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
 
                             />
                         </Grid>
-                        <Grid item md={3} lg={3}>
+                        {/* <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Age*</label>
                             <input
                                 className="form-control"
@@ -194,7 +196,10 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 defaultValue={x.color ? x.color.TITLE : ''}
                                 onChange={(e) => handleInputChange(e, i)}
                             />
-                        </Grid>
+                        </Grid> */}
+
+
+
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Stock Visibility*</label>
                             <select className="form-control" name="stockType" onChange={(e) => handleInputChange(e, i)} defaultValue={x.stockType}>

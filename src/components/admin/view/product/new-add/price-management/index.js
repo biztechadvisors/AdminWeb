@@ -193,7 +193,7 @@ const Pricecolormanagement = ({ parentCallback }) => {
                                 onChange={(e) => handleInputChange(e, i)}
                             />
                         </div>
-                        <div className="col-md-2">
+                        {/* <div className="col-md-2">
                             <TextField
                                 label="Age*"
                                 name="memory"
@@ -201,8 +201,8 @@ const Pricecolormanagement = ({ parentCallback }) => {
                                 value={x.memory}
                                 onChange={(e) => handleInputChange(e, i)}
                             />
-                        </div>
-                        <div className="col-md-3">
+                        </div> */}
+                        {/* <div className="col-md-3">
                             <TextField
                                 label="Color Code*"
                                 name="colorCode"
@@ -210,7 +210,7 @@ const Pricecolormanagement = ({ parentCallback }) => {
                                 value={x.colorCode}
                                 onChange={(e) => handleInputChange(e, i)}
                             />
-                        </div>
+                        </div> */}
                         <div className="col-md-3">
                             <TextField
                                 label="Actual Price*"
