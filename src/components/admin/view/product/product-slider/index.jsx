@@ -285,7 +285,9 @@ export default class Uploadphoto extends Component {
                                                                             <tr key={index}>
                                                                                 <td><img src={data.imgUrl} alt="product-name" height="65px" /></td>
                                                                                 <td>
-                                                                                    <span className="delete-btn" style={{ cursor: 'pointer' }} onClick={(e) => this.handlDeleteById(data)} ><i className="fas fa-trash-alt" /></span>
+                                                                                    <span 
+                                                                                    // className="delete-btn"
+                                                                                     style={{ cursor: 'pointer' }} onClick={(e) => this.handlDeleteById(data)} ><i className="fas fa-trash-alt" /></span>
                                                                                 </td>
 
                                                                             </tr>

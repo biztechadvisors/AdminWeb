@@ -330,7 +330,7 @@ export default class List extends Component {
                                           <td>
                                             <div className="action-btns">
                                               <Typography
-                                                className="delete-btn"
+                                                className="action-btns"
                                                 onClick={() => this.handlProductVarient(row.id)}
                                               >
                                                 <i className="fas fa-trash-alt" />

@@ -221,7 +221,7 @@ export default class List extends Component {
                                 <td>
                                   <div className="action-btns">
                                     <Typography
-                                      className="delete-btn"
+                                      // className="delete-btn"
                                       onClick={() => this.handlProductDelete(row.id)}
                                     >
                                       <i className="fas fa-trash-alt" />

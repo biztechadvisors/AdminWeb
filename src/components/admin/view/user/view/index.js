@@ -167,7 +167,7 @@ export default class View extends Component {
                                   <i className="fas fas fa-edit" />
                                 </a>
                                 <Typography
-                                  className="delete-btn"
+                                  // className="delete-btn"
                                   onClick={(e) => this.handlDeleteById(row.id)}
                                 >
                                   <i className="fas fa-trash-alt" />

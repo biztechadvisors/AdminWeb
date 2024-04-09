@@ -246,7 +246,7 @@ export default class SubChildCategory extends Component {
                                   <td className="action-btns">
                                     <Edit state={row} />
                                     <Typography
-                                      className="delete-btn"
+                                      // className="delete-btn"
                                       onClick={(e) =>
                                         this.handlDeleteById(row.id)
                                       }

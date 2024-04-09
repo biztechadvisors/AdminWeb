@@ -201,7 +201,7 @@ class List extends Component {
                               </Link>
 
                               <span
-                                className="delete-btn"
+                                // className="delete-btn"
                                 style={{ cursor: "pointer" }}
                                 onClick={(e) => this.handlDeleteById(row)}
                               >

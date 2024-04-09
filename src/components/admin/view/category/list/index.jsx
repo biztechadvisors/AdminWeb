@@ -162,7 +162,7 @@ export default class List extends Component {
                               <td>{row.SubCat}</td>
                               <td className="action-btns">
                                 <Typography
-                                  className="delete-btn"
+                                  // className="delete-btn"
                                   onClick={(e) => this.handlDeleteById(row.id)}
                                 >
                                   <i className="fas fa-trash-alt" />

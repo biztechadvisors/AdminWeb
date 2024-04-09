@@ -140,7 +140,7 @@ const Pricecolormanagement = ({ parentCallback }) => {
                                         <label className="form-label font-weight-bold">{value.name}*</label>
                                         <select
                                             name="attribute"
-                                            value={x.attribute[value.name] || ''}
+                                            defaultValue={x.attribute[value.name] || ''}
                                             onChange={(e) => handleAttributeChange(e, i, value)}
                                             style={{
                                                 backgroundColor: '#fff',

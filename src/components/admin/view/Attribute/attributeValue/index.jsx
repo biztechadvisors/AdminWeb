@@ -256,7 +256,7 @@ const AttributeValue = () => {
                                                         <td style={{ width: "100px" }}>{row.meta}</td>
                                                         <td>
                                                             <span
-                                                                // className="delete-btn"
+                                                                className="action-btns"
                                                                 style={{ cursor: "pointer" }}
                                                                 onClick={(e) => handleDeleteById(row)}
                                                             >

@@ -159,7 +159,7 @@ const List = () => {
                                   <td>{prop.productList.name}</td>
                                   <td>
                                     <Typography
-                                      className="delete-btn"
+                                      // className="delete-btn"
                                       onClick={(e) =>
                                         handlDeleteById(prop.id)
                                       }
@@ -195,7 +195,7 @@ const List = () => {
                         <td className="action-btns">
                           <Edit state={row} />
                           <Typography
-                            className="delete-btn"
+                            // className="delete-btn"
                             onClick={(e) => CouponHandlDeleteById(row.id)}
                           >
                             <i className="fas fa-trash-alt" />

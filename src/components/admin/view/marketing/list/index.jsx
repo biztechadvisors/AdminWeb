@@ -150,7 +150,7 @@ export default class List extends Component {
                                       </td>
                                       <td>
                                         <Typography
-                                          className="delete-btn"
+                                          // className="delete-btn"
                                           onClick={(e) =>
                                             this.handlDeleteById(prop.id)
                                           }
@@ -185,7 +185,7 @@ export default class List extends Component {
                           <td className="action-btns">
                             <Edit state={row} />
                             {/* <Typography
-                              className="delete-btn"
+                              // className="delete-btn"
                               onClick={(e) => this.handlDeleteById(row.id)}
                             >
                               <i className="fas fa-trash-alt" />

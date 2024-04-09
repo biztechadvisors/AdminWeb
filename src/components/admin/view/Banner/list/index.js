@@ -306,7 +306,7 @@ export default class List extends Component {
                                                             <td>
                                                                 <span><Edit state={row} /></span>
                                                                 <span
-                                                                    className="delete-btn"
+                                                                    // className="delete-btn"
                                                                     style={{ cursor: "pointer" }}
                                                                     onClick={(e) => this.handlDeleteById(row)}
                                                                 >

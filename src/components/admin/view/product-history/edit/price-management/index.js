@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import RichTextEditor from '../../../../../RichTextEditor';
+import { GetProductDetails } from '../../../../../services';
+import swal from "sweetalert";
 
 export const Pricecolormanagement = ({ parentCallback, state }) => {
     const [inputList, setInputList] = useState(
@@ -74,10 +76,10 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         parentCallback(list);
     };
 
-    const handleAddClick = () => {
-        console.log(inputList, "Inputlist")
-        parentCallback(inputList);
-    };
+    // const handleAddClick = () => {
+    //     console.log(inputList, "Inputlist")
+    //     parentCallback(inputList);
+    // };
 
     const handleContentChange = (contentHtml, index) => {
         const list = [...inputList];
@@ -90,6 +92,59 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         list[index].shortDesc = contentHtml;
         setInputList(list);
     };
+
+    // const handleRemoveClick = index => {
+    //     const list = [...inputList];
+    //     list.splice(index, 1);
+    //     setInputList(list);
+    //     parentCallback(list)
+    // };
+    const handlProductVarient = (id) => {
+        console.log("getids", id)
+        swal({
+            title: "Are you sure?",
+            text: "You want to delete product",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (success) => {
+            if (success) {
+                let value = await GetProductDetails.getProductVarient(id);
+                window.location.reload()
+                window.location.href = "/admin/seller/product-detail/list/history"
+            }
+        });
+    };
+
+    const handleAddClick = () => {
+        setInputList(prevInputList => [
+            ...prevInputList,
+            {
+                id: null,
+                longDesc: null,
+                shortDesc: null,
+                specification: null,
+                productName: null,
+                discount: null,
+                discountPer: null,
+                actualPrice: null,
+                netPrice: null,
+                productCode: null,
+                qtyWarning: null,
+                Available: null,
+                unitSize: null,
+                qty: null,
+                color: null,
+                thumbnail: null,
+                galleryImg: null,
+                youTubeUrl: null,
+                stockType: false,
+                refundable: true,
+                COD: null,
+            },
+        ]);
+    };
+
 
     return (
         <Grid >
@@ -275,6 +330,17 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 placeholder="insert text here..."
                                 onChange={(e) => handleInputChange(e, i)}
                             />
+                        </Grid>
+
+                        <Grid item md={12} lg={12}>
+                            <div className="btn-box" style={{ marginTop: '1rem' }}>
+                                {inputList.length !== 1 && <Button
+                                    variant="contained"
+                                    // onClick={() => handleRemoveClick(i)} style={{ marginRight: '1rem' }}>Remove</Button>
+                                    onClick={() => handlProductVarient(x.id)} style={{ marginRight: '1rem' }}>Remove</Button>
+                                }
+                                {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick}>Add</Button>}
+                            </div>
                         </Grid>
                     </Grid>
                 );

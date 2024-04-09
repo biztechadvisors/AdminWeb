@@ -201,7 +201,7 @@ export default class SuperCategory extends Component {
                                             </td>
                                             <td>
                                               <span
-                                                className="delete-btn"
+                                                // className="delete-btn"
                                                 onClick={(e) =>
                                                   this.handlDeleteById(
                                                     row.id,
@@ -220,7 +220,7 @@ export default class SuperCategory extends Component {
                                 <td className="action-btns">
                                   <Edit state={row} />
                                   <span
-                                    className="delete-btn"
+                                    // className="delete-btn"
                                     onClick={(e) =>
                                       this.handlDeleteById(row.id)
                                     }

@@ -157,7 +157,7 @@ export default class ImageDetail extends Component {
                                 className="product-image"
                               />
                               <span
-                                className="delete-btn"
+                                // className="delete-btn"
                                 onClick={() => this.handlMultipeDelete(data)}
                               >
                                 <i className="fas fa-trash-alt" />
