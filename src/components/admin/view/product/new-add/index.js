@@ -119,7 +119,7 @@ export default class Newproduct extends Component {
                     if (list) {
                         console.log('list-105', list)
                         this.setState({ isLoaded: false })
-                        this.props.history.push("/admin/shop/seller/all-product")
+                        // this.props.history.push("/admin/shop/seller/all-product")
                     } else {
                         this.setState({ isLoaded: false })
                         NotificationManager.error("Please! Check input field", "Input Field");
