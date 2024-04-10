@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Button } from '@material-ui/core';
 import RichTextEditor from '../../../../../RichTextEditor';
-import { GetProductDetails } from '../../../../../services';
+import { GetAttribute, GetProductDetails } from '../../../../../services';
 import swal from "sweetalert";
 
 export const Pricecolormanagement = ({ parentCallback, state }) => {
@@ -31,11 +31,32 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                     stockType: false,
                     refundable: true,
                     COD: null,
+                    variationOptions: {},
                 },
             ]
     );
 
     console.log('Options*****', inputList)
+
+    const [attributeList, setAttributeList] = useState([])
+    useEffect(() => {
+        async function fetchAttributeList() {
+            const AttributeList = await GetAttribute.getAllAttribute();
+            setAttributeList(AttributeList.data);
+        }
+        fetchAttributeList();
+    }, []);
+
+    console.log("attributeList", attributeList)
+
+    const handleAttributeChange = (e, index, attribute) => {
+        const { value } = e.target;
+        const list = [...inputList];
+        list[index]['variationOptions'][attribute.slug] = value; // Use attribute slug instead of name
+        setInputList(list);
+
+        console.log("List***change", list)
+    };
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -78,11 +99,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         parentCallback(list);
     };
 
-    // const handleAddClick = () => {
-    //     console.log(inputList, "Inputlist")
-    //     parentCallback(inputList);
-    // };
-
     const handleContentChange = (contentHtml, index) => {
         const list = [...inputList];
         list[index].longDesc = contentHtml;
@@ -95,12 +111,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         setInputList(list);
     };
 
-    // const handleRemoveClick = index => {
-    //     const list = [...inputList];
-    //     list.splice(index, 1);
-    //     setInputList(list);
-    //     parentCallback(list)
-    // };
     const handlProductVarient = (id) => {
         console.log("getids", id)
         swal({
@@ -143,19 +153,50 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                 stockType: false,
                 refundable: true,
                 COD: null,
+                variationOptions: {},
             },
         ]);
     };
-
 
     return (
         <Grid >
             <div>
             </div>
-            {/* <label>Product Price</label> */}
             {inputList.map((x, i) => {
                 return (
                     <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '1rem', background: 'rgb(195 232 191 / 25%)' } : { background: '#DAF7A6' }}>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%', boxSizing: 'border-box' }}>
+                            {attributeList.map((value, key) => (
+                                value.name !== undefined && (
+                                    <div key={key} style={{ marginBottom: '10px', width: '100%', boxSizing: 'border-box' }}>
+                                        <label className="form-label font-weight-bold">{value.name}*</label>
+                                        <select
+                                            name="variationOptions"
+                                            value={(x.variationOptions.find(opt => opt.name === value.name) || {}).value || ''} // Find the matching variation option based on attribute name
+                                            onChange={(e) => handleAttributeChange(e, i, value)}
+                                            style={{
+                                                backgroundColor: '#fff',
+                                                color: '#000',
+                                                padding: '15px',
+                                                fontSize: '16px',
+                                                width: '100%',
+                                                border: 'none',
+                                                marginBottom: '10px'
+                                            }}
+                                        >
+                                            <option value="">Select {value.name}</option> {/* Add a default option */}
+                                            {value.AttributeValues.map((val, index) => (
+                                                <option key={index} value={val.value}>
+                                                    {val.value}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )
+                            ))}
+                        </div>
+
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Product Name<span className="text-danger">*</span></label>
                             <input
@@ -177,28 +218,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
 
                             />
                         </Grid>
-                        {/* <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Age*</label>
-                            <input
-                                className="form-control"
-                                name="memory"
-                                placeholder="ex: 10-12 years old"
-                                defaultValue={x.memory}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Color*</label>
-                            <input
-                                className="form-control"
-                                name="color"
-                                defaultValue={x.color ? x.color.TITLE : ''}
-                                onChange={(e) => handleInputChange(e, i)}
-                            />
-                        </Grid> */}
-
-
 
                         <Grid item md={3} lg={3}>
                             <label className="form-label font-weight-bold">Stock Visibility*</label>
@@ -355,3 +374,26 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
 }
 
 export default Pricecolormanagement;
+
+
+{/* <Grid item md={3} lg={3}>
+                            <label className="form-label font-weight-bold">Age*</label>
+                            <input
+                                className="form-control"
+                                name="memory"
+                                placeholder="ex: 10-12 years old"
+                                defaultValue={x.memory}
+                                onChange={(e) => handleInputChange(e, i)}
+
+                            />
+                        </Grid>
+                        <Grid item md={3} lg={3}>
+                            <label className="form-label font-weight-bold">Color*</label>
+                            <input
+                                className="form-control"
+                                name="color"
+                                defaultValue={x.color ? x.color.TITLE : ''}
+                                onChange={(e) => handleInputChange(e, i)}
+                            />
+                        </Grid> */}
+
