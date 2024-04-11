@@ -31,12 +31,11 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                     stockType: false,
                     refundable: true,
                     COD: null,
-                    variationOptions: {},
+                    variationOptions: [], // Initialize as an empty array
                 },
             ]
     );
 
-    console.log('Options*****', inputList)
 
     const [attributeList, setAttributeList] = useState([])
     useEffect(() => {
@@ -47,15 +46,20 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         fetchAttributeList();
     }, []);
 
-    console.log("attributeList", attributeList)
-
+    // handleAttributeChange function
     const handleAttributeChange = (e, index, attribute) => {
         const { value } = e.target;
         const list = [...inputList];
-        list[index]['variationOptions'][attribute.slug] = value; // Use attribute slug instead of name
-        setInputList(list);
+        const attributeIndex = list[index]['variationOptions'].findIndex(opt => opt.name === attribute.name);
 
-        console.log("List***change", list)
+        if (attributeIndex !== -1) {
+            // If the attribute already exists, update its value
+            list[index]['variationOptions'][attributeIndex].value = value;
+        } else {
+            // If the attribute doesn't exist, add it to the list
+            list[index]['variationOptions'].push({ name: attribute.name, value: value });
+        }
+        setInputList(list);
     };
 
     const handleInputChange = (e, index) => {
@@ -94,10 +98,9 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
             }
         }
 
-        console.log("List", list)
         setInputList(list);
-        parentCallback(list);
     };
+
 
     const handleContentChange = (contentHtml, index) => {
         const list = [...inputList];
@@ -153,247 +156,240 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                 stockType: false,
                 refundable: true,
                 COD: null,
-                variationOptions: {},
+                variationOptions: [],
             },
         ]);
     };
 
+    useEffect(() => {
+        // Move this outside of the functions
+        parentCallback(inputList);
+    }, [inputList])
+
+    console.log("inputList***", inputList)
+    console.log("attributeList***", attributeList)
+
     return (
         <Grid >
-            <div>
-            </div>
-            {inputList.map((x, i) => {
-                return (
-                    <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '1rem', background: 'rgb(195 232 191 / 25%)' } : { background: '#DAF7A6' }}>
+            {inputList.map((x, i) => (
+                <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '1rem', background: 'rgb(195 232 191 / 25%)' } : { background: '#DAF7A6' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%', boxSizing: 'border-box' }}>
+                        {attributeList.map((attribute, key) => (
+                            attribute.name && (
+                                <div key={key} style={{ marginBottom: '10px', width: '100%', boxSizing: 'border-box' }}>
+                                    <label className="form-label font-weight-bold">{attribute.name}*</label>
+                                    <select
+                                        name="variationOptions"
+                                        value={(x.variationOptions.find(Op => Op.name === attribute.name) || { value: '' }).value}
+                                        onChange={(e) => handleAttributeChange(e, i, attribute)}
+                                        style={{
+                                            backgroundColor: '#fff',
+                                            color: '#000',
+                                            padding: '15px',
+                                            fontSize: '16px',
+                                            width: '100%',
+                                            border: 'none',
+                                            marginBottom: '10px'
+                                        }}
+                                    >
+                                        <option value="">Select {attribute.name}</option>
+                                        {/* Map through all attribute values */}
+                                        {attribute.AttributeValues.map((val, index) => (
+                                            <option key={index} value={val.value}>
+                                                {val.value}
+                                            </option>
+                                        ))}
+                                        {/* Map through existing variation options and render them if they match the current attribute */}
+                                        {x.variationOptions.map((opt, index) => {
+                                            if (opt.name === attribute.name) {
+                                                return (
+                                                    <option key={index} value={opt.value}>
+                                                        {opt.value}
+                                                    </option>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </select>
+                                </div>
+                            )
+                        ))}
+                    </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%', boxSizing: 'border-box' }}>
-                            {attributeList.map((value, key) => (
-                                value.name !== undefined && (
-                                    <div key={key} style={{ marginBottom: '10px', width: '100%', boxSizing: 'border-box' }}>
-                                        <label className="form-label font-weight-bold">{value.name}*</label>
-                                        <select
-                                            name="variationOptions"
-                                            value={(x.variationOptions.find(opt => opt.name === value.name) || {}).value || ''} // Find the matching variation option based on attribute name
-                                            onChange={(e) => handleAttributeChange(e, i, value)}
-                                            style={{
-                                                backgroundColor: '#fff',
-                                                color: '#000',
-                                                padding: '15px',
-                                                fontSize: '16px',
-                                                width: '100%',
-                                                border: 'none',
-                                                marginBottom: '10px'
-                                            }}
-                                        >
-                                            <option value="">Select {value.name}</option> {/* Add a default option */}
-                                            {value.AttributeValues.map((val, index) => (
-                                                <option key={index} value={val.value}>
-                                                    {val.value}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                )
-                            ))}
-                        </div>
-
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Product Name<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="productName"
-                                placeholder="ex: Enter product name"
-                                defaultValue={x.productName}
-                                onChange={(e) => handleInputChange(e, i)}
-                            />
-                        </Grid>
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Product Code<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="productCode"
-                                placeholder="ex: FGSTW"
-                                defaultValue={x.productCode}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Stock Visibility*</label>
-                            <select className="form-control" name="stockType" onChange={(e) => handleInputChange(e, i)} defaultValue={x.stockType}>
-                                <option >Select type</option>
-                                <option value={true}>Yes</option>
-                                <option value={false}>No</option>
-                            </select>
-                        </Grid>
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Refundabe*</label>
-                            <select className="form-control" name="refundable" onChange={(e) => handleInputChange(e, i)} defaultValue={x.refundable}>
-                                <option >Select type</option>
-                                <option value={true}>Yes</option>
-                                <option value={false}>No</option>
-                            </select>
-                        </Grid>
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Stock Quantity warning*</label>
-                            <input
-                                className="form-control"
-                                name="qtyWarning"
-                                placeholder="ex: 100"
-                                defaultValue={x.qtyWarning}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Stock Quantity*</label>
-                            <input
-                                className="form-control"
-                                name="qty"
-                                placeholder="ex: 100"
-                                defaultValue={x.qty}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Cash On Delivery*</label>
-                            <select className="form-control" name="COD" onChange={(e) => handleInputChange(e, i)} defaultValue={x.COD} >
-                                <option >Select type</option>
-                                <option value={true}>Yes</option>
-                                <option value={false}>No</option>
-                            </select>
-                        </Grid>
-
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Available*</label>
-                            <select className="form-control" name="Available" onChange={(e) => handleInputChange(e, i)} defaultValue={x.Available} >
-                                <option >Select type</option>
-                                <option value={true}>Yes</option>
-                                <option value={false}>No</option>
-                            </select>
-                        </Grid>
-
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Your Selling Price*</label>
-                            <input
-                                className="form-control"
-                                name="actualPrice"
-                                placeholder="ex: 1"
-                                value={x.actualPrice}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Discount*</label>
-                            <input
-                                className="form-control"
-                                name="discount"
-                                placeholder="ex: 1"
-                                value={x.discount}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Discount Percent*</label>
-                            <input
-                                className="form-control"
-                                name="discountPer"
-                                placeholder="ex: 1"
-                                value={x.discountPer}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">MRP Price<span className="text-danger">*</span></label>
-                            <input
-                                className="form-control"
-                                name="netPrice"
-                                placeholder="ex: 100"
-                                value={x.netPrice}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-
-                        <Grid item md={6} lg={6}>
-                            <label className="form-label font-weight-bold">YouTube Video Url*</label>
-                            <input
-                                className="form-control"
-                                name="youTubeUrl"
-                                placeholder="ex: https://youtu.be/nqWZV_OYVIk"
-                                defaultValue={x.youTubeUrl}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-
-                        <Grid item md={6} lg={6}>
-                            <label className="form-label font-weight-bold"><b>Short Description*</b></label>
-                            <RichTextEditor
-                                content={x.shortDesc}
-                                handleContentChange={e => handleShortDesc(e, i)}
-                                placeholder="insert text here..."
-                                onChange={(e) => handleInputChange(e, i)}
-                            />
-                        </Grid>
-                        <Grid item md={6} lg={6}>
-                            <label className="form-label font-weight-bold">Long Description*</label>
-                            <RichTextEditor
-                                content={x.longDesc}
-                                handleContentChange={e => handleContentChange(e, i)}
-                                placeholder="insert text here..."
-                                onChange={(e) => handleInputChange(e, i)}
-                            />
-                        </Grid>
-
-                        <Grid item md={12} lg={12}>
-                            <div className="btn-box" style={{ marginTop: '1rem' }}>
-                                {inputList.length !== 1 && <Button
-                                    variant="contained"
-                                    // onClick={() => handleRemoveClick(i)} style={{ marginRight: '1rem' }}>Remove</Button>
-                                    onClick={() => handlProductVarient(x.id)} style={{ marginRight: '1rem' }}>Remove</Button>
-                                }
-                                {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick}>Add</Button>}
-                            </div>
-                        </Grid>
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Product Name<span className="text-danger">*</span></label>
+                        <input
+                            className="form-control"
+                            name="productName"
+                            placeholder="ex: Enter product name"
+                            defaultValue={x.productName}
+                            onChange={(e) => handleInputChange(e, i)}
+                        />
                     </Grid>
-                );
-            })}
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Product Code<span className="text-danger">*</span></label>
+                        <input
+                            className="form-control"
+                            name="productCode"
+                            placeholder="ex: FGSTW"
+                            defaultValue={x.productCode}
+                            onChange={(e) => handleInputChange(e, i)}
+
+                        />
+                    </Grid>
+
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Stock Visibility*</label>
+                        <select className="form-control" name="stockType" onChange={(e) => handleInputChange(e, i)} defaultValue={x.stockType}>
+                            <option >Select type</option>
+                            <option value={true}>Yes</option>
+                            <option value={false}>No</option>
+                        </select>
+                    </Grid>
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Refundabe*</label>
+                        <select className="form-control" name="refundable" onChange={(e) => handleInputChange(e, i)} defaultValue={x.refundable}>
+                            <option >Select type</option>
+                            <option value={true}>Yes</option>
+                            <option value={false}>No</option>
+                        </select>
+                    </Grid>
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Stock Quantity warning*</label>
+                        <input
+                            className="form-control"
+                            name="qtyWarning"
+                            placeholder="ex: 100"
+                            defaultValue={x.qtyWarning}
+                            onChange={(e) => handleInputChange(e, i)}
+
+                        />
+                    </Grid>
+
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Stock Quantity*</label>
+                        <input
+                            className="form-control"
+                            name="qty"
+                            placeholder="ex: 100"
+                            defaultValue={x.qty}
+                            onChange={(e) => handleInputChange(e, i)}
+
+                        />
+                    </Grid>
+
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Cash On Delivery*</label>
+                        <select className="form-control" name="COD" onChange={(e) => handleInputChange(e, i)} defaultValue={x.COD} >
+                            <option >Select type</option>
+                            <option value={true}>Yes</option>
+                            <option value={false}>No</option>
+                        </select>
+                    </Grid>
+
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Available*</label>
+                        <select className="form-control" name="Available" onChange={(e) => handleInputChange(e, i)} defaultValue={x.Available} >
+                            <option >Select type</option>
+                            <option value={true}>Yes</option>
+                            <option value={false}>No</option>
+                        </select>
+                    </Grid>
+
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Your Selling Price*</label>
+                        <input
+                            className="form-control"
+                            name="actualPrice"
+                            placeholder="ex: 1"
+                            value={x.actualPrice}
+                            onChange={(e) => handleInputChange(e, i)}
+
+                        />
+                    </Grid>
+
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Discount*</label>
+                        <input
+                            className="form-control"
+                            name="discount"
+                            placeholder="ex: 1"
+                            value={x.discount}
+                            onChange={(e) => handleInputChange(e, i)}
+
+                        />
+                    </Grid>
+
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">Discount Percent*</label>
+                        <input
+                            className="form-control"
+                            name="discountPer"
+                            placeholder="ex: 1"
+                            value={x.discountPer}
+                            onChange={(e) => handleInputChange(e, i)}
+
+                        />
+                    </Grid>
+
+                    <Grid item md={3} lg={3}>
+                        <label className="form-label font-weight-bold">MRP Price<span className="text-danger">*</span></label>
+                        <input
+                            className="form-control"
+                            name="netPrice"
+                            placeholder="ex: 100"
+                            value={x.netPrice}
+                            onChange={(e) => handleInputChange(e, i)}
+
+                        />
+                    </Grid>
+
+                    <Grid item md={6} lg={6}>
+                        <label className="form-label font-weight-bold">YouTube Video Url*</label>
+                        <input
+                            className="form-control"
+                            name="youTubeUrl"
+                            placeholder="ex: https://youtu.be/nqWZV_OYVIk"
+                            defaultValue={x.youTubeUrl}
+                            onChange={(e) => handleInputChange(e, i)}
+
+                        />
+                    </Grid>
+
+                    <Grid item md={6} lg={6}>
+                        <label className="form-label font-weight-bold"><b>Short Description*</b></label>
+                        <RichTextEditor
+                            content={x.shortDesc}
+                            handleContentChange={e => handleShortDesc(e, i)}
+                            placeholder="insert text here..."
+                            onChange={(e) => handleInputChange(e, i)}
+                        />
+                    </Grid>
+                    <Grid item md={6} lg={6}>
+                        <label className="form-label font-weight-bold">Long Description*</label>
+                        <RichTextEditor
+                            content={x.longDesc}
+                            handleContentChange={e => handleContentChange(e, i)}
+                            placeholder="insert text here..."
+                            onChange={(e) => handleInputChange(e, i)}
+                        />
+                    </Grid>
+
+                    <Grid item md={12} lg={12}>
+                        <div className="btn-box" style={{ marginTop: '1rem' }}>
+                            {inputList.length !== 1 && <Button
+                                variant="contained"
+                                onClick={() => handlProductVarient(x.id)} style={{ marginRight: '1rem' }}>Remove</Button>
+                            }
+                            {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick}>Add</Button>}
+                        </div>
+                    </Grid>
+                </Grid>
+            ))}
         </Grid>
-    )
+    );
 }
 
 export default Pricecolormanagement;
 
-
-{/* <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Age*</label>
-                            <input
-                                className="form-control"
-                                name="memory"
-                                placeholder="ex: 10-12 years old"
-                                defaultValue={x.memory}
-                                onChange={(e) => handleInputChange(e, i)}
-
-                            />
-                        </Grid>
-                        <Grid item md={3} lg={3}>
-                            <label className="form-label font-weight-bold">Color*</label>
-                            <input
-                                className="form-control"
-                                name="color"
-                                defaultValue={x.color ? x.color.TITLE : ''}
-                                onChange={(e) => handleInputChange(e, i)}
-                            />
-                        </Grid> */}
 

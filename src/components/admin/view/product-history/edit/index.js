@@ -14,7 +14,7 @@ export default class Edit extends Component {
     constructor(props) {
         super(props);
         const data = this.props.location.state;
-        console.log("Data", data)
+        // console.log("Data", data)
 
         this.state = {
             id: data ? data.id : null,
@@ -39,18 +39,22 @@ export default class Edit extends Component {
             ProductVarient: data,
             brandId: "",
         };
-        // Bind the handleChange and handleUpdate functions
+
+        // Bind necessary functions
         this.handleChange = this.handleChange.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
     }
+
     handleChange = (e) => {
+        // console.log('index---e', e)
         this.setState({ [e.target.name]: e.target.value });
     }
+
 
     handleCategory = async (value) => {
         try {
             this.setState({ selectedCategory: value });
-            console.log("selectedCategory-main", this.state.selectedCategory);
+            // console.log("selectedCategory-main", this.state.selectedCategory);
             let categoryId = value;
             let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
             this.setState({ getList: list.data });
@@ -62,7 +66,7 @@ export default class Edit extends Component {
     handleSubCategory = async (value) => {
         try {
             this.setState({ selectedSubCategory: value });
-            console.log("selectedSubCategory-sub", this.state.selectedSubCategory);
+            // console.log("selectedSubCategory-sub", this.state.selectedSubCategory);
             let list = await GetCategoryDetails.getAllSubChildCategory(value);
             this.setState({ getsublist: list.data, blockHide: !this.state.blockHide });
         } catch (error) {
@@ -94,9 +98,10 @@ export default class Edit extends Component {
     };
 
     callback = (data) => {
-        // console.log(data, "Product info")
-        this.setState({ priceDetails: data })
+        // console.log('data--callback', data)
+        this.setState({ priceDetails: data });
     }
+
     SpecificationCallBack = (data) => {
         this.setState({ SpecificationDetails: data })
     }
@@ -142,6 +147,8 @@ export default class Edit extends Component {
             warrantyPeriod,
             collection,
         }
+
+        // console.log('formData', formData)
         swal({
             title: "Are you sure?",
             text: "You want to Update",
@@ -150,12 +157,10 @@ export default class Edit extends Component {
             dangerMode: true,
         }).then(async (success) => {
             if (success) {
-                console.log(formData);
+                // console.log(formData);
                 try {
                     const res = await GetProductDetails.getUpdateProduct(formData);
-                    console.log("response", res);
                     this.setState({ showAlert: true });
-                    window.location.reload()
                     window.location.href = "/admin/seller/product-detail/list/history"
                 }
                 catch (err) {
@@ -201,18 +206,6 @@ export default class Edit extends Component {
                     <li className="nav-item ">
                         <a className="nav-link show active" id="pills-one-tab" data-toggle="pill" href="#pills-one" role="tab" aria-controls="pills-one" aria-selected="true">Info</a>
                     </li>
-                    {/* <li className="nav-item text-black " >
-                        <a className="nav-link show " id="pills-three-tab" data-toggle="pill" href="#pills-three" role="tab" aria-controls="pills-three" aria-selected="false">Warranty Service</a>
-                    </li> */}
-                    {/* <li className="nav-item ">
-                        <a className="nav-link show " id="pills-four-tab" data-toggle="pill" href="#pills-four" role="tab" aria-controls="pills-four" aria-selected="false">Specifications</a>
-                    </li> */}
-                    {/* <li className="nav-item ">
-                        <a className="nav-link show " id="pills-five-tab" data-toggle="pill" href="#pills-five" role="tab" aria-controls="pills-five" aria-selected="false">HighLight</a>
-                    </li> */}
-                    {/* <li className="nav-item ">
-                        <a className="nav-link show " id="pills-six-tab" data-toggle="pill" href="#pills-six" role="tab" aria-controls="pills-six" aria-selected="false">Image</a>
-                    </li> */}
                     <li className="nav-item ">
                         <a className="nav-link show " id="pills-two-tab" data-toggle="pill" href="#pills-two" role="tab" aria-controls="pills-two" aria-selected="false">Product Info</a>
                     </li>
@@ -235,13 +228,7 @@ export default class Edit extends Component {
                                             <div className="news-content-right p-2">
                                                 <div className="form-group">
                                                     <label className="form-label">Main Category<span className="text-danger">*</span></label>
-                                                    {/* <input
-                                                        className="form-control"
-                                                        type="text"
-                                                        name='mainCatName'
-                                                        defaultValue={mainCatName}
-                                                        onChange={this.handleChange}
-                                                    /> */}
+
                                                     <MainCategorylist
                                                         value={{
                                                             id: this.state.selectedCategory,
@@ -249,8 +236,6 @@ export default class Edit extends Component {
                                                         }}
                                                         onSelectCategory={this.handleCategory}
                                                     />
-
-
                                                 </div>
                                             </div>
                                         </div>
@@ -259,13 +244,7 @@ export default class Edit extends Component {
                                             <div className="card-body-table p-2">
                                                 <div className="form-group">
                                                     <label className="form-label">Sub Category<span className="text-danger">*</span></label>
-                                                    {/* <input
-                                                        className="form-control"
-                                                        type="text"
-                                                        name='subCatName'
-                                                        defaultValue={subCatName}
-                                                        onChange={this.handleChange}
-                                                    /> */}
+
                                                     <SubCategorylist
                                                         state={getList}
                                                         value={{
@@ -419,106 +398,6 @@ export default class Edit extends Component {
                             </div>
                         </div>
                     </div>
-                    {/* tab 3 */}
-                    {/* <div className="tab-pane fade" id="pills-three" role="tabpanel" aria-labelledby="pills-three-tab">
-
-                        <div className="row">
-                            <div className="col-lg-6 col-md-6">
-                                <Paper >
-                                    <div className="card-header">
-                                        <h5 className="mb-0 h6">Warranty Service</h5>
-                                    </div>
-                                    <div className="form-group mb-3 pd-20">
-                                        <label htmlFor="name">
-                                            Type
-                                        </label>
-                                        <div className="input-group">
-                                            <select className="form-control" name="warrantyType" defaultValue={this.state.warrantyType} onChange={this.handleChange}>
-                                                <option >Select type</option>
-                                                <option value="Local">Local Seller Warranty</option>
-                                                <option value="No">No Warranty</option>
-                                                <option value="International">International Warranty</option>
-                                                <option value="100% orginal">100% orginal product</option>
-                                                <option value="Brand">Brand Warranty</option>
-                                                <option value="Seller">Seller Warranty</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </Paper>
-                            </div>
-
-                            <div className="col-lg-6 col-md-6">
-                                <Paper >
-                                    <div className="card-header">
-                                        <h5 className="mb-0 h6">Warranty Service</h5>
-                                    </div>
-                                    <div className="form-group mb-3 pd-20">
-                                        <label htmlFor="name">
-                                            Period
-                                        </label>
-                                        <div className="input-group">
-                                            <input type="text" className="form-control" placeholder="ex:1month,1year,lifetime" name="warrantyPeriod" defaultValue={this.state.warrantyPeriod} onChange={this.handleChange} />
-                                        </div>
-                                    </div>
-                                </Paper>
-                            </div>
-                        </div>
-                    </div> */}
-                    {/* type four */}
-                    {/* <div className="tab-pane fade" id="pills-four" role="tabpanel" aria-labelledby="pills-four-tab">
-                        <div className="row" >
-                            <div className="col-lg-12 col-md-12">
-                                <div className="card card-static-2 mb-30">
-                                    <div className="card-header">
-                                        <h5 className="mb-0 h6 font-weight-bold">Specification Info</h5>
-                                    </div>
-                                    <div className="card-body-table">
-                                        <div className="news-content-right">
-                                            <Paper style={{ padding: '1rem', background: '#f7f7f' }}>
-                                                <div className="row" >
-                                                    <div className="col-lg-12 col-md-12">
-                                                        <SpecificationList callback={this.SpecificationCallBack} state={this.props.location.state.ch_specifications} />
-                                                    </div>
-                                                </div>
-                                            </Paper>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
-                    {/* type five */}
-
-                    {/* <div className="tab-pane fade" id="pills-five" role="tabpanel" aria-labelledby="pills-five-tab">
-                        <div className="row" >
-                            <div className="col-lg-12 col-md-12">
-                                <div className="card card-static-2 mb-30">
-                                    <div className="card-header">
-                                        <h5 className="mb-0 h6 font-weight-bold">Feature Info</h5>
-                                    </div>
-                                    <div className="card-body-table">
-                                        <div className="news-content-right">
-                                            <Paper style={{ padding: '1rem', background: '#f7f7f' }}>
-                                                <div className="row" >
-                                                    <div className="col-lg-12 col-md-12">
-                                                        <HighLightList callback={this.handleHightLight} state={this.props.location.state.HighLightDetail} />
-                                                    </div>
-                                                </div>
-                                            </Paper>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
-                    {/* type six*/}
-                    {/* <div className="tab-pane fade" id="pills-six" role="tabpanel" aria-labelledby="pills-six-tab"> */}
-                    {/* <div className="row" >
-                            <div className="col-lg-12 col-md-12"> */}
-                    {/* <ImageDetail /> */}
-                    {/* </div>
-                        </div> */}
-                    {/* </div> */}
                 </div>
             </div>
         )
