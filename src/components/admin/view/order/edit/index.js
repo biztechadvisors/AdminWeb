@@ -11,6 +11,7 @@ export default class Edit extends Component {
       status: this.props.location.state.status,
       deliverydate: "",
     };
+
   }
 
   handleBack() {
@@ -144,14 +145,15 @@ export default class Edit extends Component {
                                         <tr key={index}>
                                           <td>{index + 1}</td>
                                           <td>
-                                            {p.varient.product && p.varient.product.photo ? (
+                                            {/* {(p.varient.product && p.varient.product.photo) ? (
                                               <img
                                                 src={p.varient.product.photo}
                                                 alt="cartimage"
                                                 style={{ height: "50px" }}
                                               />
-                                            ) : null}
+                                            ) : null} */}
                                           </td>
+
                                           <td>
                                             {p.varient && p.varient.productName}
                                           </td>
