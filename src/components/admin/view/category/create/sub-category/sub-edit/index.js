@@ -5,33 +5,49 @@ import { GetCategoryDetails } from "../../../../../../services";
 export default class SubEdit extends Component {
   constructor(props) {
     super(props);
-    const { sub_name, slug, title, keyword, desc } = this.props.state;
     this.state = {
-      name: sub_name,
-      slug: slug,
+      name: props.state.sub_name || "",
+      slug: props.state.slug || "",
       image: null,
-      keyword: keyword,
-      desc: desc,
-      title: title,
+      keyword: props.state.keyword || "",
+      desc: props.state.desc || "",
+      title: props.state.title || "",
       open: false, // Initialize the 'open' state
     };
   }
+
+  componentDidUpdate(prevProps) {
+    // Check if props have changed
+    if (prevProps.state !== this.props.state) {
+      const { sub_name, slug, title, keyword, desc } = this.props.state;
+      this.setState({
+        name: sub_name || "",
+        slug: slug || "",
+        keyword: keyword || "",
+        desc: desc || "",
+        title: title || "",
+      });
+    }
+  }
+
   onFileChange = (event) => {
     this.setState({ image: event.target.files[0] });
   };
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-  handleOpen() {
-    this.setState({ open: !this.state.open, loading: true });
-  }
 
-  handleClose() {
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleOpen = () => {
+    this.setState({ open: !this.state.open, loading: true });
+  };
+
+  handleClose = () => {
     this.setState({ open: !this.state.open });
-  }
-  async handleSubmit(e) {
-    // let data = { id: this.props.state.id, name: this.state.name, slug: this.state.slug }
-    let { name, slug, image, keyword, desc, title } = this.state;
+  };
+
+  handleSubmit = async () => {
+    const { name, slug, image, keyword, desc, title } = this.state;
 
     const formData = new FormData();
     formData.append("id", this.props.state.id);
@@ -41,6 +57,7 @@ export default class SubEdit extends Component {
     formData.append("keyword", keyword);
     formData.append("desc", desc);
     formData.append("thumbnail", image);
+
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -51,11 +68,12 @@ export default class SubEdit extends Component {
     if (list) {
       window.location.reload();
     }
-  }
+  };
+
   render() {
     return (
       <div>
-        <a className="edit-btn" onClick={(e) => this.handleOpen()}>
+        <a className="edit-btn" onClick={this.handleOpen}>
           <i className="fas fa-edit" />
         </a>
         <Modal

@@ -102,7 +102,7 @@ export default class List extends Component {
         </ol>
         <div className="row justify-content-between">
           <div className="col-lg-12">
-            <a href="/" className="add-btn hover-btn">
+            <a href="/admin/category/create" className="add-btn hover-btn">
               Add New
             </a>
           </div>
@@ -156,20 +156,20 @@ export default class List extends Component {
                     <tbody>
                       {getdata && getdata.items && getdata.items.length
                         ? getdata.items.map((row, index) => (
-                            <tr key={index}>
-                              <td>{row.id}</td>
-                              <td>{row.MainCat}</td>
-                              <td>{row.SubCat}</td>
-                              <td className="action-btns">
-                                <Typography
-                                  // className="delete-btn"
-                                  onClick={(e) => this.handlDeleteById(row.id)}
-                                >
-                                  <i className="fas fa-trash-alt" />
-                                </Typography>
-                              </td>
-                            </tr>
-                          ))
+                          <tr key={index}>
+                            <td>{row.id}</td>
+                            <td>{row.MainCat}</td>
+                            <td>{row.SubCat}</td>
+                            <td className="action-btns">
+                              <Typography
+                                // className="delete-btn"
+                                onClick={(e) => this.handlDeleteById(row.id)}
+                              >
+                                <i className="fas fa-trash-alt" />
+                              </Typography>
+                            </td>
+                          </tr>
+                        ))
                         : null}
                     </tbody>
                   </table>
