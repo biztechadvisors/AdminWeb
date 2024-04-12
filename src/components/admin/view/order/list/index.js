@@ -186,7 +186,7 @@ class List extends Component {
                               </span>
                             </td>
                             <td>
-                              Rs{row.Total} for {row.count} Items
+                              Rs{row.Total} for {row.count} Item
                             </td>
                             <td className="action-btns">
 
