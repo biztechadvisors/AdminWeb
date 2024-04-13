@@ -171,12 +171,16 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
 
     return (
         <Grid >
+
             {inputList.map((x, i) => (
-                <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '1rem', background: 'rgb(195 232 191 / 25%)' } : { background: '#DAF7A6' }}>
+                <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '3rem', background: 'rgb(195 232 191 / 25%)' } : {marginTop: '3rem', background: '#DAF7A6' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%', boxSizing: 'border-box' }}>
+                        <div className="card-header">
+                            <h5 className="mb-0 h6">{i+1}. Product Varient</h5>
+                        </div>
                         {attributeList.map((attribute, key) => (
                             attribute.name && (
-                                <div key={key} style={{ marginBottom: '10px', width: '100%', boxSizing: 'border-box' }}>
+                                <div key={key} style={{ width: '100%', boxSizing: 'border-box' }} className='p-2' >
                                     <label className="form-label font-weight-bold">{attribute.name}*</label>
                                     <select
                                         name="variationOptions"
@@ -193,13 +197,13 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                         }}
                                     >
                                         <option value="">Select {attribute.name}</option>
-                                        {/* Map through all attribute values */}
+
                                         {attribute.AttributeValues.map((val, index) => (
                                             <option key={index} value={val.value}>
                                                 {val.value}
                                             </option>
                                         ))}
-                                        {/* Map through existing variation options and render them if they match the current attribute */}
+
                                         {x.variationOptions.map((opt, index) => {
                                             if (opt.name === attribute.name) {
                                                 return (
@@ -352,28 +356,33 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                             placeholder="ex: https://youtu.be/nqWZV_OYVIk"
                             defaultValue={x.youTubeUrl}
                             onChange={(e) => handleInputChange(e, i)}
-
                         />
                     </Grid>
 
-                    <Grid item md={6} lg={6}>
-                        <label className="form-label font-weight-bold"><b>Short Description*</b></label>
-                        <RichTextEditor
-                            content={x.shortDesc}
-                            handleContentChange={e => handleShortDesc(e, i)}
-                            placeholder="insert text here..."
-                            onChange={(e) => handleInputChange(e, i)}
-                        />
-                    </Grid>
-                    <Grid item md={6} lg={6}>
-                        <label className="form-label font-weight-bold">Long Description*</label>
-                        <RichTextEditor
-                            content={x.longDesc}
-                            handleContentChange={e => handleContentChange(e, i)}
-                            placeholder="insert text here..."
-                            onChange={(e) => handleInputChange(e, i)}
-                        />
-                    </Grid>
+                    <div className='m-2'>
+                        <Grid container spacing={2}>
+                            <Grid item md={6} lg={6} >
+                                <label className="form-label font-weight-bold">Long Description*</label>
+                                <RichTextEditor
+                                    content={x.longDesc}
+                                    handleContentChange={e => handleContentChange(e, i)}
+                                    placeholder="insert text here..."
+                                    onChange={(e) => handleInputChange(e, i)}
+                                />
+                            </Grid>
+                            <Grid item md={6} lg={6}>
+                                <label className="form-label font-weight-bold"><b>Short Description*</b></label>
+                                <RichTextEditor
+                                    content={x.shortDesc}
+                                    handleContentChange={e => handleShortDesc(e, i)}
+                                    placeholder="insert text here..."
+                                    onChange={(e) => handleInputChange(e, i)}
+                                />
+                            </Grid>
+                        </Grid>
+                    </div>
+
+
 
                     <Grid item md={12} lg={12}>
                         <div className="btn-box" style={{ marginTop: '1rem' }}>

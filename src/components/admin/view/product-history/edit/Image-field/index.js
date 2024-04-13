@@ -120,7 +120,7 @@ export default class ImageDetail extends Component {
               {dataList ? (
                 dataList.map((row, index) => (
                   <div key={index} className="image-detail-row">
-                    <div>{row.productId}</div>
+                    <div>Upload Varient Images</div>
                     {/* File input for image upload */}
                     <td>
                       <div className="image-upload-container">
