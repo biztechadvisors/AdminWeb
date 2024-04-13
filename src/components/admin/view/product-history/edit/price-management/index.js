@@ -115,7 +115,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     };
 
     const handlProductVarient = (id) => {
-        console.log("getids", id)
         swal({
             title: "Are you sure?",
             text: "You want to delete product",

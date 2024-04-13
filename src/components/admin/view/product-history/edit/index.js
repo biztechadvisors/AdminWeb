@@ -384,8 +384,8 @@ export default class Edit extends Component {
                                         <h5 className="mb-0 h6">Add New Product</h5>
                                     </div>
                                     <div className="card-body-table">
-                                        <div className="news-content-right pd-20">
-                                            <Paper style={{ padding: '1rem', background: '#f7f7f' }}>
+                                        <div className="news-content-right">
+                                            <Paper style={{ padding: '1rem', background: '#f7f7f' }} className='ml-4 mr-4'>
                                                 <div className="row" >
                                                     <div className="col-lg-12 col-md-12">
                                                         <Pricecolormanagement parentCallback={this.callback} state={this.state.ProductVarient} />
