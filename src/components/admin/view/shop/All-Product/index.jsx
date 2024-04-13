@@ -200,7 +200,7 @@ export default class List extends Component {
                                 </td>
                                 <td>{row.name}</td>
                                 <td>{row.maincat ? row.maincat.name : ''}</td>
-                                <td>{row.SubCategory.sub_name}</td>
+                                <td>{row.SubCategory ? row.SubCategory.sub_name:''}</td>
                                 <td>{row.collection ? row.collection.name : ''}</td>
                                 <td>{row.ProductVariants[0].discountPer ? row.ProductVariants[0].discountPer + "%" : ""}</td>
                                 <td>Rs.{row.ProductVariants[0].discount}</td>
