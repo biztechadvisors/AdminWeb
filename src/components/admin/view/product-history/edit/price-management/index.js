@@ -130,6 +130,13 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         });
     };
 
+    const handleRemoveClick = index => {
+        const list = [...inputList];
+        list.splice(index, 1);
+        setInputList(list);
+        parentCallback(list)
+    };
+
     const handleAddClick = () => {
         setInputList(prevInputList => [
             ...prevInputList,
@@ -387,7 +394,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                         <div className="btn-box" style={{ marginTop: '1rem' }}>
                             {inputList.length !== 1 && <Button
                                 variant="contained"
-                                onClick={() => handlProductVarient(x.id)} style={{ marginRight: '1rem' }}>Remove</Button>
+                                onClick={() =>{x.id? handlProductVarient(x.id): handleRemoveClick(i)} }style={{ marginRight: '1rem' }}>Remove</Button>
                             }
                             {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick}>Add</Button>}
                         </div>
