@@ -23,7 +23,7 @@ export default class Newproduct extends Component {
         this.state = {
             getList: [], getsublist: [], selectedCategory: '', brandId: '', selectedSubCategory: '', blockhide: false, toggle: false, isLoaded: false,
             name: '', slug: '', brand: '', status: 1, unit: '', image: '', content: '',
-            priceDetails: [],plainString: ''
+            priceDetails: [], plainString: ''
         }
         this.handleContentChange = this.handleContentChange.bind(this);
     }
@@ -119,7 +119,7 @@ export default class Newproduct extends Component {
                     if (list) {
                         console.log('list-105', list)
                         this.setState({ isLoaded: false })
-                        // this.props.history.push("/admin/shop/seller/all-product")
+                        this.props.history.push("/admin/shop/seller/all-product")
                     } else {
                         this.setState({ isLoaded: false })
                         NotificationManager.error("Please! Check input field", "Input Field");
