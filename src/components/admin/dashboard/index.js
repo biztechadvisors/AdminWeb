@@ -123,16 +123,9 @@ export default class Home extends Component {
                 <div className="dashboard-report-card purple">
                   <div className="card-content">
                     <span className="card-title">Order Shipping</span>
-                    {/* {statusList
-                      ? statusList.map((row, index) => ( */}
-                    <span
-                      className="card-count"
-                    // key={index}
-                    >
-                      {statusList && statusList.status === "shipping" ? statusList.total : "0"}
+                    <span className="card-count">
+                      {statusList && statusList.find(row => row.status === "shipping") ? statusList.find(row => row.status === "shipping").total : "0"}
                     </span>
-                    {/* ))
-                      : ""} */}
                   </div>
                   <div className="card-media">
                     <i className="fab fa-rev" />
@@ -143,16 +136,9 @@ export default class Home extends Component {
                 <div className="dashboard-report-card red">
                   <div className="card-content">
                     <span className="card-title">Order Cancel</span>
-                    {/* {statusList
-                      ? statusList.map((row, index) => ( */}
-                    <span
-                      className="card-count"
-                    // key={index}
-                    >
-                      {statusList && statusList.status === "cancel" ? statusList.total : "0"}
+                    <span className="card-count">
+                      {statusList && statusList.find(row => row.status === "cancle") ? statusList.find(row => row.status === "cancle").total : "0"}
                     </span>
-                    {/* ))
-                      : ""} */}
                   </div>
                   <div className="card-media">
                     <i className="far fa-times-circle" />
@@ -163,16 +149,9 @@ export default class Home extends Component {
                 <div className="dashboard-report-card info">
                   <div className="card-content">
                     <span className="card-title">Order Process</span>
-                    {/* {statusList
-                      ? statusList.map((row, index) => ( */}
-                    <span
-                      className="card-count"
-                    // key={index}
-                    >
-                      {statusList && statusList.status === "processing" ? statusList.total : "0"}
+                    <span className="card-count">
+                      {statusList && statusList.find(row => row.status === "processing") ? statusList.find(row => row.status === "processing").total : "0"}
                     </span>
-                    {/* ))
-                      : ""} */}
                   </div>
                   <div className="card-media">
                     <i className="fas fa-sync-alt rpt_icon" />
@@ -183,16 +162,9 @@ export default class Home extends Component {
                 <div className="dashboard-report-card success">
                   <div className="card-content">
                     <span className="card-title">Order Delivered</span>
-                    {/* {statusList
-                      ? statusList.map((row, index) => ( */}
-                    <span
-                      className="card-count"
-                    // key={index}
-                    >
-                      {statusList && statusList.status === "delivered" ? statusList.total : "0"}
+                    <span className="card-count">
+                      {statusList && statusList.find(row => row.status === "delivered") ? statusList.find(row => row.status === "delivered").total : "0"}
                     </span>
-                    {/* ))
-                      : ""} */}
                   </div>
                   <div className="card-media">
                     <i className="fas fa-money-bill rpt_icon" />

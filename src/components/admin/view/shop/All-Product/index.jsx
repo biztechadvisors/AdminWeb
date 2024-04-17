@@ -45,7 +45,7 @@ export default class List extends Component {
   async getProductList(data) {
     this.setState({ isLoaded: true });
     let list = await GetProductDetails.getAllSellerProduct(data);
-    // console.log("List", list);
+    console.log("List", list);
     if (list) {
       this.setState({
         getAllProduct: list.data.items || [], // Ensure productList is an array even if items is undefined

@@ -37,15 +37,15 @@ const UploadProdxl = () => {
                     const workbook = XLSX.read(data, { type: 'array' });
                     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 
-                    // Ensure the worksheet exists
                     if (!worksheet) {
                         reject(new Error('Invalid worksheet data.'));
                         return;
                     }
 
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-                    // Ensure the jsonData has the necessary structure
+                    console.log('jsonData', jsonData)
+
                     if (!Array.isArray(jsonData) || jsonData.length === 0) {
                         reject(new Error('Invalid JSON data.'));
                         return;
@@ -53,7 +53,6 @@ const UploadProdxl = () => {
 
                     const headerRow = jsonData[0];
                     const rows = jsonData.slice(1);
-
                     const products = {};
 
                     rows.forEach((row) => {
@@ -65,7 +64,6 @@ const UploadProdxl = () => {
 
                         if (productType === 'variant' || productType === 'Variant') {
                             const parentId = row[headerRow.indexOf('parentId')];
-
                             if (!parentId || !products[parentId]) {
                                 reject(new Error(`Invalid parent ID ${parentId} for variant.`));
                                 return;
@@ -79,8 +77,8 @@ const UploadProdxl = () => {
                                 distributorPrice: row[headerRow.indexOf('distributorPrice')],
                                 marginPer: row[headerRow.indexOf('marginPer')],
                                 marginPrice: row[headerRow.indexOf('marginPrice')],
-                                Age: row[headerRow.indexOf('Size(according to age)')],
-                                Colors: row[headerRow.indexOf('Color')],
+                                age: row[headerRow.indexOf('Size(according to age)')],
+                                colors: row[headerRow.indexOf('Color')],
                                 buyerPrice: row[headerRow.indexOf('buyerPrice')],
                                 sellerPrice: row[headerRow.indexOf('sellerPrice')],
                                 unitSize: row[headerRow.indexOf('unitSize')],
@@ -97,26 +95,19 @@ const UploadProdxl = () => {
                                 longDesc: row[headerRow.indexOf('longDesc')],
                                 shortDesc: row[headerRow.indexOf('shortDesc')],
                                 stockType: row[headerRow.indexOf('stockType')],
-                                Available: row[headerRow.indexOf('In stock?')],
-                                variationOptions: [] // Initialize an empty array for variation options
+                                available: row[headerRow.indexOf('In stock?')],
+                                variationOptions: []
                             };
 
-                            // Map variation options
                             const variationOptions = [];
-                            // Add variation options as needed
                             variationOptions.push({ name: 'Age', value: row[headerRow.indexOf('Size(according to age)')] });
                             variationOptions.push({ name: 'Colors', value: row[headerRow.indexOf('Color')] });
-                            // Add other variation options here
 
                             variant.variationOptions = variationOptions;
 
-                            // Push the variant into the productVariants array of its parent product
                             products[parentId].productVariants.push(variant);
                         } else if (productType === 'main' || productType === 'Main') {
                             const productId = row[headerRow.indexOf('id')];
-
-                            console.log('Material', row[headerRow.indexOf('Material')])
-                            console.log('referSizeChart ', row[headerRow.indexOf('Refer Size Chart')])
 
                             const product = {
                                 id: productId,
@@ -130,22 +121,17 @@ const UploadProdxl = () => {
                                 status: row[headerRow.indexOf('status')],
                                 desc: row[headerRow.indexOf('desc')],
                                 photo: row[headerRow.indexOf('photo')],
-                                productVariants: [], // Initialize an empty array for productVariants
-                                HighLightDetail: [],
-                                ShippingDays: row[headerRow.indexOf('ShippingDays')],
-                                PubilshStatus: row[headerRow.indexOf('PublishedStatus')],
+                                productVariants: [],
+                                highLightDetail: [],
+                                shippingDays: row[headerRow.indexOf('ShippingDays')],
+                                publishStatus: row[headerRow.indexOf('PublishedStatus')],
                             };
 
-                            // console.log("product", product)
-
-                            // Set the product object in the products map with its ID as the key
                             products[productId] = product;
                         }
                     });
 
-                    // Convert the products map to an array of values
                     const finalProducts = Object.values(products);
-                    // console.log("finalProducts", finalProducts)
                     resolve(finalProducts);
                 } catch (error) {
                     reject(error);
