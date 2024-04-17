@@ -115,7 +115,6 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     };
 
     const handlProductVarient = (id) => {
-        console.log("getids", id)
         swal({
             title: "Are you sure?",
             text: "You want to delete product",
@@ -129,6 +128,13 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                 window.location.href = "/admin/seller/product-detail/list/history"
             }
         });
+    };
+
+    const handleRemoveClick = index => {
+        const list = [...inputList];
+        list.splice(index, 1);
+        setInputList(list);
+        parentCallback(list)
     };
 
     const handleAddClick = () => {
@@ -388,7 +394,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                         <div className="btn-box" style={{ marginTop: '1rem' }}>
                             {inputList.length !== 1 && <Button
                                 variant="contained"
-                                onClick={() => handlProductVarient(x.id)} style={{ marginRight: '1rem' }}>Remove</Button>
+                                onClick={() =>{x.id? handlProductVarient(x.id): handleRemoveClick(i)} }style={{ marginRight: '1rem' }}>Remove</Button>
                             }
                             {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick}>Add</Button>}
                         </div>
