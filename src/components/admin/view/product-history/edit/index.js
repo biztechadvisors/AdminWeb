@@ -38,6 +38,8 @@ export default class Edit extends Component {
             warrantyPeriod: data.WarrantyPeriod,
             ProductVarient: data,
             brandId: "",
+            referSizeChart: data.referSizeChart,
+            material: data.material,
         };
 
         // Bind necessary functions
@@ -126,7 +128,9 @@ export default class Edit extends Component {
             warrantyType,
             warrantyPeriod,
             collection,
-            id
+            id,
+            material,
+            referSizeChart
         } = this.state;
 
         const formData = {
@@ -146,6 +150,8 @@ export default class Edit extends Component {
             warrantyType,
             warrantyPeriod,
             collection,
+            material,
+            referSizeChart,
         }
 
         // console.log('formData', formData)
@@ -175,6 +181,8 @@ export default class Edit extends Component {
             mainCatName,
             subCatName,
             name,
+            material,
+            referSizeChart,
             PubilshStatus,
             LocalDeiveryCharge,
             ShippingDays,
@@ -270,6 +278,32 @@ export default class Edit extends Component {
                                                     type="text"
                                                     name='name'
                                                     defaultValue={name}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="card-body-table p-2">
+                                            <div className="form-group">
+                                                <label className="form-label">Material<span className="text-danger">*</span></label>
+                                                <input
+                                                    className="form-control"
+                                                    type="text"
+                                                    name='material'
+                                                    defaultValue={material}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="card-body-table p-2">
+                                            <div className="form-group">
+                                                <label className="form-label">Refer Size Chart<span className="text-danger">*</span></label>
+                                                <input
+                                                    className="form-control"
+                                                    type="text"
+                                                    name='referSizeChart'
+                                                    defaultValue={referSizeChart}
                                                     onChange={this.handleChange}
                                                 />
                                             </div>

@@ -15,7 +15,7 @@ export default class Edit extends Component {
     constructor(props) {
         super(props);
         let self = this.props.location.state.row;
-      
+
         console.log("data", self)
         let value = self.status === "active" ? 1 : 0;
         this.state = {
@@ -26,17 +26,19 @@ export default class Edit extends Component {
             loading: false,
             blockHide: false,
             productId: self.id,
-            catId:self.categoryId,
-            subCatId:self.subCategoryId,
+            catId: self.categoryId,
+            subCatId: self.subCategoryId,
             name: self.name,
             slug: self.slug,
             brandId: self.brandId,
             status: value,
             content: self.desc,
             ProductVarient: self,
+            referSizeChart: self.referSizeChart,
+            material: self.material
         };
     }
-    
+
     handleBack() {
         this.props.history.goBack();
     }
@@ -58,7 +60,7 @@ export default class Edit extends Component {
         let catList = await GetCategoryDetails.getCategoryList(categoryId);
         let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
         this.setState({ getList: list.data })
-        this.setState({getcatlist: catList.data.filter((item)=>item.id === categoryId)})
+        this.setState({ getcatlist: catList.data.filter((item) => item.id === categoryId) })
     }
     handleSubCategory = async (value) => {
         this.setState({ selectedSubCategory: value });
@@ -82,20 +84,22 @@ export default class Edit extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.setState({ loading: true })
-        const { productId, image, name, selectedCategory, selectedSubCategory, status, brandId, unit, content, priceDetails,getcatlist,getList } = this.state;
+        const { productId, image, name, selectedCategory, selectedSubCategory, referSizeChart, material, status, brandId, unit, content, priceDetails, getcatlist, getList, } = this.state;
         let slug = this.convertToSlug(name)
 
-        const subcatName = getList.filter((item)=>item.id === selectedSubCategory);
+        const subcatName = getList.filter((item) => item.id === selectedSubCategory);
 
         const formData = {
             productId: productId,
             slug: slug,
-            mainCatName:getcatlist[0].name,
+            mainCatName: getcatlist[0].name,
             name: name,
-            subCatName:subcatName[0].sub_name,
+            subCatName: subcatName[0].sub_name,
             photo: image,
             desc: content,
-            priceDetails
+            priceDetails,
+            referSizeChart: referSizeChart,
+            material: material
         }
         console.log(formData);
 
@@ -216,6 +220,19 @@ export default class Edit extends Component {
                                                     <option value={1}>Active</option>
                                                     <option value={0}>Inactive</option>
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-lg-6 col-md-6">
+                                            <div className="form-group">
+                                                <label className="form-label">Product Material*</label>
+                                                <input type="text" className="form-control" placeholder="Product Material" name="material" value={this.state.material} onChange={(e) => this.handleChange(e)} />
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-6 col-md-6">
+                                            <div className="form-group">
+                                                <label className="form-label">Product Refer Size Chart*</label>
+                                                <input type="text" className="form-control" placeholder="Product Refer Size Chart" name="referSizeChart" value={this.state.referSizeChart} onChange={(e) => this.handleChange(e)} />
                                             </div>
                                         </div>
                                     </div>

@@ -23,7 +23,7 @@ export default class Newproduct extends Component {
         this.state = {
             getList: [], getsublist: [], selectedCategory: '', brandId: '', selectedSubCategory: '', blockhide: false, toggle: false, isLoaded: false,
             name: '', slug: '', brand: '', status: 1, unit: '', image: '', content: '',
-            priceDetails: [], plainString: ''
+            priceDetails: [], plainString: '', referSizeChart: '', material: ''
         }
         this.handleContentChange = this.handleContentChange.bind(this);
     }
@@ -87,7 +87,7 @@ export default class Newproduct extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.setState({ isLoaded: true })
-        const { selectedCategory, selectedSubCategory, image, name, brandId, status, content, priceDetails } = this.state;
+        const { selectedCategory, selectedSubCategory, image, name, brandId, status, content, priceDetails, referSizeChart, material } = this.state;
         let slug = this.convertToSlug(this.state.name)
 
         const formData = new FormData();
@@ -95,6 +95,8 @@ export default class Newproduct extends Component {
         formData.append('subCategoryId', selectedSubCategory);
         formData.append('name', name);
         formData.append('slug', slug);
+        formData.append('referSizeChart', referSizeChart);
+        formData.append('material', material);
         formData.append('brand', brandId);
         formData.append('status', status);
         formData.append('desc', content);
@@ -219,6 +221,18 @@ export default class Newproduct extends Component {
                                                     <option value={1}>Active</option>
                                                     <option value={0}>Inactive</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-6 col-md-6">
+                                            <div className="form-group">
+                                                <label className="form-label">Product Material*</label>
+                                                <input type="text" className="form-control" placeholder="Product Material" name="material" value={this.state.material} onChange={(e) => this.handleChange(e)} />
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-6 col-md-6">
+                                            <div className="form-group">
+                                                <label className="form-label">Product Refer Size Chart*</label>
+                                                <input type="text" className="form-control" placeholder="Product Refer Size Chart" name="referSizeChart" value={this.state.referSizeChart} onChange={(e) => this.handleChange(e)} />
                                             </div>
                                         </div>
                                     </div>

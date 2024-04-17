@@ -36,16 +36,14 @@ const UploadProdxl = () => {
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
                     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-
                     if (!worksheet) {
                         reject(new Error('Invalid worksheet data.'));
                         return;
                     }
 
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
                     console.log('jsonData', jsonData)
-
                     if (!Array.isArray(jsonData) || jsonData.length === 0) {
                         reject(new Error('Invalid JSON data.'));
                         return;
@@ -83,6 +81,7 @@ const UploadProdxl = () => {
                                 sellerPrice: row[headerRow.indexOf('sellerPrice')],
                                 unitSize: row[headerRow.indexOf('unitSize')],
                                 qty: row[headerRow.indexOf('Stock')],
+                                qtyWarning: row[headerRow.indexOf('Low Stock Amount')],
                                 discountPer: row[headerRow.indexOf('Discount percentage')],
                                 discount: row[headerRow.indexOf('Discount price')] || (row[headerRow.indexOf('Actual price(mrp)')] - row[headerRow.indexOf('NetPrice(after dis.)')]),
                                 netPrice: row[headerRow.indexOf('NetPrice(after dis.)')],
@@ -115,16 +114,17 @@ const UploadProdxl = () => {
                                 subCategoryName: row[headerRow.indexOf('subCategoryName')],
                                 name: row[headerRow.indexOf('productName')],
                                 material: row[headerRow.indexOf('Material')],
-                                referSizeChart: row[headerRow.indexOf('Refer Size Chart')],
+                                referSizeChart: row[headerRow.indexOf('ReferSizeChart')],
                                 slug: convertToSlug(row[headerRow.indexOf('productName')]),
                                 brandId: row[headerRow.indexOf('Featured Product')],
                                 status: row[headerRow.indexOf('status')],
-                                desc: row[headerRow.indexOf('desc')],
+                                desc: row[headerRow.indexOf('shortDesc')],
                                 photo: row[headerRow.indexOf('photo')],
                                 productVariants: [],
                                 highLightDetail: [],
-                                shippingDays: row[headerRow.indexOf('ShippingDays')],
+                                ShippingDays: row[headerRow.indexOf('ShippingDays')],
                                 publishStatus: row[headerRow.indexOf('PublishedStatus')],
+                                condition: row[headerRow.indexOf('condition')],
                             };
 
                             products[productId] = product;
