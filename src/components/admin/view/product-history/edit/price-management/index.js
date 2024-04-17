@@ -173,10 +173,10 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
         <Grid >
 
             {inputList.map((x, i) => (
-                <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '3rem', background: 'rgb(195 232 191 / 25%)' } : {marginTop: '3rem', background: '#DAF7A6' }}>
+                <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '3rem', background: 'rgb(195 232 191 / 25%)' } : { marginTop: '3rem', background: '#DAF7A6' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%', boxSizing: 'border-box' }}>
                         <div className="card-header">
-                            <h5 className="mb-0 h6">{i+1}. Product Varient</h5>
+                            <h5 className="mb-0 h6">{i + 1}. Product Varient</h5>
                         </div>
                         {attributeList.map((attribute, key) => (
                             attribute.name && (
@@ -204,7 +204,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                             </option>
                                         ))}
 
-                                        {x.variationOptions.map((opt, index) => {
+                                        {/* {x.variationOptions.map((opt, index) => {
                                             if (opt.name === attribute.name) {
                                                 return (
                                                     <option key={index} value={opt.value}>
@@ -213,7 +213,7 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                                 );
                                             }
                                             return null;
-                                        })}
+                                        })} */}
                                     </select>
                                 </div>
                             )

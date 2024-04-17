@@ -61,7 +61,7 @@ export default class View extends Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-5 col-md-9 col-lg-6">
-            <h2 className="mt-30 page-title">Sold Product</h2>
+            <h2 className="mt-30 page-title">Customer List</h2>
           </div>
           <div className="col-lg-5 col-md-3 col-lg-6 back-btn">
             <Button variant="contained" onClick={(e) => this.handleBack()}>

@@ -224,7 +224,7 @@ export default class Home extends Component {
                       <div className="input-group">
                         <div className="input-group-append">
                           <input
-                            value={this.state.searchString}
+                            value={this.state.searchString || ""}
                             type="text"
                             className="form-control w-100"
                             placeholder="Search order ..."

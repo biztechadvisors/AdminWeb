@@ -1,8 +1,9 @@
 const API_URL =
+  // "https://diversitech.link";
+
   document.domain === "localhost"
     ? "http://localhost:5050"
     : "http://localhost:5050";
-// : "https://diversitech.link";
 
 const Apis = {
   //Authentication api

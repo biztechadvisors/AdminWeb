@@ -63,7 +63,7 @@ const UploadProdxl = () => {
 
                         const productType = row[headerRow.indexOf('productType')];
 
-                        if (productType == 'variant' || productType == 'Variant') {
+                        if (productType === 'variant' || productType === 'Variant') {
                             const parentId = row[headerRow.indexOf('parentId')];
 
                             if (!parentId || !products[parentId]) {
@@ -79,13 +79,12 @@ const UploadProdxl = () => {
                                 distributorPrice: row[headerRow.indexOf('distributorPrice')],
                                 marginPer: row[headerRow.indexOf('marginPer')],
                                 marginPrice: row[headerRow.indexOf('marginPrice')],
-                                memory: row[headerRow.indexOf('Size(according to age)')],
-                                interface: row[headerRow.indexOf('Material')],
+                                Age: row[headerRow.indexOf('Size(according to age)')],
+                                Colors: row[headerRow.indexOf('Color')],
                                 buyerPrice: row[headerRow.indexOf('buyerPrice')],
                                 sellerPrice: row[headerRow.indexOf('sellerPrice')],
                                 unitSize: row[headerRow.indexOf('unitSize')],
                                 qty: row[headerRow.indexOf('Stock')],
-                                color: row[headerRow.indexOf('Color')],
                                 discountPer: row[headerRow.indexOf('Discount percentage')],
                                 discount: row[headerRow.indexOf('Discount price')] || (row[headerRow.indexOf('Actual price(mrp)')] - row[headerRow.indexOf('NetPrice(after dis.)')]),
                                 netPrice: row[headerRow.indexOf('NetPrice(after dis.)')],
@@ -99,36 +98,55 @@ const UploadProdxl = () => {
                                 shortDesc: row[headerRow.indexOf('shortDesc')],
                                 stockType: row[headerRow.indexOf('stockType')],
                                 Available: row[headerRow.indexOf('In stock?')],
+                                variationOptions: [] // Initialize an empty array for variation options
                             };
 
+                            // Map variation options
+                            const variationOptions = [];
+                            // Add variation options as needed
+                            variationOptions.push({ name: 'Age', value: row[headerRow.indexOf('Size(according to age)')] });
+                            variationOptions.push({ name: 'Colors', value: row[headerRow.indexOf('Color')] });
+                            // Add other variation options here
+
+                            variant.variationOptions = variationOptions;
+
+                            // Push the variant into the productVariants array of its parent product
                             products[parentId].productVariants.push(variant);
-                        } else if (productType == 'main' || productType == 'Main') {
+                        } else if (productType === 'main' || productType === 'Main') {
                             const productId = row[headerRow.indexOf('id')];
+
+                            console.log('Material', row[headerRow.indexOf('Material')])
+                            console.log('referSizeChart ', row[headerRow.indexOf('Refer Size Chart')])
 
                             const product = {
                                 id: productId,
                                 categoryName: row[headerRow.indexOf('categoryName')],
                                 subCategoryName: row[headerRow.indexOf('subCategoryName')],
                                 name: row[headerRow.indexOf('productName')],
+                                material: row[headerRow.indexOf('Material')],
+                                referSizeChart: row[headerRow.indexOf('Refer Size Chart')],
                                 slug: convertToSlug(row[headerRow.indexOf('productName')]),
                                 brandId: row[headerRow.indexOf('Featured Product')],
                                 status: row[headerRow.indexOf('status')],
                                 desc: row[headerRow.indexOf('desc')],
                                 photo: row[headerRow.indexOf('photo')],
-                                productVariants: [],
+                                productVariants: [], // Initialize an empty array for productVariants
                                 HighLightDetail: [],
                                 ShippingDays: row[headerRow.indexOf('ShippingDays')],
                                 PubilshStatus: row[headerRow.indexOf('PublishedStatus')],
                             };
 
+                            // console.log("product", product)
+
+                            // Set the product object in the products map with its ID as the key
                             products[productId] = product;
                         }
                     });
 
+                    // Convert the products map to an array of values
                     const finalProducts = Object.values(products);
-                    // console.log(finalProducts);
-
-                    resolve(JSON.stringify(finalProducts, null, 2));
+                    // console.log("finalProducts", finalProducts)
+                    resolve(finalProducts);
                 } catch (error) {
                     reject(error);
                 }
@@ -162,7 +180,7 @@ const UploadProdxl = () => {
                             if (response) {
                                 NotificationManager.success(response.message, "Product Successfully Uploaded")
                                 setUploadResult([response.data]);
-                                // console.log("response.data", response.data)
+                                console.log("response***", response)
                                 setSelectedFile(null);
                                 setSelectedFileName('');
                             }

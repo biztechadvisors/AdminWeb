@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Loader from "../../loader";
 import { GetUserLogin } from "../../services";
+import { NotificationManager } from "react-notifications";
+import { API_URL } from "../../../config";
+
 export default class Signin extends Component {
   constructor(props) {
     super(props);
@@ -24,18 +27,56 @@ export default class Signin extends Component {
       role: "admin",
     };
 
-    let user = await GetUserLogin.getUserLogin(data);
-    const id = user.custId;
-    localStorage.setItem("id", id);
-    if (user) {
-      GetUserLogin.authenticate(user, () => {
-        this.setState({ redirectToReferrer: true, isloaded: false });
-        window.location.reload();
-      });
-    } else {
+    try {
+      let user = await GetUserLogin.getUserLogin(data);
+      if (user) {
+        const id = user.custId;
+        localStorage.setItem("id", id);
+        GetUserLogin.authenticate(user, () => {
+          this.setState({ redirectToReferrer: true, isloaded: false });
+          window.location.reload();
+        });
+      } else {
+        throw new Error('User not found');
+      }
+    } catch (error) {
       this.setState({ redirectToReferrer: false, isloaded: false });
     }
   };
+
+  handleForgot = async (event) => {
+    event.preventDefault();
+    if (!this.state.email) {
+      NotificationManager.error("Please Fill Email")
+    } else {
+      try {
+        var email = { email: this.state.email };
+        console.log("Email", email)
+        const response = await fetch(`${API_URL}/api/auth/user/sendReset`, {
+          method: 'POST',
+          body: JSON.stringify(email),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const results = await response.json();
+
+        if (results.length === 0) {
+          NotificationManager.error("This Email is not Registerd")
+        } else {
+          NotificationManager.success("Please Check Your Email. A Password reset link had been sent.")
+            ;
+        }
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      }
+    }
+  }
+
+
   render() {
     if (this.state.redirectToReferrer) {
       return <Redirect to={"/admin"} />;
@@ -108,6 +149,12 @@ export default class Signin extends Component {
                             >
                               <a className="btn btn-sign hover-btn">Login</a>
                             </div>
+
+                            <br></br>
+                            <p style={{ textAlign: "center" }}>
+                              <button onClick={this.handleForgot} >Forget Password?</button>
+                            </p>
+
                             <p className="text-muted text-center mt-3 mb-2">
                               Copyright © 2022 Codenoxx. All Rights Reserved
                             </p>
