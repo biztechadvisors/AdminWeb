@@ -48,9 +48,9 @@ export default class Newproduct extends Component {
         tempDiv.innerHTML = contentHtml;
         const plainString = tempDiv.textContent;
         console.log(plainString)
-        // this.setState({
-        //     content: contentHtml
-        // });
+        this.setState({
+            content: contentHtml
+        });
     };
 
 
