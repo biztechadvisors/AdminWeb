@@ -216,7 +216,9 @@ export default class Home extends Component {
                   </div>
                   <div className="card-title-2">
                     <h4>Recent Orders</h4>
-                    <button className="view-btn hover-btn">View All</button>
+                    <button className="view-btn hover-btn" onClick={() =>
+                      this.props.history.push("/admin/order/list")
+                    }>View All</button>
                   </div>
                   <div className="card-body-table">
                     <div className="table-responsive">
@@ -296,7 +298,7 @@ export default class Home extends Component {
                         </tbody>
                       </table>
                     </div>
-                    <ReactPaginate
+                    {/* <ReactPaginate
                       previousLabel={"prev"}
                       nextLabel={"next"}
                       breakLabel={"..."}
@@ -308,7 +310,7 @@ export default class Home extends Component {
                       containerClassName={"pagination"}
                       subContainerClassName={"pages pagination"}
                       activeClassName={"active"}
-                    />
+                    /> */}
                   </div>
                   <div>
                     <Grid container className="mt-3">
