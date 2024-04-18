@@ -236,44 +236,30 @@ export default class Home extends Component {
                           </tr>
                         </thead>
                         <tbody>
-                          {getList === "undefined" ? (
-                            <p>Loading</p>
-                          ) : (
+                          {getList && getList.length > 0 ? (
                             getList.map((row, index) => (
                               <tr key={index}>
-                                <td>{++index}</td>
+                                <td>{index + 1}</td>
                                 <td>{row.order_Id}</td>
                                 <td>{row.CustomerName}</td>
-                                <td>{row.payment} </td>
+                                <td>{row.payment}</td>
                                 <td>
-                                  {" "}
                                   {row.paymentStatus === "captured" ? (
-                                    <span className="text-success">
-                                      success
-                                    </span>
+                                    <span className="text-success">Success</span>
                                   ) : (
-                                    <span className="text-warning">
-                                      Pending
-                                    </span>
-                                  )}{" "}
+                                    <span className="text-warning">Pending</span>
+                                  )}
                                 </td>
                                 <td>
                                   <span className="delivery-time">
-                                    <Moment format="MMMM Do YYYY">
-                                      {row.OrderDate}
-                                    </Moment>
+                                    <Moment format="MMMM Do YYYY">{row.OrderDate}</Moment>
                                   </span>
                                   <span className="delivery-time">
-                                    <Moment format=" h:mm:ss a">
-                                      {row.OrderDate}
-                                    </Moment>
+                                    <Moment format=" h:mm:ss a">{row.OrderDate}</Moment>
                                   </span>
                                 </td>
-                                <td>
-                                  Rs{row.Total} for {row.count} Items
-                                </td>
+                                <td>Rs {row.Total} for {row.count} Items</td>
                                 <td className="action-btns">
-
                                   <Link
                                     className="edit-btn"
                                     to={{
@@ -283,9 +269,7 @@ export default class Home extends Component {
                                   >
                                     <i className="fas fa-edit" />
                                   </Link>
-
                                   <span
-                                    // className="delete-btn"
                                     style={{ cursor: "pointer" }}
                                     onClick={(e) => this.handlDeleteById(row)}
                                   >
@@ -294,9 +278,16 @@ export default class Home extends Component {
                                 </td>
                               </tr>
                             ))
+                          ) : (
+                            <tr>
+                              <td colSpan="8" className="text-center">
+                                {getList === undefined ? "Loading..." : "No order data found"}
+                              </td>
+                            </tr>
                           )}
                         </tbody>
-                      </table>
+                      </table>;
+
                     </div>
                     {/* <ReactPaginate
                       previousLabel={"prev"}

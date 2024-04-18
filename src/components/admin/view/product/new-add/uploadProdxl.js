@@ -9,6 +9,7 @@ const UploadProdxl = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadResult, setUploadResult] = useState([]);
     const [selectedFileName, setSelectedFileName] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -152,37 +153,27 @@ const UploadProdxl = () => {
 
         if (selectedFile) {
             try {
-                swal({
-                    title: "Are you sure?",
-                    text: "You want to Upload Product's",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                    .then(async (success) => {
-                        if (success) {
-                            const jsonData = await convertExcelToJson(selectedFile);
-                            const response = await GetProductDetails.uploadProductList(jsonData);
-                            if (response) {
-                                NotificationManager.success(response.message, "Product Successfully Uploaded")
-                                setUploadResult([response.data]);
-                                console.log("response***", response)
-                                setSelectedFile(null);
-                                setSelectedFileName('');
-                            }
-                        } else {
-                            this.setState({ isLoaded: false })
-                        }
-                    })
+                setIsLoading(true);
+                const jsonData = await convertExcelToJson(selectedFile);
+                const response = await GetProductDetails.uploadProductList(jsonData);
+                if (response) {
+                    NotificationManager.success(response.message, "Product Successfully Uploaded")
+                    setUploadResult([response.data]);
+                    console.log("response***", response)
+                    setSelectedFile(null);
+                    setSelectedFileName('');
+                }
             } catch (error) {
                 console.error(error);
+            } finally {
+                setIsLoading(false);
             }
         }
     };
 
     return (
         <div>
-            <div className="upload-container">
+            <div className="upload-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <h3 className="upload-title">Upload Products Excel File</h3>
                 <div className="upload-form">
                     <form onSubmit={handleFormSubmit}>
@@ -197,7 +188,7 @@ const UploadProdxl = () => {
                             />
                             <span className="input-text">Choose File</span>
                         </label>
-                        <br></br>
+                        <br />
                         <button type="submit" className="upload-button">
                             Upload
                         </button>
@@ -206,9 +197,14 @@ const UploadProdxl = () => {
                         <p className="selected-file-name">Selected File: {selectedFileName}</p>
                     )}
                 </div>
+                {isLoading && (
+                    <div className="loader-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <img src="/images/Hourglass.gif" alt="Loading..." />
+                    </div>
+                )}
             </div>
-        </div>
 
+        </div>
     );
 };
 
