@@ -286,7 +286,7 @@ export default class Home extends Component {
                             </tr>
                           )}
                         </tbody>
-                      </table>;
+                      </table>
 
                     </div>
                     {/* <ReactPaginate

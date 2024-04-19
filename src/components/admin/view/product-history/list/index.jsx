@@ -117,7 +117,7 @@ export default class List extends Component {
     this.setState({ isLoaded: true });
     let list = await GetProductDetails.getAllSellerProduct(data);
     console.log("List", list);
-  
+
     if (list) {
       this.setState({
         productList: list.data.items || [], // Ensure productList is an array even if items is undefined
@@ -254,8 +254,8 @@ export default class List extends Component {
                             <tr>
                               <td>{d.id}</td>
                               <td>
-                                {d.maincat && d.SubCategory
-                                  ? `${d.maincat.name} > ${d.SubCategory.sub_name}`
+                                {d.maincat && d.subcategories
+                                  ? `${d.maincat.name} > ${d.subcategories.sub_name}`
                                   : ""}
                               </td>
                               <td>
