@@ -211,7 +211,6 @@ const Pricecolormanagement = ({ parentCallback }) => {
                                 <FormControl fullWidth>
                                     <InputLabel id="demo-simple-select-standard-label">COD*</InputLabel>
                                     <Select
-
                                         labelId="demo-simple-select-standard-label"
                                         id="demo-simple-select-standard"
                                         name="COD"
