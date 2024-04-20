@@ -4,7 +4,6 @@ import {
 } from "@material-ui/core";
 import MainCategorylist from '../../../../common/category/main-category';
 import Brandlist from '../../../../common/brand';
-
 import { GetCategoryDetails } from '../../../../services';
 import SubCategorylist from '../../../../common/category/sub-category';
 import { GetProductDetails } from '../../../../services';
@@ -15,17 +14,29 @@ import swal from 'sweetalert';
 import Pricecolormanagement from './price-management';
 import ExcelPost from './uploadProdxl';
 import "./upload.css"
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export default class Newproduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
             getList: [], getsublist: [], selectedCategory: '', brandId: '', selectedSubCategory: '', blockhide: false, toggle: false, isLoaded: false,
-            name: '', slug: '', brand: '', status: 1, unit: '', image: '', content: '',
+            name: '', slug: '', brand: '', status: 1, unit: '', image: '', desc: '', longDesc: '',
             priceDetails: [], plainString: '', referSizeChart: '', material: ''
         }
-        this.handleContentChange = this.handleContentChange.bind(this);
+        // Bind event handlers
+        this.handleBack = this.handleBack.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.onFileChange = this.onFileChange.bind(this);
+        this.handleDescChange = this.handleDescChange.bind(this);
+        this.handleLongDescChange = this.handleLongDescChange.bind(this);
+        this.handleCategory = this.handleCategory.bind(this);
+        this.handleSubCategory = this.handleSubCategory.bind(this);
+        this.handleBrandList = this.handleBrandList.bind(this);
+        this.convertToSlug = this.convertToSlug.bind(this);
+        this.callback = this.callback.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleBack() {
         this.props.history.goBack();
@@ -36,24 +47,14 @@ export default class Newproduct extends Component {
     onFileChange = event => {
         this.setState({ image: event.target.files[0] });
     };
-    // handleContentChange = contentHtml => {
-    //     this.setState({
-    //         content: contentHtml
-    //     });
-    // };
 
-    handleContentChange = contentHtml => {
-        // Create a temporary div element
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = contentHtml;
-        const plainString = tempDiv.textContent;
-        console.log(plainString)
-        this.setState({
-            content: contentHtml
-        });
+    handleDescChange = (content) => {
+        this.setState({ desc: content }); // Update desc state
     };
 
-
+    handleLongDescChange = (content) => {
+        this.setState({ longDesc: content }); // Update longDesc state
+    };
 
     handleCategory = async (value) => {
         this.setState({ selectedCategory: value });
@@ -84,11 +85,13 @@ export default class Newproduct extends Component {
     callback = (data) => {
         this.setState({ priceDetails: data })
     }
-    handleSubmit = event => {
+
+    handleSubmit = async (event) => {
         event.preventDefault();
-        this.setState({ isLoaded: true })
-        const { selectedCategory, selectedSubCategory, image, name, brandId, status, content, priceDetails, referSizeChart, material } = this.state;
-        let slug = this.convertToSlug(this.state.name)
+        this.setState({ isLoaded: true });
+
+        const { selectedCategory, selectedSubCategory, longDesc, image, name, brandId, status, content, priceDetails, referSizeChart, material, desc } = this.state;
+        let slug = this.convertToSlug(this.state.name);
 
         const formData = new FormData();
         formData.append('categoryId', selectedCategory);
@@ -99,7 +102,8 @@ export default class Newproduct extends Component {
         formData.append('material', material);
         formData.append('brand', brandId);
         formData.append('status', status);
-        formData.append('desc', content);
+        formData.append('desc', desc); // Use desc state
+        formData.append('longDesc', longDesc); // Use longDesc state
         formData.append('photo', image);
         formData.append('productVariants', JSON.stringify(priceDetails));
 
@@ -108,29 +112,29 @@ export default class Newproduct extends Component {
                 'content-type': 'multipart/form-data'
             }
         };
+
         swal({
             title: "Are you sure?",
             text: "You want to Add New Product",
             icon: "warning",
             buttons: true,
             dangerMode: true,
-        })
-            .then(async (success) => {
-                if (success && formData) {
-                    let list = await GetProductDetails.addProductList(formData, config);
-                    if (list) {
-                        console.log('list-105', list)
-                        this.setState({ isLoaded: false })
-                        this.props.history.push("/admin/shop/seller/all-product")
-                    } else {
-                        this.setState({ isLoaded: false })
-                        NotificationManager.error("Please! Check input field", "Input Field");
-                    }
+        }).then(async (success) => {
+            if (success && formData) {
+                let list = await GetProductDetails.addProductList(formData, config);
+                if (list) {
+                    console.log('list-105', list);
+                    this.setState({ isLoaded: false });
+                    this.props.history.push("/admin/shop/seller/all-product");
                 } else {
-                    this.setState({ isLoaded: false })
+                    this.setState({ isLoaded: false });
+                    NotificationManager.error("Please! Check input field", "Input Field");
                 }
-            });
-    }
+            } else {
+                this.setState({ isLoaded: false });
+            }
+        });
+    };
 
     render() {
         const { getList, getsublist, isLoaded, priceDetails } = this.state;
@@ -141,10 +145,13 @@ export default class Newproduct extends Component {
                         <h2 className="mt-30 page-title">Products</h2>
                     </div>
                     <div className="col-lg-5 col-md-3 col-lg-6 back-btn">
-                        <Button variant="contained" onClick={(e) => this.handleBack()}><i className="fas fa-arrow-left" /> Back</Button>
+                        <Button variant="contained" onClick={(e) => this.handleBack()}>
+                            <i className="fas fa-arrow-left" /> Back
+                        </Button>
                     </div>
                 </div>
 
+                {/* Breadcrumb */}
                 <ol className="breadcrumb mb-30">
                     <li className="breadcrumb-item"><a href="/">Dashboard</a></li>
                     <li className="breadcrumb-item"><a href="/admin/product/create">Products</a></li>
@@ -154,33 +161,6 @@ export default class Newproduct extends Component {
                 {/* upload products List ExcelFile */}
                 <div className="upload-container">
                     <ExcelPost />
-                </div>
-
-                <div className="row" style={{ marginTop: '3rem' }}>
-                    <div className="col-lg-6 col-md-6">
-                        <div className="card card-static-2 mb-30">
-                            <div className="card-body-table">
-                                <div className="news-content-right pd-20">
-                                    <div className="form-group">
-                                        <label className="form-label">Category*</label>
-                                        <MainCategorylist onSelectCategory={this.handleCategory} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-6 col-md-6">
-                        <div className="card card-static-2 mb-30">
-                            <div className="card-body-table">
-                                <div className="news-content-right pd-20">
-                                    <div className="form-group">
-                                        <label className="form-label">Sub Category*</label>
-                                        <SubCategorylist state={getList} onSelectSubCategory={this.handleSubCategory} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div className="row" /* style={this.state.blockhide ? { display: 'block' } : { display: 'none' }} */>
@@ -193,6 +173,36 @@ export default class Newproduct extends Component {
                                 <h4>Add New Product</h4>
                             </div>
                             <div className="card-body-table">
+                                {/* Category and Subcategory */}
+                                <div className="row" style={{ marginTop: '3rem' }}>
+                                    <div className="col-lg-6 col-md-6">
+                                        <div className="card card-static-2 mb-30">
+                                            {/* Category */}
+                                            <div className="card-body-table">
+                                                <div className="news-content-right pd-20">
+                                                    <div className="form-group">
+                                                        <label className="form-label">Category*</label>
+                                                        <MainCategorylist onSelectCategory={this.handleCategory} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-6 col-md-6">
+                                        <div className="card card-static-2 mb-30">
+                                            {/* Subcategory */}
+                                            <div className="card-body-table">
+                                                <div className="news-content-right pd-20">
+                                                    <div className="form-group">
+                                                        <label className="form-label">Sub Category*</label>
+                                                        <SubCategorylist state={getList} onSelectSubCategory={this.handleSubCategory} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div className="news-content-right pd-20">
                                     <div className="row">
                                         <div className="col-lg-6 col-md-6">
@@ -237,32 +247,58 @@ export default class Newproduct extends Component {
                                         </div>
                                     </div>
 
-                                    <div className="row" style={{ paddingTop: '2rem' }}>
+                                    <div className="row">
                                         <div className="col-lg-12 col-md-12">
-                                            <div className="form-group">
-                                                <label className="form-label">Description*</label>
-                                                <RichTextEditor
-                                                    content={this.state.content}
-                                                    handleContentChange={this.handleContentChange}
-                                                    placeholder="insert text here..."
-                                                />
-
+                                            <div className="card card-static-2 mb-30">
+                                                <div className="card-body-table">
+                                                    <div className="news-content-right pd-20">
+                                                        <div className="row">
+                                                            <div className="col-lg-6 col-md-12">
+                                                                <label style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>Description*</label>
+                                                                <ReactQuill
+                                                                    value={this.state.desc} // Use desc state
+                                                                    onChange={this.handleDescChange}
+                                                                    placeholder="Write something..."
+                                                                    style={{ height: '200px', marginBottom: '20px' }}
+                                                                />
+                                                            </div>
+                                                            <div className="col-lg-6 col-md-12">
+                                                                <label style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>Long Description*</label>
+                                                                <ReactQuill
+                                                                    value={this.state.longDesc} // Use longDesc state
+                                                                    onChange={this.handleLongDescChange}
+                                                                    placeholder="Write something..."
+                                                                    style={{ height: '200px' }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <Paper style={{ marginBottom: '2rem', padding: '3rem', marginTop: '3rem', background: '#f7f7f' }}>
-                                        <div className="row" >
-                                            <div className="col-lg-12 col-md-12">
-                                                <Pricecolormanagement parentCallback={this.callback} />
-                                            </div>
+
+                                    {/* Price and Color Management */}
+                                    <div className="row">
+                                        <div className="col-lg-12 col-md-12">
+                                            <Paper style={{ marginBottom: '2rem', padding: '3rem', marginTop: '3rem', background: '#f7f7f' }}>
+                                                <div className="row">
+                                                    <div className="col-lg-12 col-md-12">
+                                                        <Pricecolormanagement parentCallback={this.callback} />
+                                                    </div>
+                                                </div>
+                                            </Paper>
                                         </div>
-                                    </Paper>
-                                    <div className="button_price">
-                                        {/* <div className="form-group">
-                                            <Button className="checkprice" variant="contained" onClick={() => this.handleCheckPrice()} >Checkprice</Button>
-                                        </div> */}
-                                        <div className="form-group"/*  style={this.state.toggle ? { display: 'block' } : { display: 'none' }} */>
-                                            <button className="save-btn hover-btn" type="submit" onClick={this.handleSubmit}>Add New Product</button>
+                                    </div>
+
+                                    {/* Button */}
+                                    <div className="row">
+                                        <div className="col-lg-12 col-md-12">
+                                            <div className="button_price">
+                                                <div className="form-group">
+                                                    <button className="save-btn hover-btn" type="submit" onClick={this.handleSubmit}>Add New Product</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -273,9 +309,7 @@ export default class Newproduct extends Component {
                 </div>
                 {/* price and colorlist show */}
                 {/* end of pricelist */}
-            </div>
-
-
+            </div >
         )
     }
 }

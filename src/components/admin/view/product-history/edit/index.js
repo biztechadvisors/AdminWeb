@@ -9,16 +9,18 @@ import Loader from "../../../../loader";
 import swal from 'sweetalert';
 import MainCategorylist from '../../../../common/category/main-category';
 import SubCategorylist from '../../../../common/category/sub-category';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export default class Edit extends Component {
     constructor(props) {
         super(props);
         const data = this.props.location.state;
-        // console.log("Data", data)
 
         this.state = {
             id: data ? data.id : null,
-            getList: [], getsublist: [],
+            getList: [],
+            getsublist: [],
             selectedCategory: data.maincat.id,
             selectedSubCategory: data.subcategories.id,
             mainCatName: data.maincat.name,
@@ -40,6 +42,8 @@ export default class Edit extends Component {
             brandId: "",
             referSizeChart: data.referSizeChart,
             material: data.material,
+            desc: data ? data.desc : null,
+            longDesc: data ? data.longDesc : null,
         };
 
         // Bind necessary functions
@@ -48,15 +52,32 @@ export default class Edit extends Component {
     }
 
     handleChange = (e) => {
-        // console.log('index---e', e)
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    handleEditorChange = (content) => {
+        this.setState({ desc: content });
+    }
+    handleLongEditorChange = (content) => {
+        this.setState({ longDesc: content });
+    }
+
+    // Function to handle form submission
+    handleSubmit = (event) => {
+        event.preventDefault();
+        // Here, you can access this.state.editorContent and submit it along with other form data
+        console.log("Editor Content:", this.state.editorContent);
+        console.log("Long Description", this.state.longDesc);
+        // Add your form submission logic here
+    }
+
+    componentWillUnmount() {
+        // Clear any asynchronous tasks or subscriptions here
+    }
 
     handleCategory = async (value) => {
         try {
             this.setState({ selectedCategory: value });
-            // console.log("selectedCategory-main", this.state.selectedCategory);
             let categoryId = value;
             let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
             this.setState({ getList: list.data });
@@ -68,9 +89,8 @@ export default class Edit extends Component {
     handleSubCategory = async (value) => {
         try {
             this.setState({ selectedSubCategory: value });
-            // console.log("selectedSubCategory-sub", this.state.selectedSubCategory);
             let list = await GetCategoryDetails.getAllSubChildCategory(value);
-            this.setState({ getsublist: list.data, blockHide: !this.state.blockHide });
+            this.setState({ getsublist: list.data });
         } catch (error) {
             console.error("Error fetching subcategory details:", error);
         }
@@ -94,21 +114,20 @@ export default class Edit extends Component {
     };
 
     handleContentChange = contentHtml => {
-        this.setState({
-            content: contentHtml
-        });
+        this.setState({ content: contentHtml });
     };
 
     callback = (data) => {
-        // console.log('data--callback', data)
         this.setState({ priceDetails: data });
     }
 
     SpecificationCallBack = (data) => {
         this.setState({ SpecificationDetails: data })
     }
+
     handleHightLight = (data) => {
-        this.setState({ HighLightDetais: data })
+        // Update desc and longDesc in state
+        this.setState({ desc: data.desc, longDesc: data.longDesc });
     }
 
     async handleUpdate() {
@@ -130,7 +149,9 @@ export default class Edit extends Component {
             collection,
             id,
             material,
-            referSizeChart
+            referSizeChart,
+            desc,
+            longDesc
         } = this.state;
 
         const formData = {
@@ -152,9 +173,10 @@ export default class Edit extends Component {
             collection,
             material,
             referSizeChart,
+            desc,
+            longDesc
         }
 
-        // console.log('formData', formData)
         swal({
             title: "Are you sure?",
             text: "You want to Update",
@@ -163,8 +185,8 @@ export default class Edit extends Component {
             dangerMode: true,
         }).then(async (success) => {
             if (success) {
-                // console.log(formData);
                 try {
+                    console.log("formData***", formData)
                     const res = await GetProductDetails.getUpdateProduct(formData);
                     this.setState({ showAlert: true });
                     window.location.href = "/admin/seller/product-detail/list/history"
@@ -173,15 +195,17 @@ export default class Edit extends Component {
                     swal("error", err);
                 }
             }
-        }
-        )
+        });
     }
+
     render() {
         const {
             mainCatName,
             subCatName,
             name,
             material,
+            desc,
+            longDesc,
             referSizeChart,
             PubilshStatus,
             LocalDeiveryCharge,
@@ -213,6 +237,9 @@ export default class Edit extends Component {
                 <ul className="breadcrumb mb-30 nav nav-pills my-4" id="pills-tab" role="tablist" >
                     <li className="nav-item ">
                         <a className="nav-link show active" id="pills-one-tab" data-toggle="pill" href="#pills-one" role="tab" aria-controls="pills-one" aria-selected="true">Info</a>
+                    </li>
+                    <li className="nav-item ">
+                        <a className="nav-link show " id="pills-five-tab" data-toggle="pill" href="#pills-five" role="tab" aria-controls="pills-five" aria-selected="false">Description</a>
                     </li>
                     <li className="nav-item ">
                         <a className="nav-link show " id="pills-two-tab" data-toggle="pill" href="#pills-two" role="tab" aria-controls="pills-two" aria-selected="false">Product Info</a>
@@ -423,6 +450,36 @@ export default class Edit extends Component {
                                                 <div className="row" >
                                                     <div className="col-lg-12 col-md-12">
                                                         <Pricecolormanagement parentCallback={this.callback} state={this.state.ProductVarient} />
+                                                    </div>
+                                                </div>
+                                            </Paper>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* tab 3 */}
+
+                    <div className="tab-pane fade" id="pills-five" role="tabpanel" aria-labelledby="pills-five-tab">
+                        <div className="row" >
+                            <div className="col-lg-12 col-md-12">
+                                <div className="card card-static-2 mb-30">
+                                    <div class="card-header">
+                                        <h5 class="mb-0 h6 font-weight-bold">Feature Info</h5>
+                                    </div>
+                                    <div className="card-body-table">
+                                        <div className="news-content-right">
+                                            <Paper style={{ padding: '1rem', background: '#f7f7f' }}>
+                                                <div className="row" >
+                                                    <div className="col-lg-12 col-md-12">
+                                                        <HighLightList
+                                                            callback={this.handleHightLight}
+                                                            state={this.props.location.state}
+                                                            desc={desc} // Pass desc as prop
+                                                            longDesc={longDesc} // Pass longDesc as prop
+                                                        />
                                                     </div>
                                                 </div>
                                             </Paper>

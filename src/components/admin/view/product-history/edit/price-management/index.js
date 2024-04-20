@@ -11,8 +11,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
             : [
                 {
                     id: null,
-                    longDesc: null,
-                    shortDesc: null,
+                    // longDesc: null,
+                    // shortDesc: null,
                     specification: null,
                     productName: null,
                     discount: null,
@@ -102,17 +102,17 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
     };
 
 
-    const handleContentChange = (contentHtml, index) => {
-        const list = [...inputList];
-        list[index].longDesc = contentHtml;
-        setInputList(list);
-    };
+    // const handleContentChange = (contentHtml, index) => {
+    //     const list = [...inputList];
+    //     list[index].longDesc = contentHtml;
+    //     setInputList(list);
+    // };
 
-    const handleShortDesc = (contentHtml, index) => {
-        const list = [...inputList];
-        list[index].shortDesc = contentHtml;
-        setInputList(list);
-    };
+    // const handleShortDesc = (contentHtml, index) => {
+    //     const list = [...inputList];
+    //     list[index].shortDesc = contentHtml;
+    //     setInputList(list);
+    // };
 
     const handlProductVarient = (id) => {
         swal({
@@ -142,8 +142,8 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
             ...prevInputList,
             {
                 id: null,
-                longDesc: null,
-                shortDesc: null,
+                // longDesc: null,
+                // shortDesc: null,
                 specification: null,
                 productName: null,
                 discount: null,
@@ -180,50 +180,10 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
 
             {inputList.map((x, i) => (
                 <Grid key={i} container spacing={2} style={i % 2 ? { marginTop: '3rem', background: 'rgb(195 232 191 / 25%)' } : { marginTop: '3rem', background: '#DAF7A6' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%', boxSizing: 'border-box' }}>
+                    <div style={{ width: '100%', boxSizing: 'border-box' }}>
                         <div className="card-header">
                             <h5 className="mb-0 h6">{i + 1}. Product Varient</h5>
                         </div>
-                        {attributeList.map((attribute, key) => (
-                            attribute.name && (
-                                <div key={key} style={{ width: '100%', boxSizing: 'border-box' }} className='p-2' >
-                                    <label className="form-label font-weight-bold">{attribute.name}*</label>
-                                    <select
-                                        name="variationOptions"
-                                        value={(x.variationOptions.find(Op => Op.name === attribute.name) || { value: '' }).value}
-                                        onChange={(e) => handleAttributeChange(e, i, attribute)}
-                                        style={{
-                                            backgroundColor: '#fff',
-                                            color: '#000',
-                                            padding: '15px',
-                                            fontSize: '16px',
-                                            width: '100%',
-                                            border: 'none',
-                                            marginBottom: '10px'
-                                        }}
-                                    >
-                                        <option value="">Select {attribute.name}</option>
-
-                                        {attribute.AttributeValues.map((val, index) => (
-                                            <option key={index} value={val.value}>
-                                                {val.value}
-                                            </option>
-                                        ))}
-
-                                        {/* {x.variationOptions.map((opt, index) => {
-                                            if (opt.name === attribute.name) {
-                                                return (
-                                                    <option key={index} value={opt.value}>
-                                                        {opt.value}
-                                                    </option>
-                                                );
-                                            }
-                                            return null;
-                                        })} */}
-                                    </select>
-                                </div>
-                            )
-                        ))}
                     </div>
 
                     <Grid item md={3} lg={3}>
@@ -365,7 +325,51 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                         />
                     </Grid>
 
-                    <div className='m-2'>
+                    {/* <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', width: '100%', boxSizing: 'border-box' }}> */}
+                    {
+                        attributeList.map((attribute, key) => (
+                            attribute.name && (
+                                <div key={key} style={{ width: '100%', boxSizing: 'border-box' }} className='p-2' >
+                                    <label className="form-label font-weight-bold">{attribute.name}*</label>
+                                    <select
+                                        name="variationOptions"
+                                        value={(x.variationOptions.find(Op => Op.name === attribute.name) || { value: '' }).value}
+                                        onChange={(e) => handleAttributeChange(e, i, attribute)}
+                                        style={{
+                                            backgroundColor: '#fff',
+                                            color: '#000',
+                                            padding: '15px',
+                                            fontSize: '16px',
+                                            width: '100%',
+                                            border: 'none',
+                                            marginBottom: '10px'
+                                        }}
+                                    >
+                                        <option value="">Select {attribute.name}</option>
+
+                                        {attribute.AttributeValues.map((val, index) => (
+                                            <option key={index} value={val.value}>
+                                                {val.value}
+                                            </option>
+                                        ))}
+
+                                        {/* {x.variationOptions.map((opt, index) => {
+                                            if (opt.name === attribute.name) {
+                                                return (
+                                                    <option key={index} value={opt.value}>
+                                                        {opt.value}
+                                                    </option>
+                                                );
+                                            }
+                                            return null;
+                                        })} */}
+                                    </select>
+                                </div>
+                            )
+                        ))
+                    }
+                    {/* </div> */}
+                    {/* <div className='m-2'>
                         <Grid container spacing={2}>
                             <Grid item md={6} lg={6} >
                                 <label className="form-label font-weight-bold">Long Description*</label>
@@ -386,22 +390,22 @@ export const Pricecolormanagement = ({ parentCallback, state }) => {
                                 />
                             </Grid>
                         </Grid>
-                    </div>
+                    </div> */}
 
 
 
-                    <Grid item md={12} lg={12}>
+                    < Grid item md={12} lg={12} >
                         <div className="btn-box" style={{ marginTop: '1rem' }}>
                             {inputList.length !== 1 && <Button
                                 variant="contained"
-                                onClick={() =>{x.id? handlProductVarient(x.id): handleRemoveClick(i)} }style={{ marginRight: '1rem' }}>Remove</Button>
+                                onClick={() => { x.id ? handlProductVarient(x.id) : handleRemoveClick(i) }} style={{ marginRight: '1rem' }}>Remove</Button>
                             }
                             {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick}>Add</Button>}
                         </div>
                     </Grid>
-                </Grid>
+                </Grid >
             ))}
-        </Grid>
+        </Grid >
     );
 }
 
