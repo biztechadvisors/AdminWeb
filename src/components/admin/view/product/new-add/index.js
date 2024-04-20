@@ -49,16 +49,21 @@ export default class Newproduct extends Component {
     };
 
     handleDescChange = (content) => {
+        console.log('desc', content)
         this.setState({ desc: content }); // Update desc state
     };
 
     handleLongDescChange = (content) => {
+        console.log('longDesc', content)
         this.setState({ longDesc: content }); // Update longDesc state
     };
 
     handleCategory = async (value) => {
+        console.log('62****', value)
         this.setState({ selectedCategory: value });
         let categoryId = value;
+        console.log('65****', categoryId)
+
         let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
         this.setState({ getList: list.data })
     }

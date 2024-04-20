@@ -107,7 +107,7 @@ const getSubDeleteById = async (id) => {
 
 // child category list
 const getSelectSubCategory = async (id) => {
-  console.log("first", id)
+  console.log("110***", id)
   try {
     let result = await api.get(Apis.GetAllSubCategory + `${id}`);
     if (result.data.error) {

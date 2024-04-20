@@ -77,9 +77,13 @@ export default class Edit extends Component {
 
     handleCategory = async (value) => {
         try {
+            // Update the selected category in the state
             this.setState({ selectedCategory: value });
-            let categoryId = value;
-            let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
+
+            // Get the category details using the updated selected category
+            let list = await GetCategoryDetails.getSelectSubCategory(value);
+
+            // Update the state with the retrieved category details
             this.setState({ getList: list.data });
         } catch (error) {
             console.error("Error fetching category details:", error);
@@ -88,18 +92,27 @@ export default class Edit extends Component {
 
     handleSubCategory = async (value) => {
         try {
+            // Update the selected subcategory in the state
             this.setState({ selectedSubCategory: value });
+
+            // Get the subcategory details using the updated selected subcategory
             let list = await GetCategoryDetails.getAllSubChildCategory(value);
-            this.setState({ getsublist: list.data });
+
+            // Update the state with the retrieved subcategory details
+            this.setState({ getsublist: list.data, blockHide: !this.state.blockHide });
         } catch (error) {
             console.error("Error fetching subcategory details:", error);
         }
     }
 
+
     async componentDidMount() {
         try {
-            await this.handleCategory(); // Call handleCategory to fetch category data
-            await this.handleSubCategory(this.state.selectedSubCategory); // Pass the initial selected subcategory
+            // Call handleCategory to fetch category data and pass the initial selected category
+            await this.handleCategory(this.state.selectedCategory);
+
+            // Call handleSubCategory to fetch subcategory data and pass the initial selected subcategory
+            await this.handleSubCategory(this.state.selectedSubCategory);
         } catch (error) {
             console.error("Error in componentDidMount:", error);
         }
@@ -280,14 +293,16 @@ export default class Edit extends Component {
                                                 <div className="form-group">
                                                     <label className="form-label">Sub Category<span className="text-danger">*</span></label>
 
+
                                                     <SubCategorylist
-                                                        state={getList}
+                                                        state={this.state.getList} // Pass the category details fetched from state
                                                         value={{
                                                             id: this.state.selectedSubCategory,
                                                             label: subCatName
                                                         }}
                                                         onSelectSubCategory={this.handleSubCategory}
                                                     />
+
 
                                                 </div>
                                             </div>

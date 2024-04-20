@@ -54,6 +54,7 @@ export default class SubChildCategory extends Component {
     return [year, month, day].join("-");
   }
   handleCategory = async (value) => {
+    console.log('57***', value)
     this.setState({ selectedCategory: value });
     let categoryId = value;
     let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
@@ -238,24 +239,24 @@ export default class SubChildCategory extends Component {
                           </thead>
                           {getdata && getdata.length
                             ? getdata.map((row, index) => (
-                                <tr key={index}>
-                                  <td>{row.id}</td>
-                                  <td>{row.MainCat}</td>
-                                  <td>{row.SubCat}</td>
-                                  <td>{row.name}</td>
-                                  <td className="action-btns">
-                                    <Edit state={row} />
-                                    <Typography
-                                      // className="delete-btn"
-                                      onClick={(e) =>
-                                        this.handlDeleteById(row.id)
-                                      }
-                                    >
-                                      <i className="fas fa-trash-alt" />
-                                    </Typography>
-                                  </td>
-                                </tr>
-                              ))
+                              <tr key={index}>
+                                <td>{row.id}</td>
+                                <td>{row.MainCat}</td>
+                                <td>{row.SubCat}</td>
+                                <td>{row.name}</td>
+                                <td className="action-btns">
+                                  <Edit state={row} />
+                                  <Typography
+                                    // className="delete-btn"
+                                    onClick={(e) =>
+                                      this.handlDeleteById(row.id)
+                                    }
+                                  >
+                                    <i className="fas fa-trash-alt" />
+                                  </Typography>
+                                </td>
+                              </tr>
+                            ))
                             : "No data found"}
                         </table>
                       </div>

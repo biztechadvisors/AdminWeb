@@ -47,6 +47,8 @@ export default class Newproduct extends Component {
     handleCategory = async (value) => {
         this.setState({ selectedCategory: value });
         let categoryId = value;
+        console.log('50****', categoryId)
+
         let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
         this.setState({ getList: list.data })
     }
@@ -277,7 +279,7 @@ export default class Newproduct extends Component {
                                             </Paper>
                                             <div className="button_price">
                                                 <div className="form-group"/*  style={this.state.toggle ? { display: 'block' } : { display: 'none' }} */>
-                                                    <button className={disableSaveButton ? "bg-grey":"save-btn hover-btn"} type="submit" disabled={disableSaveButton} onClick={this.handleSubmit}>Submit</button>
+                                                    <button className={disableSaveButton ? "bg-grey" : "save-btn hover-btn"} type="submit" disabled={disableSaveButton} onClick={this.handleSubmit}>Submit</button>
                                                 </div>
                                             </div>
 

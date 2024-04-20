@@ -55,8 +55,10 @@ export default class Edit extends Component {
         });
     };
     handleCategory = async (value) => {
+        console.log('58***', value)
         this.setState({ selectedCategory: value });
         let categoryId = value;
+        console.log('60***', categoryId)
         let catList = await GetCategoryDetails.getCategoryList(categoryId);
         let list = await GetCategoryDetails.getSelectSubCategory(categoryId);
         this.setState({ getList: list.data })

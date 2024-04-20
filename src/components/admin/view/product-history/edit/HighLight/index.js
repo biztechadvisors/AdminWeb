@@ -7,11 +7,13 @@ const HighLightList = ({ callback, state, desc, longDesc }) => {
 
     // Handler to update desc
     const handleDescChange = (content) => {
+        console.log("desc", content)
         callback({ desc: content, longDesc }); // Update desc only
     };
 
     // Handler to update longDesc
     const handleLongDescChange = (content) => {
+        console.log("longDesc", content)
         callback({ desc, longDesc: content }); // Update longDesc only
     };
 
